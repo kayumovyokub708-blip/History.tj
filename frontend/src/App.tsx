@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { HashRouter, Routes, Route } from "react-router-dom"
 import RootLayout from "./layouts/RootLayout"
 import AdminLayout from "./layouts/AdminLayout"
 import HomePage from "./pages/HomePage"
@@ -20,7 +20,7 @@ import AdminSettingsPage from "./pages/admin/SettingsPage"
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {/* Public site */}
         <Route element={<RootLayout />}>
@@ -47,7 +47,7 @@ function App() {
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
