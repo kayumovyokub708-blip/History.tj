@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+import { cn } from "@/lib/utils"
 
 export default function OlympiadsPage() {
   return (
@@ -32,9 +33,9 @@ export default function OlympiadsPage() {
               <p className="font-semibold">90 minutes</p>
             </div>
           </div>
-          <Button asChild>
-            <Link to="#">Register Interest</Link>
-          </Button>
+          <Link to="#" className={cn(buttonVariants())}>
+            Register Interest
+          </Link>
         </CardContent>
       </Card>
 

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { StatCard } from "@/components/ui/stat-card"
+import { cn } from "@/lib/utils"
 
 const featuredCourses = [
   { title: "History of Tajikistan", category: "National", lessons: 18 },
@@ -38,12 +39,18 @@ export default function HomePage() {
           Learn → Practice → Compete → Win
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-          <Button size="lg" asChild>
-            <Link to="/courses">Start Learning</Link>
-          </Button>
-          <Button size="lg" variant="secondary" asChild>
-            <Link to="/quizzes">Take a Quiz</Link>
-          </Button>
+          <Link
+            to="/courses"
+            className={cn(buttonVariants({ size: "lg" }))}
+          >
+            Start Learning
+          </Link>
+          <Link
+            to="/quizzes"
+            className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+          >
+            Take a Quiz
+          </Link>
         </div>
       </section>
 
@@ -83,7 +90,6 @@ export default function HomePage() {
 
       {/* Two column: Daily Quiz + Upcoming Olympiad */}
       <section className="grid md:grid-cols-2 gap-6 mb-16">
-        {/* Daily Quiz */}
         <Card className="overflow-hidden">
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -95,14 +101,13 @@ export default function HomePage() {
             <p className="text-muted-foreground">10 Questions · 5 min</p>
             <div className="flex items-center justify-between">
               <Badge>+100 XP</Badge>
-              <Button asChild>
-                <Link to="/quizzes">Start</Link>
-              </Button>
+              <Link to="/quizzes" className={cn(buttonVariants())}>
+                Start
+              </Link>
             </div>
           </CardContent>
         </Card>
 
-        {/* Upcoming Olympiad */}
         <Card className="overflow-hidden">
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -115,9 +120,9 @@ export default function HomePage() {
               <span>Starts: <strong className="text-white">12 August</strong></span>
               <span>Participants: <strong className="text-white">1,248</strong></span>
             </div>
-            <Button variant="secondary" asChild>
-              <Link to="/olympiads">View Olympiad</Link>
-            </Button>
+            <Link to="/olympiads" className={cn(buttonVariants({ variant: "secondary" }))}>
+              View Olympiad
+            </Link>
           </CardContent>
         </Card>
       </section>
