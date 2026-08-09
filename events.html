@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="tj">
+<head>
+    <meta charset="UTF-8">
+    <title>Ҳодисаҳои таърихии Тоҷикистон</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #0c2e24 0%, #1e4d3a 50%, #0c2e24 100%);
+            color: #f8e9c9;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .history-parchment {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="%23d4af37" stroke-width="0.3" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>'),
+                radial-gradient(ellipse at 30% 20%, rgba(180, 150, 50, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(120, 80, 40, 0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            border: 3px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(45deg, #f8e9c9, #d4af37, #f8e9c9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .back-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .back-button {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #f8e9c9;
+            transition: all 0.4s ease;
+            font-size: 18px;
+            text-align: center;
+        }
+        .back-button:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+        .timeline-section {
+            background: rgba(12, 46, 36, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+            position: relative;
+        }
+        .timeline-year {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 5px solid #d4af37;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .timeline-year:hover {
+            transform: translateX(10px);
+            background: rgba(212, 175, 55, 0.15);
+        }
+        .year {
+            font-size: 36px;
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .event-title {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+        .event-description {
+            font-size: 18px;
+            color: rgba(248, 233, 201, 0.9);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .event-details {
+            background: rgba(12, 46, 36, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            color: rgba(248, 233, 201, 0.6);
+        }
+        @media (max-width: 768px) {
+            .app { padding: 20px 15px; }
+            h1 { font-size: 36px; }
+            .back-menu { flex-direction: column; }
+            .year { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="history-parchment"></div>
+    <div class="app">
+        <div class="header">
+            <h1>Ҳодисаҳои таърихии Тоҷикистон</h1>
+            <p class="subtitle">Рӯйдодҳои муҳим аз гузашта то имрӯз</p>
+        </div>
+        
+        <div class="back-menu">
+            <a href="index.html" class="back-button">🏠 Саҳифаи асосӣ</a>
+            <a href="periods.html" class="back-button">📜 Давраҳо</a>
+            <a href="heroes.html" class="back-button">🏛️ Қаҳрамонҳо</a>
+            <a href="thelaw.html" class="back-button">⚖️ Ҳуқуқ</a>
+        </div>
+        
+        <div class="timeline-section">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <span style="font-size: 60px;">⏳</span>
+                <h2 style="color: #d4af37; font-size: 36px; margin-top: 10px;">Хронологияи рӯйдодҳо</h2>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">651 мелодӣ</div>
+                <div class="event-title">Суқути Сосониён</div>
+                <div class="event-description">
+                    Поён ёфтани империяи Сосониён ва ибтидои ҳукмронии арабҳо дар Осиёи Марказӣ.
+                </div>
+                <div class="event-details">
+                    Бо ин ҳодиса, густариши ислом дар сарзамини тоҷикон оғоз ёфт.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">819 мелодӣ</div>
+                <div class="event-title">Таъсиси давлати Сомониён</div>
+                <div class="event-description">
+                    Асосгузории давлати мустақили тоҷикон тавассути Аҳмад ибни Асад.
+                </div>
+                <div class="event-details">
+                    Ин рӯйдод оғози давраи тиллоии тамаддуни тоҷикон мебошад.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">999 мелодӣ</div>
+                <div class="event-title">Поён ёфтани Сомониён</div>
+                <div class="event-description">
+                    Давлати Сомониён дар натиҷаи ҳамлаи Қарахониён ва Ғазнавиён суқут кард.
+                </div>
+                <div class="event-details">
+                    Баъди ин, Осиёи Марказӣ ба ду қисм тақсим шуд.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">1219 мелодӣ</div>
+                <div class="event-title">Ҳамлаи муғулҳо</div>
+                <div class="event-description">
+                    Чингизхон ба Осиёи Марказӣ ҳуҷум кард ва аксари шаҳрҳоро вайрон намуд.
+                </div>
+                <div class="event-details">
+                    Ин ҳодиса боиси таназзули шадиди иқтисод ва фарҳанги Осиёи Марказӣ гардид.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">1370 мелодӣ</div>
+                <div class="event-title">Таъсиси империяи Темурӣ</div>
+                <div class="event-description">
+                    Амир Темур Самарқандро пойтахт интихоб кард ва империяи бузург таъсис дод.
+                </div>
+                <div class="event-details">
+                    Дар ин давра, меъморӣ, илм ва фарҳанг дубора эҳё шуданд.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">1924 мелодӣ</div>
+                <div class="event-title">Таъсиси ҶМШС Тоҷикистон</div>
+                <div class="event-description">
+                    Ҷумҳурии Мухтори Шӯравии Сотсиалистии Тоҷикистон дар ҳайати Ӯзбекистон таъсис ёфт.
+                </div>
+                <div class="event-details">
+                    Ин аввалин бор дар таърих буд, ки тоҷикон давлати худро доштанд.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">1929 мелодӣ</div>
+                <div class="event-title">ҶШС Тоҷикистон</div>
+                <div class="event-description">
+                    Тоҷикистон ба ҷумҳурии иттиҳодии пурраҳуқуқ дар ҳайати ИҶШС табдил ёфт.
+                </div>
+                <div class="event-details">
+                    Пойтахт аз Самарқанд ба Душанбе кӯчонида шуд.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">1991</div>
+                <div class="event-title">Истиқлолияти Тоҷикистон</div>
+                <div class="event-description">
+                    9 сентябри соли 1991 - Эъломияи истиқлолияти давлатии Ҷумҳурии Тоҷикистон.
+                </div>
+                <div class="event-details">
+                    Ин рӯз ҳамчун Рӯзи Истиқлол ҷашн гирифта мешавад ва рӯзи таърихии тоҷикон аст.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">1992-1997</div>
+                <div class="event-title">Ҷанги шаҳрвандӣ</div>
+                <div class="event-description">
+                    Давраи мураккаби таърихӣ бо талафоти зиёди ҷонӣ ва моддӣ.
+                </div>
+                <div class="event-details">
+                    27 июни 1997 - Созишномаи сулҳ ба имзо расид, ки ба ҷанги шаҳрвандӣ хотима бахшид.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">2016</div>
+                <div class="event-title">Тағйироти конститутсионӣ</div>
+                <div class="event-description">
+                    22 май - раъйпурсии умумихалқӣ оид ба тағйири Конститутсия.
+                </div>
+                <div class="event-details">
+                    Муҳлати ваколати президент ба 7 сол дароз карда шуд.
+                </div>
+            </div>
+            
+            <div class="timeline-year">
+                <div class="year">2024</div>
+                <div class="event-title">Тоҷикистон имрӯз</div>
+                <div class="event-description">
+                    Рушди босуботи иқтисодӣ ва иҷтимоӣ, ҳамкорӣ бо созмонҳои байналмилалӣ.
+                </div>
+                <div class="event-details">
+                    Тоҷикистон узви 46 созмони байналмилалӣ ва 200 созишномаи дуҷониба мебошад.
+                </div>
+            </div>
+            <div class="timeline-year">
+               <div class="year">1926</div>
+               <div class="event-title">Ба пойтахт табдил ёфтани Душанбе</div>
+               <div class="event-description">
+                    Шаҳри Душанбе ҳамчун маркази маъмурии Тоҷикистон рушд ёфт.
+                </div>
+                <div class="event-details">
+                   Аз як деҳаи хурд ба пойтахти муҳим табдил ёфт.
+                </div>
+            </div>
+
+            <div class="timeline-year">
+              <div class="year">1941-1945</div>
+              <div class="event-title">Ҷанги Бузурги Ватанӣ</div>
+              <div class="event-description">
+                   Тоҷикистон дар ҳайати ИҶШС дар ҷанг иштирок кард.
+              </div>
+              <div class="event-details">
+                  Беш аз 300 ҳазор нафар аз Тоҷикистон ба ҷанг рафтанд.
+                </div>
+            </div>
+
+             <div class="timeline-year">
+              <div class="year">2000</div>
+              <div class="event-title">Ҷорӣ шудани асъори миллӣ</div>
+              <div class="event-description">
+                 Асъори миллӣ — сомонӣ ба муомилот бароварда шуд.
+              </div>
+              <div class="event-details">
+                  Ин қадами муҳим барои иқтисодиёти мустақил буд.
+                </div>
+            </div>
+
+              <div class="timeline-year">
+               <div class="year">2011</div>
+               <div class="event-title">Нақби Истиқлол</div>
+               <div class="event-description">
+                   Кушодашавии нақби муҳими нақлиётӣ.
+                </div>
+                <div class="event-details">
+                  Шимол ва ҷануби кишварро мустақим пайваст кард.
+                </div>
+             </div>
+
+              <div class="timeline-year">
+                <div class="year">2018</div>
+                <div class="event-title">Оғози НБО Роғун</div>
+                <div class="event-description">
+                   Неругоҳи барқи обии Роғун ба кор оғоз кард.
+                </div>
+                <div class="event-details">
+                   Яке аз бузургтарин лоиҳаҳои энергетикӣ дар минтақа мебошад.
+                </div>
+             </div>
+
+              <div class="timeline-year">
+               <div class="year">2021</div>
+               <div class="event-title">30-солагии Истиқлолият</div>
+               <div class="event-description">
+                  Тоҷикистон 30-солагии истиқлолияти худро ҷашн гирифт.
+               </div>
+               <div class="event-details">
+                  Бо сохтмони садҳо иншоот таҷлил гардид.
+                </div>
+             </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 Маркази таърихии Тоҷикистон | Ҳодисаҳо</p>
+            <p>Ҳамаи ҳуқуқҳо ҳифз шудаанд.Иҷрокунанда Қаюмов Ёқуб</p>
+        </div>
+    </div>
+</body>
+</html>

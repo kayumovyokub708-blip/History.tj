@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="tj">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ҳуқуқ-Омодагӣ ба Олимпиада</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c2e24 0%, #1e4d3a 50%, #0c2e24 100%);
+            color: #f8e9c9;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .history-parchment {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="%23d4af37" stroke-width="0.3" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>'),
+                radial-gradient(ellipse at 30% 20%, rgba(180, 150, 50, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(120, 80, 40, 0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            border: 3px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(45deg, #f8e9c9, #d4af37, #f8e9c9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: rgba(248, 233, 201, 0.8);
+            margin: 10px 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .back-button {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #f8e9c9;
+            transition: all 0.4s ease;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .law-section {
+            background: rgba(12, 46, 36, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+        }
+
+        .law-title {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .law-title::before,
+        .law-title::after {
+            content: "⚖️";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .law-title::before {
+            left: -40px;
+        }
+
+        .law-title::after {
+            right: -40px;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .section-card {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .section-card:hover {
+            transform: translateY(-10px);
+            border-color: #d4af37;
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .section-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .section-description {
+            font-size: 16px;
+            color: rgba(248, 233, 201, 0.9);
+            text-align: center;
+        }
+
+        .grade-section {
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+        }
+
+        .grade-title {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grade-card {
+            background: rgba(12, 46, 36, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .grade-card:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+            transform: scale(1.05);
+        }
+
+        .grade-number {
+            font-size: 36px;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .grade-label {
+            font-size: 20px;
+            color: #f8e9c9;
+            margin-top: 10px;
+        }
+
+        .qa-section,
+        .test-section {
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+        }
+
+        .qa-title,
+        .test-title {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+
+        .qa-item,
+        .test-item {
+            background: rgba(12, 46, 36, 0.6);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .question,
+        .test-grade {
+            color: #d4af37;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .answer,
+        .test-questions {
+            color: rgba(248, 233, 201, 0.9);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .test-answers {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            color: rgba(248, 233, 201, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .app {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .back-menu {
+                flex-direction: column;
+            }
+
+            .sections-grid,
+            .grade-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .law-title::before,
+            .law-title::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="history-parchment"></div>
+    <div class="app">
+        <div class="header">
+            <h1>Ҳуқуқ-Омодагӣ ба Олимпиада</h1>
+            <p class="subtitle">Маводҳои таҳсилӣ барои омӯзиши ҳуқуқ ва олимпиадаҳо</p>
+        </div>
+
+        <div class="back-menu">
+            <a href="index.html" class="back-button">🏠 Саҳифаи асосӣ</a>
+            <a href="periods.html" class="back-button">📜 Давраҳо</a>
+            <a href="heroes.html" class="back-button">🏛️ Қаҳрамонҳо</a>
+            <a href="events.html" class="back-button">⚔️ Ҳодисаҳо</a>
+            <a href="konstitutsia.html" class="back-button">📜 Конститутсия</a>
+        </div>
+
+        <div class="law-section">
+            <div class="law-title">⚖️ Ҳуқуқ-Омодагӣ ба Олимпиада</div>
+            <p style="text-align: center; font-size: 20px; color: rgba(248, 233, 201, 0.8); margin-bottom: 40px;">
+                Маводҳо барои омӯзиши ҳуқуқ ва иштирок дар олимпиадаҳо
+            </p>
+
+            <div class="sections-grid">
+                <a href="#qa" class="section-card">
+                    <div class="section-icon">❓</div>
+                    <div class="section-title">Саволу Ҷавоб</div>
+                    <div class="section-description">Саволҳо ва ҷавобҳо дар бораи Конститутсия, кодексҳо ва қонунҳо
+                    </div>
+                </a>
+                <a href="#tests" class="section-card">
+                    <div class="section-icon">📝</div>
+                    <div class="section-title">Тестҳо</div>
+                    <div class="section-description">Тестҳои амалӣ барои озмоиши дониш</div>
+                </a>
+                <a href="#codes" class="section-card">
+                    <div class="section-icon">📚</div>
+                    <div class="section-title">Кодексҳо ва Конститутсия</div>
+                    <div class="section-description">Матни пурраи Конститутсия ва кодексҳо</div>
+                </a>
+                <a href="#materials" class="section-card">
+                    <div class="section-icon">✅</div>
+                    <div class="section-title">Маводҳо барои синфҳо</div>
+                    <div class="section-description">Маводҳои таҳсилии ҳуқуқӣ барои ҳамаи синфҳо</div>
+                </a>
+            </div>
+
+            <div class="grade-section" id="materials">
+                <div class="grade-title">🎯 Маводҳо барои синфҳои гуногун</div>
+                <div class="grade-grid">
+                    <div class="grade-card" onclick="showGradeMaterial(8)">
+                        <div class="grade-number">8</div>
+                        <div class="grade-label">Синфи 8</div>
+                    </div>
+                    <div class="grade-card" onclick="showGradeMaterial(9)">
+                        <div class="grade-number">9</div>
+                        <div class="grade-label">Синфи 9</div>
+                    </div>
+                    <div class="grade-card" onclick="showGradeMaterial(10)">
+                        <div class="grade-number">10</div>
+                        <div class="grade-label">Синфи 10</div>
+                    </div>
+                    <div class="grade-card" onclick="showGradeMaterial(11)">
+                        <div class="grade-number">11</div>
+                        <div class="grade-label">Синфи 11</div>
+                    </div>
+                    <div class="grade-card" onclick="showGradeMaterial('all')" style="grid-column: span 2;">
+                        <div class="grade-number">📚</div>
+                        <div class="grade-label">Ҳамаи Синфҳо</div>
+                    </div>
+                </div>
+                <div id="gradeMaterials" style="margin-top: 40px; display: none;">
+                    <div id="materialContent"
+                        style="background: rgba(12, 46, 36, 0.6); padding: 30px; border-radius: 15px;"></div>
+                </div>
+            </div>
+
+                    <div class="question">Конститутсия чист?</div>
+                    <div class="answer">Конститутсия - сарқонун, асосномаи давлат мебошад. Конститутсияи ҶТ 6 ноябри
+                        1994 қабул шудааст.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question">Ҳуқуқҳои асосии инсон кадомҳоянд?</div>
+                    <div class="answer">Ҳуқуқҳои асосӣ: ҳаёт, озодӣ, баробарӣ, таълим, кор, тандурустӣ, оила, мол.</div>
+                </div>
+
+                </div>
+                <div class="qa-item">
+                    <div class="question">Ҳуқуқҳои асосии инсон кадомҳоянд?</div>
+                    <div class="answer">Ҳуқуқҳои асосӣ: ҳаёт, озодӣ, баробарӣ, таълим, кор, тандурустӣ, оила, мол.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question">Кодекси ҷиноятӣ чист?</div>
+                    <div class="answer">Кодекси ҷиноятӣ маҷмӯи қонунҳоест, ки ҷиноятҳо ва ҷазоҳоро муайян мекунад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Давлати ҳуқуқбунёд чист?</div>
+                    <div class="answer">Давлати ҳуқуқбунёд давлатест, ки қонун дар он болотар аз ҳама мебошад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Президент кист?</div>
+                    <div class="answer">Президент сарвари давлат ва ҳомии Конститутсия мебошад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Парчами Тоҷикистон аз чанд ранг иборат аст?</div>
+                    <div class="answer">Парчами Тоҷикистон аз се ранг иборат аст: сурх, сафед ва сабз.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question">Нишони давлатии Тоҷикистон чӣ маъно дорад?</div>
+                    <div class="answer">Нишон рамзи истиқлолият, ваҳдат ва зиндагии осоишта мебошад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Шаҳрванд кист?</div>
+                    <div class="answer">Шаҳрванд шахсе мебошад, ки ба давлат тааллуқ дорад ва ҳуқуқу уҳдадориҳо дорад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Қонун чист?</div>
+                    <div class="answer">Қонун қоидаест, ки аз тарафи давлат қабул мешавад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Ҳуқуқи инсон чист?</div>
+                    <div class="answer">Ҳуқуқи инсон озодӣ ва имкониятҳои асосии ҳар як шахс мебошад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Вазифаи асосии давлат чист?</div>
+                    <div class="answer">Вазифаи давлат ҳифзи мардум ва таъмин намудани тартибот мебошад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question"> Суди Олӣ чист?</div>
+                    <div class="answer">Суди Олӣ мақоми олии судии давлат мебошад.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question">Истиқлолияти Тоҷикистон кай қабул шуд?</div>
+                    <div class="answer">Истиқлолияти давлатии Тоҷикистон 9 сентябри соли 1991 қабул шудааст.</div>
+                </div>
+            </div>
+                <div class="qa-item">
+                    <div class="question">Кодекси ҷиноятӣ чист?</div>
+                    <div class="answer">Кодекси ҷиноятӣ маҷмӯи қонунҳоест, ки ҷиноятҳо ва ҷазоҳоро муайян мекунад.</div>
+                </div>
+            </div>аз
+
+            <div id="tests" class="test-section">
+                <div class="test-title">📝 Тестҳо</div>
+                <div class="test-item">
+                    <div class="test-grade">Тест барои синфи 8-9</div>
+                    <div class="test-questions">
+                        1. Конститутсияи Тоҷикистон чӣ вақт қабул шудааст?<br>
+                        2. Шаҳрванд кас аст?<br>
+                        3. Ҳокимияти давлатӣ чанд навъ аст?
+                    </div>
+                    <div class="test-answers">
+                        <strong>Ҷавобҳо:</strong> 1. 6 ноябри 1994, 2. Шахси мансуби як давлат, 3. Се навъ: қонунгузорӣ,
+                        иҷроия, судӣ
+                    </div>
+                </div>
+                <div class="test-item">
+                    <div class="test-grade">Тест барои синфи 10-11</div>
+                    <div class="test-questions">
+                        1. Системаи судии Тоҷикистон аз чӣ иборат аст?<br>
+                        2. Вакили парлумон чӣ вазифа дорад?<br>
+                        3. Президент ба чанд сол интихоб мешавад?
+                    </div>
+                    <div class="test-answers">
+                        <strong>Ҷавобҳо:</strong> 1. Судҳои ҷумҳурӣ, вилоятӣ, шаҳрӣ, ноҳиявӣ, 2. Намояндагии мардум, 3.
+                        7 сол
+                    </div>
+                </div>
+            </div>
+
+            <div id="codes" class="qa-section">
+                <div class="qa-title">📚 Кодексҳо ва Конститутсия</div>
+                <div class="qa-item">
+                    <div class="question">Конститутсияи Ҷумҳурии Тоҷикистон</div>
+                    <div class="answer">Қабул: 6 ноябри 1994. Тағйирот: 1999, 2003, 2016. 10 боб, 100 модда.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question">Кодекси ҷиноятӣ</div>
+                    <div class="answer">Қабул: 21 майи 1998. 16 боб, 401 модда.</div>
+                </div>
+                <div class="qa-item">
+                    <div class="question">Кодекси гражданӣ</div>
+                    <div class="answer">Қабул: 30 июни 1999. Муносибатҳои молиявию моддиро танзим мекунад.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Маркази таърихии Тоҷикистон | Ҳуқуқ-Омодагӣ</p>
+            <p>Ҳамаи ҳуқуқҳо ҳифз шудаанд.Иҷрокунанда Қаюмов Ёқуб</p>
+        </div>
+    </div>
+
+    <script>
+        const grade8QA = [
+            { q: "Ҷумҳурии Тоҷикистон кай истиқлолият гирифт?", a: "Ҷумҳурии Тоҷикистон 9 сентябри соли 1991 истиқлолият ба даст овард." },
+            { q: "Шаҳрванд кист?", a: "Шаҳрванд шахсест, ки ба давлат тааллуқ дорад ва ҳуқуқу ӯҳдадориҳо дорад." },
+            { q: "Ҳуқуқ ба таҳсил чист?", a: "Ҳар шахс ҳақ дорад таҳсил кунад ва дониш гирад." },
+            { q: "Ватан чист?", a: "Ватан ҷойест, ки инсон дар он таваллуд шуда зиндагӣ мекунад." },
+            { q: "Нишони давлатӣ чист?", a: "Нишони давлатӣ рамзи давлатии Тоҷикистон мебошад." },
+            { q: "Озодӣ чист?", a: "Озодӣ ҳуқуқи инсон барои фикр, сухан ва интихоб мебошад." },
+            { q: "Қонуншиканӣ чист?", a: "Қонуншиканӣ вайрон кардани қонун мебошад." },
+            { q: "Ҷумҳурӣ чист?", a: "Ҷумҳурӣ шакли давлатест, ки роҳбараш интихоб мешавад." },
+            { q: "Андоз чист?", a: "Андоз маблағест, ки шаҳрвандон ба давлат месупоранд." },
+            { q: "Вазифаи полис чист?", a: "Полис тартибот ва амнияти ҷомеаро нигоҳ медорад." },
+            { q: "Ҳуқуқ ба меҳнат чист?", a: "Ҳар инсон ҳақ дорад кор кунад ва музд гирад." },
+            { q: "Оила чист?", a: "Оила гурӯҳи одамонест, ки бо никоҳ ва хешутаборӣ зиндагӣ мекунанд." },
+            { q: "Ҷавобгарӣ чист?", a: "Ҷавобгарӣ ӯҳдадории ҷавоб додан барои амал мебошад." },
+            { q: "Референдум чист?", a: "Референдум овоздиҳии умумии мардум мебошад." },
+            { q: "Қонунгузорӣ чист?", a: "Қонунгузорӣ маҷмӯи қонунҳои давлат мебошад." },
+            { q: "Суди конститутсионӣ чист?", a: "Суде, ки иҷрои Конститутсияро назорат мекунад." },
+            { q: "Ҳуқуқ ба истироҳат чист?", a: "Ҳар инсон ҳақ дорад дам гирад ва истироҳат кунад." },
+            { q: "Ҳуқуқ ба тиб чист?", a: "Ҳар инсон ҳақ дорад табобат ва ёрии тиббӣ гирад." },
+            { q: "Адолат чист?", a: "Адолат баробарӣ ва ҳақиқат мебошад." },
+            { q: "Ҷомеа чист?", a: "Ҷомеа гурӯҳи одамонест, ки якҷоя зиндагӣ мекунанд." }
+        ];
+
+        const grade9QA = [
+            { q: "Давлати демократӣ чист?", a: "Давлати демократӣ давлатест, ки ҳокимият ба мардум тааллуқ дорад." },
+            { q: "Шохаҳои ҳокимияти давлатӣ кадомҳоянд?", a: "Ҳокимияти қонунгузор, иҷроия ва судӣ." },
+            { q: "Маҷлиси Олӣ чист?", a: "Маҷлиси Олӣ мақоми олии қонунгузори Ҷумҳурии Тоҷикистон мебошад." },
+            { q: "Конститутсия чӣ вазифа дорад?", a: "Конститутсия сохтори давлат, ҳуқуқ ва ӯҳдадориҳои шаҳрвандонро муайян мекунад." },
+            { q: "Ваколати Президент чист?", a: "Президент давлатро роҳбарӣ мекунад ва иҷрои Конститутсияро таъмин менамояд." },
+            { q: "Ҳуқуқвайронкунӣ чист?", a: "Ҳуқуқвайронкунӣ амали зидди қонун мебошад." },
+            { q: "Ҷавобгарии маъмурӣ чист?", a: "Ҷавобгарии маъмурӣ ҷазо барои вайрон кардани тартиботи ҷамъиятӣ мебошад." },
+            { q: "Ҷиноят чист?", a: "Ҷиноят амали хавфнокест, ки қонун онро манъ кардааст." },
+            { q: "Ҷавобгарии ҷиноятӣ аз чандсолагӣ оғоз мешавад?", a: "Дар баъзе ҷиноятҳо аз 14-солагӣ ва умуман аз 16-солагӣ оғоз мешавад." },
+            { q: "Прокуратура чӣ вазифа дорад?", a: "Прокуратура иҷрои қонунҳоро назорат мекунад." },
+            { q: "Ҳуқуқи сиёсӣ чист?", a: "Ҳуқуқи сиёсӣ ҳуқуқи иштирок дар идораи давлат мебошад." },
+            { q: "Интихобот чист?", a: "Интихобот овоздиҳии мардум барои интихоб кардани намояндагон мебошад." },
+            { q: "Раъйпурсӣ чист?", a: "Раъйпурсӣ пурсиши умумии мардум оид ба масъалаҳои муҳим мебошад." },
+            { q: "Ҳуқуқи шаҳрвандӣ чист?", a: "Ҳуқуқҳое мебошанд, ки озодӣ ва дахлнопазирии шахсро таъмин мекунанд." },
+            { q: "Давлати ҳуқуқбунёд чист?", a: "Давлатест, ки қонун дар он болотар аз ҳама мебошад." },
+            { q: "Фармони Президент чист?", a: "Ҳуҷҷати расмиест, ки Президент қабул мекунад." },
+            { q: "Санади меъёрии ҳуқуқӣ чист?", a: "Ҳуҷҷатест, ки қоидаҳои ҳуқуқиро муайян мекунад." },
+            { q: "Вазифаи суд чист?", a: "Суд баҳсҳоро ҳал намуда, адолатро таъмин мекунад." },
+            { q: "Шаҳрвандии Тоҷикистон чист?", a: "Муносибати ҳуқуқии шахс бо Ҷумҳурии Тоҷикистон мебошад." },
+            { q: "Иттиҳодияи ҷамъиятӣ чист?", a: "Ташкилоте мебошад, ки шаҳрвандон барои ҳадафи умумӣ ташкил мекунанд." }
+        ];
+
+        const grade10QA = [
+            { q: "Конститутсионализм чист?", a: "Конститутсионализм низомест, ки фаъолияти давлат бо Конститутсия маҳдуд ва танзим карда мешавад." },
+            { q: "Принсипи таҷзияи ҳокимият чист?", a: "Ҳокимияти давлатӣ ба се шоха ҷудо мешавад: қонунгузор, иҷроия ва судӣ то ки як мақом тамоми ҳокимиятро соҳиб нашавад." },
+            { q: "Давлати соҳибихтиёр чист?", a: "Давлатест, ки мустақилона сиёсати дохилӣ ва хориҷии худро муайян мекунад." },
+            { q: "Меъёрҳои ҳуқуқӣ чистанд?", a: "Қоидаҳои ҳатмии рафтор мебошанд, ки давлат онҳоро муқаррар кардааст." },
+            { q: "Ҳуқуқи конститутсионӣ чиро меомӯзад?", a: "Сохтори давлат, мақомоти ҳокимият ва ҳуқуқу озодиҳои шаҳрвандонро меомӯзад." },
+            { q: "Ҷомеаи шаҳрвандӣ чист?", a: "Маҷмӯи ташкилотҳо ва шаҳрвандонест, ки мустақилона фаъолият мекунанд." },
+            { q: "Плюрализми сиёсӣ чист?", a: "Мавҷудияти ақидаҳо ва ҳизбҳои гуногуни сиёсӣ." },
+            { q: "Ҳизби сиёсӣ чист?", a: "Ташкилотест, ки барои иштирок дар ҳокимият ва ҳимояи манфиатҳои шаҳрвандон таъсис мешавад." },
+            { q: "Мақомоти иҷроияи ҳокимияти давлатӣ кадоманд?", a: "Президент, Ҳукумат, вазоратҳо ва мақомоти маҳаллӣ." },
+            { q: "Санксия чист?", a: "Чораи таъсиррасонӣ барои вайрон кардани меъёрҳои ҳуқуқӣ." },
+            { q: "Субъекти ҳуқуқ кист?", a: "Шахс ё ташкилоте, ки ҳуқуқ ва ӯҳдадориҳо дорад." },
+            { q: "Объекти ҳуқуқ чист?", a: "Чизе, ки муносибатҳои ҳуқуқӣ ба он вобастаанд." },
+            { q: "Муносибатҳои ҳуқуқӣ чист?", a: "Муносибатҳои ҷамъиятие, ки бо меъёрҳои ҳуқуқӣ танзим мешаванд." },
+            { q: "Қобилияти ҳуқуқдорӣ чист?", a: "Қобилияти соҳиб шудани ҳуқуқ ва ӯҳдадориҳо мебошад." },
+            { q: "Қобилияти амалкунӣ чист?", a: "Қобилияти шахс барои мустақилона амалӣ намудани ҳуқуқҳояш." },
+            { q: "Ҷавобгарии ҳуқуқӣ чист?", a: "Ӯҳдадории шахс барои ҷавоб додан ба амали зиддиқонунӣ." },
+            { q: "Ҳуқуқи байналмилалӣ чист?", a: "Маҷмӯи қоидаҳое, ки муносибатҳои байни давлатҳоро танзим мекунанд." },
+            { q: "Суверенитет чист?", a: "Истиқлол ва ҳокимияти олии давлат." },
+            { q: "Палатаи намояндагон чист?", a: "Яке аз палатаҳои Маҷлиси Олии Ҷумҳурии Тоҷикистон мебошад." },
+            { q: "Палатаи миллӣ чист?", a: "Палатае, ки манфиатҳои минтақаҳо ва воҳидҳои маъмуриро намояндагӣ мекунад." },
+            { q: "Режими сиёсӣ чист?", a: "Тарзи амалӣ шудани ҳокимият дар давлат." },
+            { q: "Давлати унитарӣ чист?", a: "Давлатест, ки як низоми ягонаи ҳокимият дорад." },
+            { q: "Федератсия чист?", a: "Иттиҳоди давлатҳо ё воҳидҳое, ки мустақилияти муайян доранд." },
+            { q: "Монархия чист?", a: "Шакли идоракунӣ, ки ҳокимият ба подшоҳ тааллуқ дорад." },
+            { q: "Республика чист?", a: "Шакли идоракуние, ки роҳбари давлат интихоб мешавад." }
+        ];
+
+        const grade11QA = [
+            { q: "Ҳуқуқи инсон чист?", a: "Ҳуқуқи инсон маҷмӯи ҳуқуқ ва озодиҳое мебошад, ки ба ҳар шахс аз таваллуд тааллуқ доранд." },
+            { q: "Эъломияи умумии ҳуқуқи инсон кай қабул шудааст?", a: "10 декабри соли 1948 аз ҷониби СММ қабул шудааст." },
+            { q: "Давлати ҳуқуқбунёди демократӣ чист?", a: "Давлатест, ки дар он қонун болотар аз ҳама буда, ҳуқуқи инсон ҳифз мешавад." },
+            { q: "Соҳибихтиёрии халқ чӣ маъно дорад?", a: "Манбаи асосии ҳокимят мардум мебошад." },
+            { q: "Презумпсияи бегуноҳӣ чист?", a: "Шахс то исбот шудани гуноҳаш дар суд бегуноҳ ҳисобида мешавад." },
+            { q: "Ҷавобгарии гражданӣ чист?", a: "Ҷавобгарӣ барои расонидани зарари молӣ ё маънавӣ мебошад." },
+            { q: "Ҳуқуқи меҳнат чиро танзим мекунад?", a: "Муносибатҳои байни коргар ва корфарморо." },
+            { q: "Шартномаи меҳнатӣ чист?", a: "Созишномаи байни корманд ва корфармо мебошад." },
+            { q: "Ҳуқуқи оилавӣ чиро меомӯзад?", a: "Муносибатҳои оилавӣ, никоҳ ва тарбияи фарзандонро." },
+            { q: "Никоҳ чист?", a: "Иттиҳоди ихтиёрии марду зан мебошад." },
+            { q: "Кодекс чист?", a: "Маҷмӯи қонунҳое, ки як соҳаи ҳуқуқро танзим мекунанд." },
+            { q: "Ҳуқуқи ҷиноятӣ чист?", a: "Соҳаи ҳуқуқест, ки ҷиноят ва ҷазоро муайян мекунад." },
+            { q: "Ҷазо чист?", a: "Чораи маҷбуркунии давлатӣ барои ҷиноят мебошад." },
+            { q: "Ҳуқуқи маъмурӣ чист?", a: "Соҳаи ҳуқуқест, ки идоракунии давлатиро танзим мекунад." },
+            { q: "Шахси ҳуқуқӣ чист?", a: "Ташкилоте, ки ҳуқуқ ва ӯҳдадориҳои мустақил дорад." },
+            { q: "Шахси воқеӣ кист?", a: "Инсон ҳамчун иштирокчии муносибатҳои ҳуқуқӣ." },
+            { q: "Моликият чист?", a: "Ҳуқуқи соҳибӣ, истифода ва ихтиёрдории молу мулк." },
+            { q: "Ҳуқуқи интихоботӣ чист?", a: "Ҳуқуқи шаҳрвандон барои интихоб кардан ва интихоб шудан." },
+            { q: "Экстремизм чист?", a: "Фаъолияти зидди сохти конститутсионӣ ва амнияти давлат." },
+            { q: "Коррупсия чист?", a: "Суиистифода аз мансаб барои манфиати шахсӣ." },
+            { q: "Созмони Милали Муттаҳид (СММ) чист?", a: "Созмони байналмилалӣ барои ҳифзи сулҳ ва ҳамкорӣ." },
+            { q: "Санади ҳуқуқии байналмилалӣ чист?", a: "Ҳуҷҷате, ки муносибатҳои байналмилалиро танзим мекунад." },
+            { q: "Генотсид чист?", a: "Нобудсозии қасдонаи гурӯҳи миллӣ, динӣ ё қавмӣ." },
+            { q: "Суиистифода аз ҳуқуқ чист?", a: "Истифодаи ҳуқуқ бар зарари дигарон." },
+            { q: "Ҷомеаи демократӣ чист?", a: "Ҷомеае, ки дар он озодӣ ва ҳуқуқи инсон ҳифз мешавад." }
+        ];
+
+        function showGradeMaterial(grade) {
+            let content = '';
+            
+            if (grade === 8) {
+                content = '<h3 style="color: #d4af37; margin-bottom: 30px; font-size: 28px;">📚 Маводҳо барои синфи 8 - Саволу Ҷавоб (20+ сўол)</h3>';
+                grade8QA.forEach((item, index) => {
+                    content += `
+                        <div class="qa-item" style="margin-bottom: 25px;">
+                            <div class="question" style="color: #d4af37; font-size: 18px; margin-bottom: 12px;">
+                                ❓ ${index + 1}. ${item.q}
+                            </div>
+                            <div class="answer" style="color: rgba(248, 233, 201, 0.9); font-size: 17px;">
+                                ✅ ${item.a}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else if (grade === 9) {
+                content = '<h3 style="color: #d4af37; margin-bottom: 30px; font-size: 28px;">📚 Маводҳо барои синфи 9 - Саволу Ҷавобҳои Душвор (20+ сўол)</h3>';
+                grade9QA.forEach((item, index) => {
+                    content += `
+                        <div class="qa-item" style="margin-bottom: 25px;">
+                            <div class="question" style="color: #d4af37; font-size: 18px; margin-bottom: 12px;">
+                                ❓ ${index + 1}. ${item.q}
+                            </div>
+                            <div class="answer" style="color: rgba(248, 233, 201, 0.9); font-size: 17px;">
+                                ✅ ${item.a}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else if (grade === 10) {
+                content = '<h3 style="color: #d4af37; margin-bottom: 30px; font-size: 28px;">📚 Маводҳо барои синфи 10 - Саволу Ҷавобҳои Душвор (25+ сўол)</h3>';
+                grade10QA.forEach((item, index) => {
+                    content += `
+                        <div class="qa-item" style="margin-bottom: 25px;">
+                            <div class="question" style="color: #d4af37; font-size: 18px; margin-bottom: 12px;">
+                                ❓ ${index + 1}. ${item.q}
+                            </div>
+                            <div class="answer" style="color: rgba(248, 233, 201, 0.9); font-size: 17px;">
+                                ✅ ${item.a}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else if (grade === 11) {
+                content = '<h3 style="color: #d4af37; margin-bottom: 30px; font-size: 28px;">📚 Маводҳо барои синфи 11 - Саволу Ҷавобҳои Олӣ (25+ сўол)</h3>';
+                grade11QA.forEach((item, index) => {
+                    content += `
+                        <div class="qa-item" style="margin-bottom: 25px;">
+                            <div class="question" style="color: #d4af37; font-size: 18px; margin-bottom: 12px;">
+                                ❓ ${index + 1}. ${item.q}
+                            </div>
+                            <div class="answer" style="color: rgba(248, 233, 201, 0.9); font-size: 17px;">
+                                ✅ ${item.a}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                const materials = {
+                    all: '<h3 style="color: #d4af37;">Маводҳо барои ҳамаи синфҳо</h3><ul><li>Конститутсияи ҶТ</li><li>Кодекси ҷиноятӣ</li><li>Кодекси гражданӣ</li><li>Кодекси меҳнатӣ</li><li>Саволҳои олимпиадаҳо (2015-2024)</li><li>500+ саволи тестӣ</li></ul>'
+                };
+                content = materials[grade] || materials['all'];
+            }
+            
+            document.getElementById('materialContent').innerHTML = content;
+            document.getElementById('gradeMaterials').style.display = 'block';
+            document.getElementById('gradeMaterials').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>

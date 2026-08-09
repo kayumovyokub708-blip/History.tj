@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="tj">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Китобҳои Тоҷикӣ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c2e24 0%, #1e4d3a 50%, #0c2e24 100%);
+            color: #f8e9c9;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .history-parchment {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="%23d4af37" stroke-width="0.3" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>'),
+                radial-gradient(ellipse at 30% 20%, rgba(180, 150, 50, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(120, 80, 40, 0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            border: 3px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(45deg, #f8e9c9, #d4af37, #f8e9c9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: rgba(248, 233, 201, 0.8);
+            margin: 10px 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .back-button {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #f8e9c9;
+            transition: all 0.4s ease;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .books-section {
+            background: rgba(12, 46, 36, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+        }
+
+        .books-title {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .books-title::before,
+        .books-title::after {
+            content: "📚";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .books-title::before {
+            left: -40px;
+        }
+
+        .books-title::after {
+            right: -40px;
+        }
+
+        .search-books {
+            background: rgba(12, 46, 36, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(12, 46, 36, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            color: #f8e9c9;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: rgba(12, 46, 36, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            color: #f8e9c9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .book-card {
+            background: rgba(12, 46, 36, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            border-color: #d4af37;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1e4d3a, #0c2e24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #d4af37;
+        }
+
+        .book-info {
+            padding: 20px;
+        }
+
+        .book-title {
+            color: #d4af37;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .book-author {
+            color: rgba(248, 233, 201, 0.8);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .book-description {
+            color: rgba(248, 233, 201, 0.7);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .book-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #d4af37, #f8e9c9);
+            color: #0c2e24;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .book-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            color: rgba(248, 233, 201, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .app {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .back-menu {
+                flex-direction: column;
+            }
+
+            .books-title::before,
+            .books-title::after {
+                display: none;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="history-parchment"></div>
+    <div class="app">
+        <div class="header">
+            <h1>Китобҳои Тоҷикӣ</h1>
+            <p class="subtitle">Ганҷинаи адабиёти тоҷикӣ ва китобҳои таърихӣ</p>
+        </div>
+
+        <div class="back-menu">
+            <a href="index.html" class="back-button">🏠 Саҳифаи асосӣ</a>
+            <a href="periods.html" class="back-button">📜 Давраҳо</a>
+            <a href="heroes.html" class="back-button">🏛️ Қаҳрамонҳо</a>
+            <a href="prezident.html" class="back-button">👑 Президент</a>
+        </div>
+
+        <div class="books-section">
+            <div class="books-title">📚 Китобҳои Тоҷикӣ</div>
+
+            <div class="search-books">
+                <input type="text" class="search-input" placeholder="Ҷустуҷӯи китоб..." id="bookSearch">
+                <div class="category-filter">
+                    <button class="category-btn active" onclick="filterBooks('all')">Ҳама</button>
+                    <button class="category-btn" onclick="filterBooks('history')">Таърих</button>
+                    <button class="category-btn" onclick="filterBooks('literature')">Адабиёт</button>
+                    <button class="category-btn" onclick="filterBooks('poetry')">Шеър</button>
+                    <button class="category-btn" onclick="filterBooks('law')">Ҳуқуқ</button>
+                    <button class="category-btn" onclick="filterBooks('science')">Илм</button>
+                </div>
+            </div>
+
+            <div class="books-grid" id="booksContainer"></div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <button onclick="loadMoreBooks()"
+                    style="padding: 15px 40px; background: linear-gradient(45deg, #d4af37, #f8e9c9); border: none; border-radius: 10px; color: #0c2e24; font-size: 18px; font-weight: bold; cursor: pointer;">
+                    Китобҳои бештар 👇
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Маркази таърихии Тоҷикистон | Китобҳо</p>
+            <p>Ҳамаи ҳуқуқҳо ҳифз шудаанд.Иҷрокунанда Қаюмов Ёқуб</p>
+        </div>
+    </div>
+
+    <script>
+        const booksData = [
+            { id: 1, title: "Точикон", author: "Электронӣ", description: "Маълумоти қуллаии дар бораи Тоҷикистон ва халқи тоҷик", category: "reference", year: "2024", pages: "вариён", icon: "🇹🇯", image: "китобхо/surat/kitobkhon-net-tojikon9.jpg" },
+            { id: 2, title: "Шоҳнома", author: "Абулқосими Фирдавсӣ", description: "Эпоси миллии тоҷикон", category: "literature", year: "1010", pages: "60000", icon: "🦁" },
+            { id: 3, title: "Таърихи халки точик синфи 6", author: "Муҳаррирон", description: "Таърихи умумӣ барои синфи 6", category: "history", year: "2024", pages: "350", icon: "📚" },
+            { id: 3, title: "Таърихи халки точик синфи 7", author: "Муҳаррирон", description: "Таърихи умумӣ барои синфи 7", category: "history", year: "2024", pages: "380", icon: "📚" },
+            { id: 4, title: "Таърихи халки точик синфи 8", author: "Муҳаррирон", description: "Таърихи умумӣ барои синфи 8", category: "history", year: "2024", pages: "400", icon: "📚" },
+            { id: 5, title: "Таърихи халки точик синфи 9", author: "Муҳаррирон", description: "Таърихи умумӣ барои синфи 9", category: "history", year: "2024", pages: "420", icon: "📚" },
+            { id: 6, title: "Таърихи халки точик синфи 10", author: "Муҳаррирон", description: "Таърихи умумӣ барои синфи 10", category: "history", year: "2024", pages: "450", icon: "📚" },
+            { id: 7, title: "Таърихихалки точик синфи 11", author: "Муҳаррирон", description: "Таърихи халки Тоҷик барои синфи 11", category: "history", year: "2024", pages: "380", icon: "🏛️" },
+            
+        ];
+
+        let currentCategory = 'all';
+        let displayedBooks = 4;
+
+        // Функсияи PDF-ро кушоиш доданд
+        function openPDF(bookTitle) {
+            const pdfFiles = {
+                'Точикон': 'китобхо/kitobkhon-net-tojikon-purra-elektroni.pdf',
+                'Шоҳнома': 'китобхо/шохнома.pdf',
+                'Таърихи синфи 6': 'китобхо/таърих синфи 6.pdf',
+                'Таърихи синфи 7': 'китобхо/таърих синфи 7.pdf',
+                'Таърихи синфи 8': 'китобхо/таърих синфи 8.pdf',
+                'Таърихи синфи 9': 'китобхо/таърих умуми синфи 9.pdf',
+                'Таърихи синфи 10': 'китобхо/таърих синфи 10.pdf',
+                'Таърихи синфи 11': 'китобхо/таърих халки точик синфи 11.pdf',
+                'Таърихихалки точик синфи 11': 'китобхо/таърих халки точик синфи 11.pdf',
+                'Ҳуқуқи синфи 6': 'китобхо/хукук синфи 6.pdf'
+            };
+            
+            const pdfPath = pdfFiles[bookTitle];
+            if (pdfPath) {
+                window.open(pdfPath, '_blank');
+            } else {
+                alert('Ин китоб дар полиша дастрас нест');
+            }
+        }
+
+        function renderBooks() {
+            const container = document.getElementById('booksContainer');
+            container.innerHTML = '';
+            const filteredBooks = currentCategory === 'all' ? booksData : booksData.filter(b => b.category === currentCategory);
+            filteredBooks.slice(0, displayedBooks).forEach(book => {
+                const coverHTML = book.image ? 
+                    `<img src="${book.image}" alt="${book.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">` :
+                    `<div class="book-cover">${book.icon}</div>`;
+                container.innerHTML += `
+                    <div class="book-card">
+                        ${coverHTML}
+                        <div class="book-info">
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">Муаллиф: ${book.author}</div>
+                            <div class="book-description">${book.description}</div>
+                            <div style="display: flex; justify-content: space-between; color: rgba(248,233,201,0.6); margin-bottom: 15px;">
+                                <span>Соли эҷод: ${book.year}</span>
+                                <span>${book.pages} саҳ.</span>
+                            </div>
+                            <button class="book-button" onclick="openPDF('${book.title}')">Хондан</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterBooks(category) {
+            currentCategory = category;
+            displayedBooks = 4;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderBooks();
+        }
+
+        function loadMoreBooks() {
+            displayedBooks += 4;
+            renderBooks();
+            const filteredBooks = currentCategory === 'all' ? booksData : booksData.filter(b => b.category === currentCategory);
+            if (displayedBooks >= filteredBooks.length) event.target.style.display = 'none';
+        }
+
+        document.getElementById('bookSearch').addEventListener('input', function (e) {
+            const term = e.target.value.toLowerCase();
+            if (term) {
+                const filtered = booksData.filter(b =>
+                    b.title.toLowerCase().includes(term) ||
+                    b.author.toLowerCase().includes(term) ||
+                    b.description.toLowerCase().includes(term)
+                );
+                const container = document.getElementById('booksContainer');
+                container.innerHTML = '';
+                filtered.forEach(book => {
+                    container.innerHTML += `
+                        <div class="book-card">
+                            <div class="book-cover">${book.icon}</div>
+                            <div class="book-info">
+                                <div class="book-title">${book.title}</div>
+                                <div class="book-author">Муаллиф: ${book.author}</div>
+                                <div class="book-description">${book.description}</div>
+                                <button class="book-button" onclick="openPDF('${book.title}')">Хондан</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else renderBooks();
+        });
+
+        window.onload = renderBooks;
+    </script>
+</body>
+
+</html>

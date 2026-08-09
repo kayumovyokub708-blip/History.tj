@@ -1,0 +1,797 @@
+
+
+<!DOCTYPE html>
+<html lang="tj">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ассистенти Таърихи Тоҷикистон</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #051511 0%, #1e4d3a 50%, #0c2e24 100%);
+            color: #f8e9c9;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .history-parchment {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                url('data:image/svg+xml,<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="%23d4af37" stroke-width="0.3" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>'),
+                radial-gradient(ellipse at 30% 20%, rgba(180, 150, 50, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(120, 80, 40, 0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            border: 3px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+                
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(45deg, #f8e9c9, #d4af37, #f8e9c9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: rgba(248, 233, 201, 0.8);
+            margin: 10px 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .menu-card {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-decoration: none;
+            color: #f8e9c9;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .menu-card::before {
+            
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4af37, transparent);
+        }
+
+        .menu-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .menu-title {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .menu-card p {
+            text-align: center;
+            color: rgba(248, 233, 201, 0.8);
+            line-height: 1.5;
+        }
+
+        .assistant-section {
+            background: rgba(12, 46, 36, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assistant-title {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .assistant-title::before {
+            content: "💬";
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .assistant-title::after {
+            content: "💬";
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(12, 46, 36, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            color: #f8e9c9;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .chat-button {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #d4af37, #f8e9c9);
+            border: none;
+            border-radius: 10px;
+            color: #0c2e24;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .user-message {
+            background: rgba(212, 175, 55, 0.2);
+            align-self: flex-end;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .assistant-message {
+            background: rgba(12, 46, 36, 0.7);
+            align-self: flex-start;
+            border: 1px solid rgba(248, 233, 201, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quick-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .quick-question {
+            padding: 12px 20px;
+            background: rgba(12, 46, 36, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            color: #f8e9c9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quick-question:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+        }
+
+        .internet-search-section {
+            background: rgba(12, 46, 36, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 2px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-title {
+            text-align: center;
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-title::before {
+            content: "🌐";
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .search-title::after {
+            content: "🌐";
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .search-engine {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            color: #f8e9c9;
+            display: block;
+        }
+
+        .search-engine:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            background: rgba(12, 46, 36, 0.8);
+        }
+
+        .engine-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .engine-name {
+            font-size: 20px;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .engine-description {
+            font-size: 14px;
+            color: rgba(248, 233, 201, 0.7);
+        }
+
+        .site-search-section {
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(12, 46, 36, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            color: #f8e9c9;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #d4af37, #f8e9c9);
+            border: none;
+            border-radius: 10px;
+            color: #0c2e24;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            color: rgba(248, 233, 201, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .app {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .menu {
+                grid-template-columns: 1fr;
+            }
+
+            .assistant-section {
+                padding: 25px;
+            }
+
+            .internet-search-section {
+                padding: 25px;
+            }
+
+            .quick-questions {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-input-container {
+                flex-direction: column;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .assistant-title::before,
+            .assistant-title::after {
+                display: none;
+            }
+
+            .search-title::before,
+            .search-title::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>0
+
+    <div class="history-parchment"></div>
+
+    <div class="app">
+
+        <div class="header">
+            <h1>Ассистенти Таърихи Тоҷикистон</h1>
+            <p class="subtitle">Саволҳо дар бораи таърих, ҷуғрофия, адабиёт ва фарҳанги тоҷикон</p>
+        </div>
+
+        <div class="menu">
+            <a href="periods.html" class="menu-card">
+                <div class="menu-icon">📜</div>
+                <div class="menu-title">Давраҳои таърихӣ</div>
+                <p>Асрҳои гуногун ва тамаддуни тоҷикӣ</p>
+            </a>
+
+            <a href="heroes.html" class="menu-card">
+                <div class="menu-icon">🏛️</div>
+                <div class="menu-title">Қаҳрамонҳо</div>
+                <p>Шахсиятҳои таърихии тоҷик</p>
+            </a>
+
+            <a href="events.html" class="menu-card">
+                <div class="menu-icon">⚔️</div>
+                <div class="menu-title">Ҳодисаҳо</div>
+                <p>Воқеаҳои муҳими таърихӣ</p>
+            </a>
+
+            <a href="thelaw.html" class="menu-card">
+                <div class="menu-icon">⚖️</div>
+                <div class="menu-title">Ҳуқуқ-Омодагӣ</div>
+                <p>Маводҳо барои олимпиадаҳои ҳуқуқӣ</p>
+            </a>
+
+            <a href="prezident.html" class="menu-card">
+                <div class="menu-icon">👑</div>
+                <div class="menu-title">Президент</div>
+                <p>Маълумот дар бораи Президенти Ҷумҳурии Тоҷикистон</p>
+            </a>
+
+            <a href="konstitutsia.html" class="menu-card">
+                <div class="menu-icon">📜</div>
+                <div class="menu-title">Конститутсия</div>
+                <p>Конститутсияи Ҷумҳурии Тоҷикистон</p>
+            </a>
+
+            <a href="Tajikistan_map.html" class="menu-card">
+                <div class="menu-icon">🗺️</div>
+                <div class="menu-title">Харита</div>
+                    <p>Харитаи Точикистон</p>
+                </a>
+
+            <a href="kitobho.html" class="menu-card">
+                <div class="menu-icon">📚</div>
+                <div class="menu-title">Китобҳо</div>
+                <p>Китобҳои таърихӣ ва адабии тоҷикӣ</p>
+            </a>
+
+            <a href="surooda.html" class="menu-card">
+                <div class="menu-icon">🎵</div>
+                <div class="menu-title">Сурудаи Миллӣ</div>
+                <p>Сурудаи миллии Ҷумҳурии Тоҷикистон</p>
+            </a>
+            
+        </div>
+    
+        <div class="assistant-section">
+            <div class="assistant-title">Ассистенти Таърихӣ</div>
+
+            <div class="chat-container" id="chatContainer">
+                <div class="message assistant-message">
+                    Салом! Ман ассистенти таърихии Тоҷикистон ҳастам. Ман метавонам ба саволҳои шумо дар бораи:
+                    • Масоҳати давлатҳои таърихӣ
+                    • Аҳолии Тоҷикистон
+                    • Таърихи адабиёт ва фарҳанг
+                    • Рӯйдодҳои муҳим
+                    ва ғайраҳо ҷавоб диҳам.
+                    <br><br>
+                    <strong>Барои маводҳои ҳуқуқӣ ва олимпиадаҳо, лутфан ба сайти <a href="thelaw.html"
+                            style="color: #d4af37;">Ҳуқуқ-Омодагӣ</a> гузаред.</strong>
+                    <br><br>
+                    <strong>Барои маълумот дар бораи Президент, Конститутсия ва Китобҳо, лутфан ба саҳифаҳои мувофиқ
+                        гузаред.</strong>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Саволро дар инҷо нависед...">
+                <button class="chat-button" onclick="sendMessage()">Фиристодан</button>
+            </div>
+
+            <div class="quick-questions">
+                <div class="quick-question" onclick="askQuestion('Масоҳати давлати Сомониён чанд буд?')">Масоҳати
+                    давлати Сомониён</div>
+                <div class="quick-question" onclick="askQuestion('Аҳолии Тоҷикистон дар соли 2024 чанд аст?')">Аҳолии
+                    Тоҷикистон</div>
+                <div class="quick-question" onclick="askQuestion('Тоҷикистон аз чанд вилоят иборат аст?')">Вилоятҳои
+                    Тоҷикистон</div>
+                <div class="quick-question" onclick="askQuestion('Бузургтарин шоҳи Тоҷикистон кадом аст?')">Кӯҳҳои
+                    Тоҷикистон</div>
+            </div>
+        </div>
+
+        <div class="internet-search-section">
+            <div class="search-title">🌐 Ҷустуҷӯ дар Интернет</div>
+            <div class="search-grid">
+                <a href="https://www.google.com/search?q=Таърихи+Тоҷикистон" target="_blank" class="search-engine">
+                    <span class="engine-icon">🔍</span>
+                    <div class="engine-name">Google</div>
+                    <div class="engine-description">Ҷустуҷӯи умумӣ дар бораи таърихи Тоҷикистон</div>
+                </a>
+
+                <a href="https://www.wikipedia.org/wiki/Tajikistan" target="_blank" class="search-engine">
+                    <span class="engine-icon">📚</span>
+                    <div class="engine-name">Wikipedia</div>
+                    <div class="engine-description">Маълумоти пурра дар бораи Тоҷикистон</div>
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=таърихи+тоҷикистон" target="_blank"
+                    class="search-engine">
+                    <span class="engine-icon">🎥</span>
+                    <div class="engine-name">YouTube</div>
+                    <div class="engine-description">Видеоҳои таърихӣ ва таҳқиқотӣ</div>
+                </a>
+
+                <a href="https://www.britannica.com/place/Tajikistan" target="_blank" class="search-engine">
+                    <span class="engine-icon">🏛️</span>
+                    <div class="engine-name">Britannica</div>
+                    <div class="engine-description">Таърихи расмии Тоҷикистон</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="site-search-section">
+            <h3 style="text-align: center; color: #d4af37; margin-bottom: 20px;">🔍 Ҷустуҷӯ дар сайти мо</h3>
+            <form class="search-form" onsubmit="handleSiteSearch(event)">
+                <input type="text" class="search-input" placeholder="Ҷустуҷӯ дар сайти таърихи тоҷикон..."
+                    id="siteSearchInput">
+                <button type="submit" class="search-button">Ҷустуҷӯ</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Маркази таърихии Тоҷикистон</p>
+            <p>Ҳамаи ҳуқуқҳо ҳифз шудаанд</p>
+        </div>
+
+    </div>
+
+    <script>
+        const knowledgeBase = {
+            'масоҳати давлати сомониён': 'Давлати Сомониён дар давраи авҷи худ тақрибан 2,850,000 км² масоҳат дошт. Ин қаламрав аз Хуросон то Сисон ва аз Хоразм то Ҳиндустон тӯл кашида буд.',
+            'масоҳати тоҷикистон': 'Масоҳати Ҷумҳурии Тоҷикистон 143,100 км² мебошад. Ин кишвар дар Осиёи Марказӣ ҷойгир аст ва аз 4 вилоят иборат аст.',
+            'аҳолии тоҷикистон дар соли 2024': 'Баҳоди аҳолии Тоҷикистон дар соли 2024 тақрибан 10,200,000 нафар аст. Тоҷикистон яке аз кишварҳои ҷавонсали Осиёи Марказӣ мебошад.',
+            'вилоятҳои тоҷикистон': 'Тоҷикистон аз 4 вилоят иборат аст: 1) Вилояти Суғд 2) Вилояти Хатлон 3) Вилояти Мухтори Кӯҳистони Бадахшон 4) Ноҳияҳои тобеи ҷумҳурӣ. Пойтахт - Душанбе.',
+            'бузургтарин шоҳи тоҷикистон': 'Бузургтарин шоҳи Тоҷикистон Қуллаи Исмоили Сомонӣ (қадима - Қуллаи Ленин) мебошад, ки баландиаш 7495 метр аст. Он дар Помир ҷойгир аст.',
+
+            'таърихи тоҷикон аз кай оғоз шуда': 'Таърихи тоҷикон аз милод то пеш аз 3000 сол оғоз шудааст. Давлати Сомониён (асри 9-10) давраи тиллоии таърихи тоҷикон мебошад.',
+            'кӣ исмоили сомонӣ': 'Исмоили Сомонӣ (849-907) асосгузори давлати Сомониён буд. Ӯ давлати муттаҳиди тоҷикро ташкил кард ва забони форсиро расман эълон кард.',
+            'чӣ тавр давлати сомониён поён ёфт': 'Давлати Сомониён соли 999 пас аз ҳамлаи Қарахониён ва Ғазнавиён ба поён расид.',
+            'қачон тоҷикистон истиқлол гирифт': 'Тоҷикистон 9 сентябри соли 1991 истиқлолияти давлатиро эълон кард.',
+
+            'падари адабиёти тоҷик кӣ аст': 'Абӯабдуллоҳи Рӯдакӣ (858-941) ба ҳамчун падари адабиёти тоҷик шинохта мешавад.',
+            'бузургтарин шоири тоҷик': 'Абулқосими Фирдавсӣ (940-1020) бо эҷоди "Шоҳнома" бузургтарин шоири тоҷик ҳисобида мешавад.',
+            'ибни сино кӣ буд': 'Абуалӣ Ибни Сино (980-1037) донишманди энциклопедии тоҷик, файласуф, табиб ва шоир буд.',
+
+            'ҳуқуқ': 'Барои маводҳои ҳуқуқӣ ва олимпиадаҳо, лутфан ба сайти <a href="thelaw.html" style="color: #d4af37;">Ҳуқуқ-Омодагӣ</a> гузаред.',
+            'конститутсия': 'Барои маводҳои ҳуқуқӣ ва олимпиадаҳо, лутфан ба сайти <a href="thelaw.html" style="color: #d4af37;">Ҳуқуқ-Омодагӣ</a> гузаред. Барои Конститутсияи Тоҷикистон, лутфан ба сайти <a href="konstitutsia.html" style="color: #d4af37;">Конститутсия</a> гузаред.',
+            'олимпиада': 'Барои маводҳои ҳуқуқӣ ва олимпиадаҳо, лутфан ба сайти <a href="thelaw.html" style="color: #d4af37;">Ҳуқуқ-Омодагӣ</a> гузаред.',
+
+            'президент': 'Барои маълумоти пурра дар бораи Президенти Тоҷикистон, лутфан ба сайти <a href="prezident.html" style="color: #d4af37;">Президент</a> гузаред.',
+            'эмомалӣ раҳмон': 'Барои маълумоти пурра дар бораи Президенти Тоҷикистон, лутфан ба сайти <a href="prezident.html" style="color: #d4af37;">Президент</a> гузаред.',
+
+            'китобҳо': 'Барои китобҳои таърихӣ ва адабии тоҷикӣ, лутфан ба сайти <a href="kitobho.html" style="color: #d4af37;">Китобҳо</a> гузаред.',
+            'китоб': 'Барои китобҳои таърихӣ ва адабии тоҷикӣ, лутфан ба сайти <a href="kitobho.html" style="color: #d4af37;">Китобҳо</a> гузаред.',
+            'шеър': 'Барои китобҳои таърихӣ ва адабии тоҷикӣ, лутфан ба сайти <a href="kitobho.html" style="color: #d4af37;">Китобҳо</a> гузаред.',
+
+            'арзиши сомонӣ': 'Сомонӣ (TJS) воҳиди пули Тоҷикистон аст. 1 доллари амрикоӣ тақрибан 10.9 сомонӣ мебошад.',
+            'калонтарин нерӯгоҳ': 'Нерӯгоҳи барқи обии Сангтӯда-1 бузургтарин нерӯгоҳи Тоҷикистон бо қуввати 670 МВт мебошад.',
+
+            'рӯзи истиқлол': '9 сентябр - Рӯзи истиқлоли Тоҷикистон',
+            'рӯзи забони модарӣ': '5 октябр - Рӯзи забони модарӣ',
+            'наврӯз': '21 март - Ҷашни Наврӯз, идҳои қадимии тоҷикон'
+        };
+
+        function askQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const question = input.value.trim().toLowerCase();
+
+            if (!question) return;
+
+            const chatContainer = document.getElementById('chatContainer');
+
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = question;
+            chatContainer.appendChild(userMessage);
+
+            input.value = '';
+
+            setTimeout(() => {
+                let answer = 'Саволро нафаҳмидам. Илтимос бо дигар тарз такрор кунед.';
+
+                for (const [key, value] of Object.entries(knowledgeBase)) {
+                    if (question.includes(key) || key.includes(question)) {
+                        answer = value;
+                        break;
+                    }
+                }
+
+                if (answer === 'Саволро нафаҳмидам. Илтимос бо дигар тарз такрор кунед.') {
+                    if (question.includes('масоҳат') || question.includes('майдони')) {
+                        answer = 'Масоҳати давлатҳои таърихии тоҷикон: Сомониён - 2.8 млн км², Темуриён - 4.4 млн км². Масоҳати Тоҷикистони имрӯзӣ - 143,100 км².';
+                    } else if (question.includes('аҳолӣ') || question.includes('шумор')) {
+                        answer = 'Аҳолии Тоҷикистон дар соли 2024 тақрибан 10.2 миллион нафар аст. Баъзе аз шаҳрҳои калон: Душанбе (863,400), Хуҷанд (183,600), Кӯлоб (106,300).';
+                    } else if (question.includes('кӯҳ') || question.includes('баландӣ')) {
+                        answer = 'Бузургтарин кӯҳҳои Тоҷикистон: 1) Исмоили Сомонӣ (7495 м) 2) Ибни Сино (7134 м) 3) Корженевская (7105 м) 4) Москва (6785 м).';
+                    } else if (question.includes('президент') || question.includes('раҳмон')) {
+                        answer = 'Барои маълумоти пурра дар бораи Президенти Тоҷикистон, лутфан ба сайти <a href="prezident.html" style="color: #d4af37;">Президент</a> гузаред.';
+                    } else if (question.includes('конститутсия') || question.includes('қонун')) {
+                        answer = 'Барои маводҳои ҳуқуқӣ ва Конститутсияи Тоҷикистон, лутфан ба сайти <a href="konstitutsia.html" style="color: #d4af37;">Конститутсия</a> ё <a href="thelaw.html" style="color: #d4af37;">Ҳуқуқ-Омодагӣ</a> гузаред.';
+                    } else if (question.includes('китоб') || question.includes('адабиёт')) {
+                        answer = 'Барои китобҳои таърихӣ ва адабии тоҷикӣ, лутфан ба сайти <a href="kitobho.html" style="color: #d4af37;">Китобҳо</a> гузаред.';
+                    }
+                }
+
+                const assistantMessage = document.createElement('div');
+                assistantMessage.className = 'message assistant-message';
+                assistantMessage.innerHTML = answer;
+                chatContainer.appendChild(assistantMessage);
+
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1000);
+        }
+
+        function handleSiteSearch(event) {
+            event.preventDefault();
+            const searchInput = document.getElementById('siteSearchInput');
+            const query = searchInput.value.trim().toLowerCase();
+
+            if (query) {
+                const searchResults = {
+                    'исмоили сомонӣ': 'heroes.html',
+                    'сомониён': 'periods.html',
+                    'давраи сомиён': 'periods.html',
+                    'ҳамлаи муғул': 'events.html',
+                    'Эмомали Раҳмон':'heroes.html',
+                    'чингизхон': 'events.html',
+                    'созишномаи сулҳ': 'events.html',
+                    'истиқлол': 'events.html',
+                    'рудакӣ': 'heroes.html',
+                    'ибни сино': 'heroes.html',
+                    'фирдавсӣ': 'heroes.html',
+                    'таърих': 'periods.html',
+                    'қаҳрамон': 'heroes.html',
+                    'ҳодиса': 'events.html',
+                    'давлат': 'periods.html',
+                    'фарҳанг': 'periods.html',
+                    'адабиёт': 'heroes.html',
+                    'ҳуқуқ': 'thelaw.html',
+                    'олимпиада': 'thelaw.html',
+                    'конститутсия': 'konstitutsia.html',
+                    'қонун': 'thelaw.html',
+                    'президент': 'prezident.html',
+                    'эмомалӣ раҳмон': 'prezident.html',
+                    'раҳмон': 'prezident.html',
+                    'китоб': 'kitobho.html',
+                    'китобҳо': 'kitobho.html',
+                    'адабиёт': 'kitobho.html',
+                    'шеър': 'kitobho.html',
+                    'фарҳанг': 'kitobho.html'
+                };
+
+                let found = false;
+
+                for (const [key, page] of Object.entries(searchResults)) {
+                    if (query.includes(key)) {
+                        window.location.href = page;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    alert('Ҷустуҷӯи Шумо натиҷае надод. Илтимос бо дигар калимаҳо такрор кунед.');
+                }
+            }
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        document.getElementById('siteSearchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                handleSiteSearch(e);
+            }
+        });
+
+        window.onload = function () {
+            const initialQuestions = [
+                'Масоҳати Тоҷикистон чанд аст?',
+                'Аҳолии Тоҷикистон дар соли 2024',
+                'Кӣ исмоили сомонӣ был?',
+                'Барои ҳуқуқӣ чи кор кунем?',
+                'Дар бораи Президент маълумот'
+            ];
+
+            const chatContainer = document.getElementById('chatContainer');
+
+            initialQuestions.forEach((q, index) => {
+                setTimeout(() => {
+                    const message = document.createElement('div');
+                    message.className = 'message assistant-message';
+                    message.style.opacity = '0';
+                    message.style.animation = 'fadeIn 0.5s ease forwards';
+                    message.innerHTML = `<em>Савол: ${q}</em> <br><small>Барои ҷавоб ин саволро нависед</small>`;
+                    chatContainer.appendChild(message);
+                }, index * 800);
+            });
+        }
+    </script>
+</body>
+
+</html>

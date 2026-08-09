@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="tj">
+<head>
+    <meta charset="UTF-8">
+    <title>Давраҳои таърихии Тоҷикистон</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #0c2e24 0%, #1e4d3a 50%, #0c2e24 100%);
+            color: #f8e9c9;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .history-parchment {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="%23d4af37" stroke-width="0.3" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>'),
+                radial-gradient(ellipse at 30% 20%, rgba(180, 150, 50, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(120, 80, 40, 0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(12, 46, 36, 0.8);
+            border-radius: 20px;
+            border: 3px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(45deg, #f8e9c9, #d4af37, #f8e9c9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .back-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .back-button {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #f8e9c9;
+            transition: all 0.4s ease;
+            font-size: 18px;
+            text-align: center;
+        }
+        .back-button:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+        .periods-section {
+            background: rgba(12, 46, 36, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 2px solid #d4af37;
+        }
+        .period-card {
+            background: rgba(12, 46, 36, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        .period-card:hover {
+            transform: translateX(10px);
+            border-color: #d4af37;
+            background: rgba(12, 46, 36, 0.8);
+        }
+        .period-title {
+            font-size: 28px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+        .period-date {
+            color: rgba(248, 233, 201, 0.8);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .period-content {
+            color: rgba(248, 233, 201, 0.9);
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .period-list {
+            list-style: none;
+            padding: 0;
+        }
+        .period-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .period-list li:before {
+            content: "•";
+            color: #d4af37;
+            font-size: 24px;
+            position: absolute;
+            left: 0;
+            top: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            color: rgba(248, 233, 201, 0.6);
+        }
+        @media (max-width: 768px) {
+            .app { padding: 20px 15px; }
+            h1 { font-size: 36px; }
+            .back-menu { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="history-parchment"></div>
+    <div class="app">
+        <div class="header">
+            <h1>Давраҳои таърихии Тоҷикистон</h1>
+            <p class="subtitle">Аз замонҳои бостон то имрӯз</p>
+        </div>
+        
+        <div class="back-menu">
+            <a href="index.html" class="back-button">🏠 Саҳифаи асосӣ</a>
+            <a href="heroes.html" class="back-button">🏛️ Қаҳрамонҳо</a>
+            <a href="events.html" class="back-button">⚔️ Ҳодисаҳо</a>
+            <a href="kitobho.html" class="back-button">📚 Китобҳо</a>
+        </div>
+        
+        <div class="periods-section">
+            <div class="period-card">
+                <div class="period-title">🏛️ Давраи бостон (то асри VII)</div>
+                <div class="period-date">1000 то мелод – 651 мелодӣ</div>
+                <div class="period-content">
+                    Давлатҳои бостонӣ дар сарзамини Тоҷикистон:
+                </div>
+                <ul class="period-list">
+                    <li><strong>Бохтар:</strong> Давлати қадимӣ дар соҳили дарёи Вахш, маркази бузурги буддоӣ</li>
+                    <li><strong>Суғд:</strong> Давлати пешрафта бо шаҳрҳои бузург: Самарқанд, Бухоро, Хуҷанд</li>
+                    <li><strong>Сосониён:</strong> Давлати форс-тоҷик, паҳнкунандаи зардуштия</li>
+                    <li><strong>Кушониён:</strong> Империяи бузург дар Осиёи Марказӣ ва Ҳиндустон</li>
+                </ul>
+            </div>
+            
+            <div class="period-card">
+                <div class="period-title">👑 Давраи Сомониён (819–999)</div>
+                <div class="period-date">819 – 999 мелодӣ</div>
+                <div class="period-content">
+                    Давраи тиллоии таърихи тоҷикон. Асосгузор: Исмоили Сомонӣ.
+                    Пойтахт: Бухоро. Масоҳат: 2.85 млн км².
+                </div>
+                <ul class="period-list">
+                    <li><strong>Асосгузор:</strong> Исмоили Сомонӣ (849-907)</li>
+                    <li><strong>Пойтахт:</strong> Бухоро — маркази илму фарҳанг</li>
+                    <li><strong>Забони расмӣ:</strong> Забони форсӣ-тоҷикӣ</li>
+                    <li><strong>Донишмандон:</strong> Рӯдакӣ, Фирдавсӣ, Ибни Сино, Берунӣ</li>
+                    <li><strong>Поён ёфтан:</strong> Соли 999, ҳамлаи Қарахониён ва Ғазнавиён</li>
+                </ul>
+            </div>
+            
+            <div class="period-card">
+                <div class="period-title">⚔️ Давраи Муғулҳо (1219–1507)</div>
+                <div class="period-date">1219 – 1507 мелодӣ</div>
+                <div class="period-content">
+                    Ҳамлаи муғулҳо ва таъсири он ба Осиёи Марказӣ.
+                </div>
+                <ul class="period-list">
+                    <li><strong>1219-1221:</strong> Ҳамлаи Чингизхон ба Осиёи Марказӣ</li>
+                    <li><strong>1237:</strong> Истилои пурраи Хоразм ва Суғд</li>
+                    <li><strong>1370-1405:</strong> Амир Темур — эҳёи фарҳанг ва меъморӣ</li>
+                    <li><strong>1507:</strong> Поён ёфтани салтанати Темурӣ</li>
+                </ul>
+            </div>
+            
+            <div class="period-card">
+                <div class="period-title">🇷🇺 Давраи Шӯравӣ (1917–1991)</div>
+                <div class="period-date">1917 – 1991 мелодӣ</div>
+                <div class="period-content">
+                    Ташаккули ҶШС Тоҷикистон ва рушди саноат.
+                </div>
+                <ul class="period-list">
+                    <li><strong>1924:</strong> Таъсиси ҶМШС Тоҷикистон</li>
+                    <li><strong>1929:</strong> Табдил ба ҶШС Тоҷикистон</li>
+                    <li><strong>1941-1945:</strong> Ҷанги Бузурги Ватанӣ, саҳми тоҷикон</li>
+                    <li><strong>1991:</strong> Пошхӯрии Иттиҳоди Шӯравӣ</li>
+                </ul>
+            </div>
+            
+            <div class="period-card">
+                <div class="period-title">🇹🇯 Давраи Истиқлолият (1991–то имрӯз)</div>
+                <div class="period-date">1991 – 2024 мелодӣ</div>
+                <div class="period-content">
+                    Тоҷикистони соҳибистиқлол.
+                </div>
+                <ul class="period-list">
+                    <li><strong>9 сентябри 1991:</strong> Эъломияи истиқлолияти давлатӣ</li>
+                    <li><strong>1992-1997:</strong> Ҷанги шаҳрвандӣ</li>
+                    <li><strong>27 июни 1997:</strong> Созишномаи сулҳ</li>
+                    <li><strong>2000-2024:</strong> Рушди босуръати иқтисод ва инфрасохтор</li>
+                </ul>
+            </div>
+            
+            <div class="period-card">
+                <div class="period-title">⚔️ Давраи Темуриён (1370–1507)</div>
+                <div class="period-date">1370–1507 мелодӣ</div>
+                <div class="period-content">
+                    Давлати Темуриён яке аз давлатҳои пурқудрати Осиёи Марказӣ буд.
+                    Асосгузори он Амир Темур мебошад.
+                </div>
+                <ul class="period-list">
+                    <li><strong>Амир Темур:</strong> Асосгузори давлати Темуриён</li>
+                    <li><strong>Самарқанд:</strong> Пойтахти давлат ва маркази илм</li>
+                    <li><strong>Улуғбек:</strong> Олими машҳур ва ситорашинос</li>
+                    <li><strong>Мадрасаҳо:</strong> Дар ин давра илм ва фарҳанг рушд кард</li>
+                </ul>
+            </div>
+
+            <div class="period-card">
+                <div class="period-title">👑 Давраи Ғазнавиён (977–1186)</div>
+                <div class="period-date">977–1186 мелодӣ</div>
+                <div class="period-content">
+                    Давлати Ғазнавиён аз давлатҳои машҳури форсу тоҷик буд.
+                </div>
+                <ul class="period-list">
+                    <li><strong>Султон Маҳмуди Ғазнавӣ:</strong> Ҳокими машҳури давлат</li>
+                    <li><strong>Ғазна:</strong> Пойтахти давлат</li>
+                    <li><strong>Фирдавсӣ:</strong> Шоири машҳур дар ҳамин давра зиндагӣ мекард</li>
+                    <li><strong>Лашкаркашӣ:</strong> Ба Ҳиндустон бисёр юришҳо анҷом дода шуд</li>
+                </ul>
+            </div>
+
+            <div class="period-card">
+                <div class="period-title">🏛️ Давраи Тоҳириён (821–873)</div>
+                <div class="period-date">821–873 мелодӣ</div>
+                <div class="period-content">
+                    Тоҳириён аввалин давлати мустақили форсизабон баъди арабҳо буданд.
+                </div>
+                <ul class="period-list">
+                    <li><strong>Тоҳир ибни Ҳусайн:</strong> Асосгузори давлат</li>
+                    <li><strong>Нишопур:</strong> Маркази давлат</li>
+                    <li><strong>Истиқлол:</strong> Аз хилофати араб қисман мустақил шуданд</li>
+                    <li><strong>Фарҳанг:</strong> Забони форсӣ рушд кард</li>
+                </ul>
+            </div>
+
+            <div class="period-card">
+                <div class="period-title">📚 Давраи Салҷуқиён (1037–1194)</div>
+                <div class="period-date">1037–1194 мелодӣ</div>
+                <div class="period-content">
+                    Салҷуқиён давлати бузурги мусулмонӣ дар Осиё буданд.
+                </div>
+                <ul class="period-list">
+                    <li><strong>Туғрулбек:</strong> Асосгузори давлат</li>
+                    <li><strong>Низомулмулк:</strong> Сиёсатмадори машҳур</li>
+                    <li><strong>Мадрасаҳои Низомия:</strong> Марказҳои илмӣ</li>
+                    <li><strong>Илм:</strong> Илм ва фарҳанг пешрафт кард</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Маркази таърихии Тоҷикистон | Давраҳои таърихӣ</p>
+            <p>Ҳамаи ҳуқуқҳо ҳифз шудаанд</p>
+        </div>
+    </div>
+</body>
+</html>
