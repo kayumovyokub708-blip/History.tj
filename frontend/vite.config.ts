@@ -4,6 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/History.tj/',   // Important for GitHub Pages project site
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
