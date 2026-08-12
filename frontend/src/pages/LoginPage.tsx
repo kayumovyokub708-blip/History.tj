@@ -1,42 +1,29 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-export default function AdminLoginPage() {
-  const [email, setEmail] = useState("admin@histori.tj")
-  const [password, setPassword] = useState("admin123")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+export default function LoginPage() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
-    setLoading(true)
-    await new Promise((r) => setTimeout(r, 500))
-
-    if (
-      (email === "admin@histori.tj" || email === "admin@history.tj") &&
-      password === "admin123"
-    ) {
-      localStorage.setItem("admin_token", "demo-admin-token")
-      navigate("/admin")
-    } else {
-      setError("Email ё password нодуруст")
-    }
-    setLoading(false)
+    // Placeholder — real auth in next sprint
+    alert("Auth will be connected in the next step (Backend + Google OAuth)")
+    navigate("/")
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-[70vh] flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="text-2xl font-bold mb-2">
             <span className="text-primary">Histori</span>.tj
           </div>
-          <CardTitle>Admin Login</CardTitle>
-          <CardDescription>Manage the platform</CardDescription>
+          <CardTitle>Sign in</CardTitle>
+          <CardDescription>Continue learning history</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -60,17 +47,29 @@ export default function AdminLoginPage() {
                 required
               />
             </div>
-            {error && (
-              <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
-                {error}
-              </div>
-            )}
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Login"}
+            <Button type="submit" className="w-full">
+              Sign in
             </Button>
           </form>
-          <p className="text-xs text-muted text-center mt-6">
-            Demo: admin@histori.tj / admin123
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-card px-2 text-muted">or</span>
+            </div>
+          </div>
+
+          <Button variant="secondary" className="w-full" type="button">
+            Continue with Google
+          </Button>
+
+          <p className="text-center text-sm text-muted mt-6">
+            No account?{" "}
+            <Link to="/register" className="text-primary hover:underline">
+              Register
+            </Link>
           </p>
         </CardContent>
       </Card>

@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { StatCard } from "@/components/ui/stat-card"
 import { cn } from "@/lib/utils"
 
-const featuredCourses = [
-  { title: "History of Tajikistan", category: "National", lessons: 18 },
-  { title: "Ancient Civilizations", category: "World", lessons: 12 },
-  { title: "Samanid Empire", category: "Medieval", lessons: 9 },
-  { title: "Modern Tajikistan", category: "Contemporary", lessons: 14 },
+const featuredPeople = [
+  { name: "Исмоили Сомонӣ", period: "849–907", role: "Асосгузори давлати Сомониён" },
+  { name: "Рӯдакӣ", period: "858–941", role: "Шоири бузурги форсӣ" },
+  { name: "Ибни Сино", period: "980–1037", role: "Донишманд ва табиб" },
+  { name: "Фирдавсӣ", period: "940–1020", role: "Муаллифи Шоҳнома" },
 ]
 
 const leaders = [
@@ -26,29 +26,24 @@ export default function HomePage() {
       {/* Hero */}
       <section className="text-center space-y-6 mb-16">
         <Badge variant="secondary" className="mb-2">
-          Educational Platform
+          Платформаи таърихӣ
         </Badge>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
           Таърихро омӯз.
           <br />
-          <span className="text-primary">Донишатро санҷ.</span>
+          <span className="text-primary">Гузаштаро кашф кун.</span>
           <br />
-          Қаҳрамони олимпиада шав.
+          Меросаро нигоҳ дор.
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Learn → Practice → Compete → Win
+          Платформаи рақамӣ барои омӯзиш, кашф ва нигоҳдории
+          таърихи Тоҷикистон ва Осиёи Марказӣ
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-          <Link
-            to="/courses"
-            className={cn(buttonVariants({ size: "lg" }))}
-          >
-            Start Learning
+          <Link to="/encyclopedia" className={cn(buttonVariants({ size: "lg" }))}>
+            Encyclopedia
           </Link>
-          <Link
-            to="/quizzes"
-            className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
-          >
+          <Link to="/quiz" className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}>
             Take a Quiz
           </Link>
         </div>
@@ -56,41 +51,41 @@ export default function HomePage() {
 
       {/* Stats */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-16">
-        <StatCard value="10,000+" label="Students" />
-        <StatCard value="250+" label="Courses" />
-        <StatCard value="5,000+" label="Questions" />
-        <StatCard value="120+" label="Olympiad Participants" />
+        <StatCard value="540+" label="Historical Figures" />
+        <StatCard value="830+" label="Events" />
+        <StatCard value="1,240+" label="Articles" />
+        <StatCard value="5,200+" label="Quiz Questions" />
       </section>
 
-      {/* Featured Courses */}
+      {/* Featured People */}
       <section className="mb-16">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Featured Courses</h2>
-          <Link to="/courses" className="text-sm text-primary hover:underline">
+          <h2 className="text-2xl font-bold">👑 Historical Figures</h2>
+          <Link to="/encyclopedia" className="text-sm text-primary hover:underline">
             View all →
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featuredCourses.map((course) => (
-            <Card key={course.title} className="hover:border-primary/40 transition-colors cursor-pointer group">
-              <div className="h-36 bg-surface rounded-t-xl flex items-center justify-center text-muted group-hover:bg-surface/80 transition">
-                <span className="text-4xl opacity-40">📚</span>
+          {featuredPeople.map((person) => (
+            <Card key={person.name} className="hover:border-primary/40 transition-colors cursor-pointer group">
+              <div className="h-36 bg-surface rounded-t-xl flex items-center justify-center">
+                <span className="text-4xl opacity-40">👤</span>
               </div>
               <CardHeader className="pb-2">
-                <div className="text-xs text-primary font-medium">{course.category}</div>
-                <CardTitle className="text-base">{course.title}</CardTitle>
+                <div className="text-xs text-primary font-medium">{person.period}</div>
+                <CardTitle className="text-base">{person.name}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted">{course.lessons} lessons</p>
+                <p className="text-sm text-muted">{person.role}</p>
               </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* Two column: Daily Quiz + Upcoming Olympiad */}
+      {/* Two column */}
       <section className="grid md:grid-cols-2 gap-6 mb-16">
-        <Card className="overflow-hidden">
+        <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
               <span className="text-xl">🔥</span>
@@ -101,27 +96,26 @@ export default function HomePage() {
             <p className="text-muted-foreground">10 Questions · 5 min</p>
             <div className="flex items-center justify-between">
               <Badge>+100 XP</Badge>
-              <Link to="/quizzes" className={cn(buttonVariants())}>
+              <Link to="/quiz" className={cn(buttonVariants())}>
                 Start
               </Link>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden">
+        <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <span className="text-xl">🏆</span>
-              <CardTitle>National History Olympiad</CardTitle>
+              <span className="text-xl">🗺️</span>
+              <CardTitle>Interactive Map</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-              <span>Starts: <strong className="text-white">12 August</strong></span>
-              <span>Participants: <strong className="text-white">1,248</strong></span>
-            </div>
-            <Link to="/olympiads" className={cn(buttonVariants({ variant: "secondary" }))}>
-              View Olympiad
+            <p className="text-muted-foreground">
+              Explore historical places, battles and ancient cities
+            </p>
+            <Link to="/map" className={cn(buttonVariants({ variant: "secondary" }))}>
+              Open Map
             </Link>
           </CardContent>
         </Card>
@@ -130,7 +124,7 @@ export default function HomePage() {
       {/* Leaderboard Preview */}
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Leaderboard</h2>
+          <h2 className="text-2xl font-bold">🏆 Leaderboard</h2>
           <Link to="/leaderboard" className="text-sm text-primary hover:underline">
             Full ranking →
           </Link>

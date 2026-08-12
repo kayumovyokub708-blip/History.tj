@@ -2,12 +2,14 @@ import { HashRouter, Routes, Route } from "react-router-dom"
 import RootLayout from "./layouts/RootLayout"
 import AdminLayout from "./layouts/AdminLayout"
 import HomePage from "./pages/HomePage"
+import EncyclopediaPage from "./pages/EncyclopediaPage"
+import TimelinePage from "./pages/TimelinePage"
+import MapPage from "./pages/MapPage"
 import CoursesPage from "./pages/CoursesPage"
-import CountriesPage from "./pages/CountriesPage"
-import ResourcesPage from "./pages/ResourcesPage"
 import QuizzesPage from "./pages/QuizzesPage"
-import OlympiadsPage from "./pages/OlympiadsPage"
 import LeaderboardPage from "./pages/LeaderboardPage"
+import ProfilePage from "./pages/ProfilePage"
+import LoginPage from "./pages/LoginPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import AdminLoginPage from "./pages/admin/LoginPage"
 import AdminDashboardPage from "./pages/admin/DashboardPage"
@@ -22,18 +24,18 @@ function App() {
   return (
     <HashRouter>
       <Routes>
-        {/* Public site */}
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/encyclopedia" element={<EncyclopediaPage />} />
+          <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/quiz" element={<QuizzesPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/countries" element={<CountriesPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
-          <Route path="/quizzes" element={<QuizzesPage />} />
-          <Route path="/olympiads" element={<OlympiadsPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Route>
 
-        {/* Admin */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="login" element={<AdminLoginPage />} />
           <Route index element={<AdminDashboardPage />} />
