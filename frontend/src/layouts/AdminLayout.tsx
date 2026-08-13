@@ -10,7 +10,7 @@ const adminNav = [
   { path: "/admin/articles", label: "Articles", icon: "📝" },
   { path: "/admin/courses", label: "Courses", icon: "📚" },
   { path: "/admin/quizzes", label: "Quizzes", icon: "❓" },
-  { path: "/admin/olympiads", label: "Olympiads", icon: "🏆" },
+  { path: "/admin/expeditions", label: "Expeditions", icon: "🧭" },
   { path: "/admin/resources", label: "Resources", icon: "🗂️" },
   { path: "/admin/settings", label: "Settings", icon: "⚙️" },
 ]

@@ -7,6 +7,7 @@ import TimelinePage from "./pages/TimelinePage"
 import MapPage from "./pages/MapPage"
 import CoursesPage from "./pages/CoursesPage"
 import QuizzesPage from "./pages/QuizzesPage"
+import ExpeditionsPage from "./pages/ExpeditionsPage"
 import LeaderboardPage from "./pages/LeaderboardPage"
 import ProfilePage from "./pages/ProfilePage"
 import LoginPage from "./pages/LoginPage"
@@ -16,7 +17,7 @@ import AdminDashboardPage from "./pages/admin/DashboardPage"
 import AdminUsersPage from "./pages/admin/UsersPage"
 import AdminCoursesPage from "./pages/admin/CoursesPage"
 import AdminQuizzesPage from "./pages/admin/QuizzesPage"
-import AdminOlympiadsPage from "./pages/admin/OlympiadsPage"
+import AdminExpeditionsPage from "./pages/admin/ExpeditionsPage"
 import AdminResourcesPage from "./pages/admin/ResourcesPage"
 import AdminSettingsPage from "./pages/admin/SettingsPage"
 
@@ -29,8 +30,9 @@ function App() {
           <Route path="/encyclopedia" element={<EncyclopediaPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/map" element={<MapPage />} />
-          <Route path="/quiz" element={<QuizzesPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/quiz" element={<QuizzesPage />} />
+          <Route path="/expeditions" element={<ExpeditionsPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -42,7 +44,7 @@ function App() {
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="courses" element={<AdminCoursesPage />} />
           <Route path="quizzes" element={<AdminQuizzesPage />} />
-          <Route path="olympiads" element={<AdminOlympiadsPage />} />
+          <Route path="expeditions" element={<AdminExpeditionsPage />} />
           <Route path="resources" element={<AdminResourcesPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>

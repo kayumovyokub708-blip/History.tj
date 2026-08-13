@@ -7,8 +7,9 @@ const navItems = [
   { path: "/encyclopedia", label: "Encyclopedia" },
   { path: "/timeline", label: "Timeline" },
   { path: "/map", label: "Map" },
-  { path: "/quiz", label: "Quiz" },
   { path: "/courses", label: "Courses" },
+  { path: "/quiz", label: "Quiz" },
+  { path: "/expeditions", label: "Expeditions" },
   { path: "/leaderboard", label: "Leaderboard" },
 ]
 
@@ -20,7 +21,6 @@ export default function RootLayout() {
       <header className="border-b border-border bg-surface/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0">
               <span className="text-xl sm:text-2xl font-bold tracking-tight">
                 <span className="text-primary">Histori</span>
@@ -28,7 +28,6 @@ export default function RootLayout() {
               </span>
             </Link>
 
-            {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-0.5">
               {navItems.map((item) => (
                 <Link
@@ -46,7 +45,6 @@ export default function RootLayout() {
               ))}
             </nav>
 
-            {/* Right side */}
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 className="relative p-2 rounded-md text-muted-foreground hover:text-white hover:bg-card/60 transition"
@@ -83,7 +81,6 @@ export default function RootLayout() {
           </div>
         </div>
 
-        {/* Mobile nav */}
         <div className="lg:hidden border-t border-border overflow-x-auto">
           <div className="flex gap-1 px-4 py-2">
             {navItems.map((item) => (
@@ -116,8 +113,8 @@ export default function RootLayout() {
           </div>
           <div className="flex gap-4">
             <Link to="/encyclopedia" className="hover:text-white transition">Encyclopedia</Link>
+            <Link to="/expeditions" className="hover:text-white transition">Expeditions</Link>
             <Link to="/quiz" className="hover:text-white transition">Quiz</Link>
-            <Link to="/courses" className="hover:text-white transition">Courses</Link>
             <Link to="/admin/login" className="hover:text-white transition">Admin</Link>
           </div>
         </div>

@@ -6,7 +6,7 @@ const recentActivity = [
   { action: "User registered", detail: "abdu...@gmail.com", time: "2 min ago" },
   { action: "Quiz created", detail: "Samanid Empire Quiz", time: "15 min ago" },
   { action: "Course published", detail: "History of Tajikistan", time: "1 hour ago" },
-  { action: "Olympiad started", detail: "National History Olympiad", time: "3 hours ago" },
+  { action: "Expedition drafted", detail: "The Lost Manuscript", time: "3 hours ago" },
   { action: "Question edited", detail: "Q #124 in Daily Quiz", time: "5 hours ago" },
 ]
 
@@ -15,21 +15,19 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       <div>
         <h2 className="text-2xl font-bold">Dashboard</h2>
-        <p className="text-muted">Overview of the platform</p>
+        <p className="text-muted">Overview of Histori.tj</p>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <StatCard value="9,704" label="Users" />
         <StatCard value="82" label="Courses" />
         <StatCard value="341" label="Quizzes" />
         <StatCard value="5,210" label="Questions" />
-        <StatCard value="12" label="Olympiads" />
-        <StatCard value="87" label="Duels Today" />
+        <StatCard value="2" label="Expeditions" />
+        <StatCard value="540" label="People" />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Recent Activity */}
         <Card>
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
@@ -49,48 +47,46 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
         <Card>
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <a
-              href="/admin/courses"
+              href="/#/admin/courses"
               className="block p-4 rounded-lg bg-surface border border-border hover:border-primary/40 transition"
             >
               <div className="font-medium">+ Create Course</div>
               <div className="text-sm text-muted">Add a new learning path</div>
             </a>
             <a
-              href="/admin/quizzes"
+              href="/#/admin/quizzes"
               className="block p-4 rounded-lg bg-surface border border-border hover:border-primary/40 transition"
             >
               <div className="font-medium">+ Create Quiz</div>
               <div className="text-sm text-muted">Add questions and options</div>
             </a>
             <a
-              href="/admin/olympiads"
+              href="/#/admin/expeditions"
               className="block p-4 rounded-lg bg-surface border border-border hover:border-primary/40 transition"
             >
-              <div className="font-medium">+ Create Olympiad</div>
-              <div className="text-sm text-muted">Schedule a competition</div>
+              <div className="font-medium">+ Create Expedition</div>
+              <div className="text-sm text-muted">Missions, map & timeline challenges</div>
             </a>
           </CardContent>
         </Card>
       </div>
 
-      {/* System status */}
       <Card>
         <CardHeader>
           <CardTitle>System Status</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Badge variant="success">API Online</Badge>
-            <Badge variant="success">Database Connected</Badge>
+            <Badge variant="success">Frontend Online</Badge>
             <Badge variant="secondary">Auth: Demo Mode</Badge>
-            <Badge variant="warning">Backend not fully connected yet</Badge>
+            <Badge variant="warning">Backend not fully connected</Badge>
+            <Badge variant="outline">Expeditions: V2.0</Badge>
           </div>
         </CardContent>
       </Card>
