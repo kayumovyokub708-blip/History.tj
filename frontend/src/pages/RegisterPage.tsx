@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { useAuth } from "@/context/AuthContext"
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirm, setConfirm] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const { login, user } = useAuth()
+  const { register, user } = useAuth()
   const navigate = useNavigate()
 
   if (user) {
@@ -19,8 +21,12 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    if (password !== confirm) {
+      setError("Passwordҳо мувофиқат надоранд")
+      return
+    }
     setLoading(true)
-    const res = await login(email.trim(), password)
+    const res = await register(name.trim(), email.trim(), password)
     setLoading(false)
     if (res.ok) navigate("/profile")
     else setError(res.error || "Error")
@@ -33,11 +39,23 @@ export default function LoginPage() {
           <div className="text-2xl font-bold mb-2">
             <span className="text-primary">Histori</span>.tj
           </div>
-          <CardTitle>Sign in</CardTitle>
-          <CardDescription>Ба ҳисоби худ ворид шавед</CardDescription>
+          <CardTitle>Register</CardTitle>
+          <CardDescription>Ҳисоби нав созед ва омӯзишро оғоз кунед</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1.5">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                placeholder="Номи шумо"
+                required
+                minLength={2}
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium mb-1.5">Email</label>
               <input
@@ -57,6 +75,17 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
                 required
+                minLength={6}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1.5">Confirm password</label>
+              <input
+                type="password"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                required
               />
             </div>
 
@@ -67,32 +96,14 @@ export default function LoginPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Creating account..." : "Create account"}
             </Button>
           </form>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-card px-2 text-muted">or</span>
-            </div>
-          </div>
-
-          <Button
-            variant="secondary"
-            className="w-full"
-            type="button"
-            onClick={() => alert("Google OAuth дар қадами баъдӣ (ба backend) пайваст мешавад")}
-          >
-            Continue with Google
-          </Button>
-
           <p className="text-center text-sm text-muted mt-6">
-            Ҳисоб надоред?{" "}
-            <Link to="/register" className="text-primary hover:underline">
-              Register
+            Аллакай ҳисоб доред?{" "}
+            <Link to="/login" className="text-primary hover:underline">
+              Sign in
             </Link>
           </p>
         </CardContent>

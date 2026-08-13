@@ -1,6 +1,8 @@
 import { Outlet, Link, useLocation } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Avatar } from "@/components/ui/avatar"
+import { useAuth } from "@/context/AuthContext"
 
 const navItems = [
   { path: "/", label: "Home" },
@@ -15,6 +17,7 @@ const navItems = [
 
 export default function RootLayout() {
   const location = useLocation()
+  const { user, logout } = useAuth()
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -61,18 +64,33 @@ export default function RootLayout() {
                 <span className="text-xs font-medium">TJ</span>
               </button>
 
-              <Link
-                to="/profile"
-                className="hidden sm:flex items-center gap-2 px-2 py-1.5 rounded-md text-sm text-muted-foreground hover:text-white hover:bg-card/60 transition"
-              >
-                Profile
-              </Link>
-
-              <Link to="/login">
-                <Button size="sm" className="hidden sm:inline-flex">
-                  Sign in
-                </Button>
-              </Link>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/profile"
+                    className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-card/60 transition"
+                  >
+                    <Avatar fallback={user.name} size="sm" />
+                    <span className="hidden sm:inline text-sm font-medium max-w-[100px] truncate">
+                      {user.name}
+                    </span>
+                  </Link>
+                  <Button size="sm" variant="ghost" onClick={logout} className="hidden sm:inline-flex">
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <Link to="/login" className="hidden sm:block">
+                    <Button size="sm" variant="ghost">
+                      Sign in
+                    </Button>
+                  </Link>
+                  <Link to="/register">
+                    <Button size="sm">Register</Button>
+                  </Link>
+                </>
+              )}
 
               <button className="lg:hidden p-2 rounded-md text-muted-foreground hover:text-white">
                 ☰
