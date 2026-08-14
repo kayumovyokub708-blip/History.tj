@@ -11,6 +11,7 @@ class User(Base):
     google_id: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True, index=True)
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
+    hashed_password: Mapped[str | None] = mapped_column(String(255), nullable=True)
     avatar: Mapped[str | None] = mapped_column(String(512), nullable=True)
     username: Mapped[str | None] = mapped_column(String(100), unique=True, nullable=True)
     country: Mapped[str | None] = mapped_column(String(100), nullable=True, default="Tajikistan")

@@ -3,10 +3,13 @@ import RootLayout from "./layouts/RootLayout"
 import AdminLayout from "./layouts/AdminLayout"
 import HomePage from "./pages/HomePage"
 import EncyclopediaPage from "./pages/EncyclopediaPage"
+import PeoplePage from "./pages/PeoplePage"
+import PersonPage from "./pages/PersonPage"
 import TimelinePage from "./pages/TimelinePage"
 import MapPage from "./pages/MapPage"
 import CoursesPage from "./pages/CoursesPage"
 import QuizzesPage from "./pages/QuizzesPage"
+import QuizPlayPage from "./pages/QuizPlayPage"
 import ExpeditionsPage from "./pages/ExpeditionsPage"
 import LeaderboardPage from "./pages/LeaderboardPage"
 import ProfilePage from "./pages/ProfilePage"
@@ -16,6 +19,7 @@ import NotFoundPage from "./pages/NotFoundPage"
 import AdminLoginPage from "./pages/admin/LoginPage"
 import AdminDashboardPage from "./pages/admin/DashboardPage"
 import AdminUsersPage from "./pages/admin/UsersPage"
+import AdminPeoplePage from "./pages/admin/PeoplePage"
 import AdminCoursesPage from "./pages/admin/CoursesPage"
 import AdminQuizzesPage from "./pages/admin/QuizzesPage"
 import AdminExpeditionsPage from "./pages/admin/ExpeditionsPage"
@@ -29,10 +33,13 @@ function App() {
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/encyclopedia" element={<EncyclopediaPage />} />
+          <Route path="/encyclopedia/people" element={<PeoplePage />} />
+          <Route path="/encyclopedia/people/:slug" element={<PersonPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/quiz" element={<QuizzesPage />} />
+          <Route path="/quiz/:slug" element={<QuizPlayPage />} />
           <Route path="/expeditions" element={<ExpeditionsPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
@@ -44,6 +51,7 @@ function App() {
           <Route path="login" element={<AdminLoginPage />} />
           <Route index element={<AdminDashboardPage />} />
           <Route path="users" element={<AdminUsersPage />} />
+          <Route path="people" element={<AdminPeoplePage />} />
           <Route path="courses" element={<AdminCoursesPage />} />
           <Route path="quizzes" element={<AdminQuizzesPage />} />
           <Route path="expeditions" element={<AdminExpeditionsPage />} />

@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 const categories = [
-  { path: "/encyclopedia/people", icon: "👑", title: "Шахсиятҳо", titleEn: "People", count: "540+" },
-  { path: "/encyclopedia/events", icon: "⚔️", title: "Воқеаҳо", titleEn: "Events", count: "830+" },
-  { path: "/encyclopedia/places", icon: "🏛️", title: "Ҷойҳо", titleEn: "Places", count: "320+" },
-  { path: "/encyclopedia/periods", icon: "📅", title: "Давраҳо", titleEn: "Periods", count: "45+" },
-  { path: "/encyclopedia/dynasties", icon: "👨‍👩‍👧", title: "Сулолаҳо", titleEn: "Dynasties", count: "60+" },
-  { path: "/encyclopedia/battles", icon: "🗡️", title: "Ҷангҳо", titleEn: "Battles", count: "180+" },
+  { path: "/encyclopedia/people", icon: "👑", title: "Шахсиятҳо", titleEn: "People", count: "6+", ready: true },
+  { path: "/encyclopedia/events", icon: "⚔️", title: "Воқеаҳо", titleEn: "Events", count: "soon", ready: false },
+  { path: "/encyclopedia/places", icon: "🏛️", title: "Ҷойҳо", titleEn: "Places", count: "soon", ready: false },
+  { path: "/encyclopedia/periods", icon: "📅", title: "Давраҳо", titleEn: "Periods", count: "soon", ready: false },
+  { path: "/encyclopedia/dynasties", icon: "👨‍👩‍👧", title: "Сулолаҳо", titleEn: "Dynasties", count: "soon", ready: false },
+  { path: "/encyclopedia/battles", icon: "🗡️", title: "Ҷангҳо", titleEn: "Battles", count: "soon", ready: false },
 ]
 
 export default function EncyclopediaPage() {
@@ -23,8 +23,12 @@ export default function EncyclopediaPage() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {categories.map((cat) => (
-          <Link key={cat.path} to={cat.path}>
-            <Card className="hover:border-primary/40 transition cursor-pointer h-full">
+          <Link key={cat.path} to={cat.ready ? cat.path : "#"}>
+            <Card
+              className={`h-full transition ${
+                cat.ready ? "hover:border-primary/40 cursor-pointer" : "opacity-60"
+              }`}
+            >
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <span className="text-3xl">{cat.icon}</span>
@@ -35,7 +39,7 @@ export default function EncyclopediaPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <Badge variant="secondary">{cat.count}</Badge>
+                <Badge variant={cat.ready ? "success" : "secondary"}>{cat.count}</Badge>
               </CardContent>
             </Card>
           </Link>
