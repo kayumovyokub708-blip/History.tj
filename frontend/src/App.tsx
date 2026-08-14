@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage"
 import EncyclopediaPage from "./pages/EncyclopediaPage"
 import PeoplePage from "./pages/PeoplePage"
 import PersonPage from "./pages/PersonPage"
+import EventsPage from "./pages/EventsPage"
+import EventPage from "./pages/EventPage"
 import TimelinePage from "./pages/TimelinePage"
 import MapPage from "./pages/MapPage"
 import CoursesPage from "./pages/CoursesPage"
@@ -20,6 +22,7 @@ import AdminLoginPage from "./pages/admin/LoginPage"
 import AdminDashboardPage from "./pages/admin/DashboardPage"
 import AdminUsersPage from "./pages/admin/UsersPage"
 import AdminPeoplePage from "./pages/admin/PeoplePage"
+import AdminEventsPage from "./pages/admin/EventsPage"
 import AdminCoursesPage from "./pages/admin/CoursesPage"
 import AdminQuizzesPage from "./pages/admin/QuizzesPage"
 import AdminExpeditionsPage from "./pages/admin/ExpeditionsPage"
@@ -35,6 +38,8 @@ function App() {
           <Route path="/encyclopedia" element={<EncyclopediaPage />} />
           <Route path="/encyclopedia/people" element={<PeoplePage />} />
           <Route path="/encyclopedia/people/:slug" element={<PersonPage />} />
+          <Route path="/encyclopedia/events" element={<EventsPage />} />
+          <Route path="/encyclopedia/events/:slug" element={<EventPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/courses" element={<CoursesPage />} />
@@ -52,6 +57,7 @@ function App() {
           <Route index element={<AdminDashboardPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="people" element={<AdminPeoplePage />} />
+          <Route path="events" element={<AdminEventsPage />} />
           <Route path="courses" element={<AdminCoursesPage />} />
           <Route path="quizzes" element={<AdminQuizzesPage />} />
           <Route path="expeditions" element={<AdminExpeditionsPage />} />

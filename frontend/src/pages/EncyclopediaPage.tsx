@@ -3,8 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 const categories = [
-  { path: "/encyclopedia/people", icon: "👑", title: "Шахсиятҳо", titleEn: "People", count: "6+", ready: true },
-  { path: "/encyclopedia/events", icon: "⚔️", title: "Воқеаҳо", titleEn: "Events", count: "soon", ready: false },
+  { path: "/encyclopedia/people", icon: "👑", title: "Шахсиятҳо", titleEn: "People", count: "6", ready: true },
+  { path: "/encyclopedia/events", icon: "⚔️", title: "Воқеаҳо", titleEn: "Events", count: "6", ready: true },
   { path: "/encyclopedia/places", icon: "🏛️", title: "Ҷойҳо", titleEn: "Places", count: "soon", ready: false },
   { path: "/encyclopedia/periods", icon: "📅", title: "Давраҳо", titleEn: "Periods", count: "soon", ready: false },
   { path: "/encyclopedia/dynasties", icon: "👨‍👩‍👧", title: "Сулолаҳо", titleEn: "Dynasties", count: "soon", ready: false },
