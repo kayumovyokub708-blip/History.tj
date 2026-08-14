@@ -4,13 +4,22 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
+url = settings.DATABASE_URL
+
+# Neon / managed Postgres often needs SSL
 connect_args = {}
-if settings.DATABASE_URL.startswith("sqlite"):
+if url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
+elif url.startswith("postgres"):
+    # Neon requires SSL; if not in URL, enable it
+    if "sslmode" not in url:
+        connect_args = {"sslmode": "require"}
 
 engine = create_engine(
-    settings.DATABASE_URL,
+    url,
     pool_pre_ping=True,
+    pool_size=5,
+    max_overflow=10,
     connect_args=connect_args,
 )
 

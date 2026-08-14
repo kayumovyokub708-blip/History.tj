@@ -3,7 +3,8 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    # SQLite by default for easy start; set DATABASE_URL for Postgres (Neon/Render)
+    # Default SQLite for local demo.
+    # Production: set DATABASE_URL to Neon connection string.
     DATABASE_URL: str = "sqlite:///./histori.db"
     SECRET_KEY: str = "histori-tj-change-me-in-production-use-long-random-string"
     ALGORITHM: str = "HS256"
