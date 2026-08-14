@@ -32,6 +32,9 @@ jobs:
 
       - name: Build
         working-directory: frontend
+        env:
+          GITHUB_PAGES: "true"
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: npm run build
 
       - name: Copy 404.html for SPA fallback
