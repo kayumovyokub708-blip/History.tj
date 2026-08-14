@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: histori-tj-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ENVIRONMENT
+        value: production
+      - key: FRONTEND_URL
+        value: https://kayumovyokub708-blip.github.io
+      - key: ADMIN_EMAIL
+        value: admin@histori.tj
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: histori-tj-db
+          property: connectionString
+
+databases:
+  - name: histori-tj-db
+    plan: free

@@ -3,14 +3,18 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql://history:history_secret@localhost:5432/history_tj"
-    SECRET_KEY: str = "change-this-in-production"
+    # SQLite by default for easy start; set DATABASE_URL for Postgres (Neon/Render)
+    DATABASE_URL: str = "sqlite:///./histori.db"
+    SECRET_KEY: str = "histori-tj-change-me-in-production-use-long-random-string"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
-    FRONTEND_URL: str = "http://localhost:5173"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
+    FRONTEND_URL: str = "https://kayumovyokub708-blip.github.io"
     GOOGLE_CLIENT_ID: str = ""
     GOOGLE_CLIENT_SECRET: str = ""
     ENVIRONMENT: str = "development"
+    ADMIN_EMAIL: str = "admin@histori.tj"
+    ADMIN_PASSWORD: str = "admin123"
+    ADMIN_NAME: str = "Admin"
 
     class Config:
         env_file = ".env"

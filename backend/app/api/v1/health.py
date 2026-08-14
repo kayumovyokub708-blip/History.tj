@@ -4,5 +4,5 @@ router = APIRouter()
 
 
 @router.get("/health")
-def health_check():
-    return {"status": "ok", "service": "history-tj-api"}
+def health():
+    return {"status": "ok", "service": "histori-tj-api"}

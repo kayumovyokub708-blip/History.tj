@@ -1,17 +1,106 @@
-import axios from "axios"
+const API_BASE =
+  (import.meta as any).env?.VITE_API_URL ||
+  localStorage.getItem("histori_api_url") ||
+  ""
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
-  withCredentials: true,
-  headers: {
+export function getApiBase(): string {
+  return API_BASE.replace(/\/$/, "")
+}
+
+export function setApiBase(url: string) {
+  localStorage.setItem("histori_api_url", url.replace(/\/$/, ""))
+}
+
+export async function apiFetch<T>(
+  path: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const base = getApiBase()
+  if (!base) {
+    throw new Error("API URL not configured")
+  }
+
+  const token = localStorage.getItem("histori_token")
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-  },
-})
+    ...(options.headers as Record<string, string>),
+  }
+  if (token) headers["Authorization"] = `Bearer ${token}`
 
-export default api
+  const res = await fetch(`${base}${path}`, {
+    ...options,
+    headers,
+  })
 
-// Health check
-export const checkHealth = async () => {
-  const res = await api.get("/health")
-  return res.data
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    const detail = (data as any)?.detail
+    const msg =
+      typeof detail === "string"
+        ? detail
+        : Array.isArray(detail)
+        ? detail.map((d: any) => d.msg).join(", ")
+        : res.statusText || "Request failed"
+    throw new Error(msg)
+  }
+  return data as T
+}
+
+export interface AuthResponse {
+  access_token: string
+  token_type: string
+  user: {
+    id: string
+    email: string
+    name: string
+    xp?: number
+    level?: number
+    role?: string
+  }
+}
+
+export async function apiRegister(
+  name: string,
+  email: string,
+  password: string
+): Promise<AuthResponse> {
+  return apiFetch("/api/v1/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ name, email, password }),
+  })
+}
+
+export async function apiLogin(
+  email: string,
+  password: string
+): Promise<AuthResponse> {
+  return apiFetch("/api/v1/auth/login/json", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  })
+}
+
+export async function apiAdminLogin(
+  email: string,
+  password: string
+): Promise<AuthResponse> {
+  return apiFetch("/api/v1/auth/admin/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  })
+}
+
+export async function apiMe() {
+  return apiFetch("/api/v1/auth/me")
+}
+
+export async function apiHealth(): Promise<boolean> {
+  try {
+    const base = getApiBase()
+    if (!base) return false
+    const res = await fetch(`${base}/api/v1/health`, { method: "GET" })
+    return res.ok
+  } catch {
+    return false
+  }
 }
