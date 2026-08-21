@@ -19,12 +19,13 @@ export const battles: Battle[] = [
     name: "Battle of Talas",
     nameTj: "Муҳорибаи Талос",
     date: "751",
-    location: "Talas River",
-    period: "Early medieval",
-    shortDesc: "Abbasid vs Tang; shaped Central Asian power balance.",
+    location: "Дарёи Талос",
+    period: "Асри аввали миёна",
+    shortDesc:
+      "Аббосиён бар зидди Танг; тавозуни қувват дар Осиёи Миёна тагйир ёфт.",
     description:
-      "The Battle of Talas (751) between Abbasid and Tang forces limited Chinese military expansion into Central Asia and is linked in tradition to the westward spread of paper-making.",
-    participants: ["Abbasid Caliphate", "Tang China", "Karluks"],
+      "Муҳорибаи Талос (751) байни ҳайатҳои Аббосӣ у Танг рух дод. Ғалабаи Аббосиён густариши ҳарбии Чинро ба Осиёи Миёна маҳдуд кард ва ба густариши санъати қоғоз ба ғарб низ рабт дода мешавад.",
+    participants: ["Хилофати Аббосӣ", "Чини Танг", "Қарлуқҳо"],
     status: "published",
   },
   {
@@ -33,12 +34,12 @@ export const battles: Battle[] = [
     name: "Battle of Qatwan",
     nameTj: "Муҳорибаи Қатвон",
     date: "1141",
-    location: "Near Samarkand",
-    period: "Medieval",
-    shortDesc: "Qara Khitai defeated the Seljuk sultan Sanjar.",
+    location: "Наздики Самарқанд",
+    period: "Асри миёна",
+    shortDesc: "Карахитоиҳо султон Санҷари салҷуқӣро шикаст доданд.",
     description:
-      "At Qatwan (1141) the Qara Khitai defeated Sultan Sanjar, a major shift in the politics of Transoxiana and Khorasan.",
-    participants: ["Qara Khitai", "Seljuks"],
+      "Дар Қатвон (1141) қарахитоиҳо султон Санҷарро шикаст доданд. Ин галаба тавозуни қуввати Мовароуннаҳр у Хуросонро тагйир дод.",
+    participants: ["Қарахитоиҳо", "Салҷуқиён"],
     status: "published",
   },
 ]

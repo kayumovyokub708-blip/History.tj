@@ -19,10 +19,10 @@ export const dynasties: Dynasty[] = [
     nameTj: "Сулолаи Сомониён",
     yearStart: "819",
     yearEnd: "999",
-    capital: "Bukhara",
-    shortDesc: "Persianate dynasty of Transoxiana and Khorasan.",
+    capital: "Бухоро",
+    shortDesc: "Сулолаи форсӣзабони Мовароуннаҳр у Хуросон.",
     description:
-      "The Samanids ruled from Transoxiana with Bukhara as capital. They are associated with the revival of Persian language and culture and figures such as Ismail Samani and Rudaki.",
+      "Сомониён аз Мовароуннаҳр бо пойтахти Бухоро ҳукмронӣ ранданд. Онҳо ба эҳёи забон у фарҳанги форсӣ ва шахсиятҳое ҳамчун Исмоили Сомонӣ у Рӯдакӣ рабт дода мешаванд.",
     status: "published",
   },
   {
@@ -32,10 +32,10 @@ export const dynasties: Dynasty[] = [
     nameTj: "Сулолаи Темуриён",
     yearStart: "1370",
     yearEnd: "1507",
-    capital: "Samarkand",
-    shortDesc: "Founded by Timur; empire and cultural legacy.",
+    capital: "Самарқанд",
+    shortDesc: "Бунёдгузориш Темур; империя у мероси фарҳангӣ.",
     description:
-      "The Timurids controlled a vast territory from a Samarkand base. Their patronage produced lasting architectural and artistic achievements across Central Asia and Iran.",
+      "Темуриён аз маркази Самарқанд ҳудуди васеъеро идора мекарданд. Пуштибонии онҳо ба меъморӣ у санъат дар Осиёи Миёна у Эрон асари пойдор гузошт.",
     status: "published",
   },
   {
@@ -45,10 +45,10 @@ export const dynasties: Dynasty[] = [
     nameTj: "Сулолаи Манғит",
     yearStart: "1785",
     yearEnd: "1920",
-    capital: "Bukhara",
-    shortDesc: "Ruling house of the Emirate of Bukhara.",
+    capital: "Бухоро",
+    shortDesc: "Хонадони ҳокимрони Амирати Бухоро.",
     description:
-      "The Manghit dynasty ruled the Emirate of Bukhara until the early Soviet period. The emirate was a Russian protectorate in the late 19th century.",
+      "Сулолаи Манғит Амирати Бухороро то аввали давраи Шӯравӣ идора мекард. Дар охири садаи XIX амират зери ҳимояти Русия қарор гирифт.",
     status: "published",
   },
 ]

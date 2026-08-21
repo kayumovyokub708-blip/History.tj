@@ -18,9 +18,9 @@ export const periods: Period[] = [
     nameTj: "Давраи Сомониён",
     yearStart: "819",
     yearEnd: "999",
-    shortDesc: "Golden age of Persian culture in Transoxiana.",
+    shortDesc: "Асри тиллои фарҳанги форсӣ дар Мовароуннаҳр.",
     description:
-      "The Samanid period saw effective independence in Transoxiana and Khorasan, with Bukhara as capital. Persian literature and administration flourished under rulers such as Ismail Samani.",
+      "Дар давраи Сомониён Мовароуннаҳр ва қисмате Хуросон амалан мустақил шуданд. Бухоро пойтахт буд. Адабиёт ва идора ба забони форсӣ рушд кард; Рӯдакӣ ва Исмоили Сомонӣ аз рамзҳои ин аср анд.",
     status: "published",
   },
   {
@@ -30,9 +30,9 @@ export const periods: Period[] = [
     nameTj: "Давраи Темуриён",
     yearStart: "1370",
     yearEnd: "1507",
-    shortDesc: "Empire centered on Samarkand; arts and architecture.",
+    shortDesc: "Империя бо маркази Самарқанд; шукуфоии санъат у меъморӣ.",
     description:
-      "Founded by Timur, the Timurid state reshaped the region. Samarkand and later Herat became centers of architecture, manuscript culture, and science.",
+      "Темур давлати васеъе бино ниҳод. Самарқанд ва баъдтар Ҳирот марказҳои меъморӣ, китобат у илм гардиданд. Ин давра ба мероси фарҳангӣ ва сиёсӣ маъруф аст.",
     status: "published",
   },
   {
@@ -42,21 +42,21 @@ export const periods: Period[] = [
     nameTj: "Давраи Шӯравӣ",
     yearStart: "1924",
     yearEnd: "1991",
-    shortDesc: "Tajik SSR within the Soviet Union.",
+    shortDesc: "ҶСС Тоҷикистон дар ҳайати Иттиҳоди Шӯравӣ.",
     description:
-      "The Tajik Soviet Socialist Republic was formed in the 1920s. The period brought industrialization, education expansion, and major social change, ending with independence in 1991.",
+      "Ҷумҳурии Шӯравии Сотсиалистии Тоҷикистон дар даҳаи 1920 ташкил ёфт. Ин давра саноаткорӣ, маориф у тагйироти иҷтимоӣро овард ва соли 1991 бо истиқлол анҷом ёфт.",
     status: "published",
   },
   {
     id: "4",
     slug: "independence",
     name: "Independence",
-    nameTj: "Истиқлол",
+    nameTj: "Давраи истиқлол",
     yearStart: "1991",
-    yearEnd: "present",
-    shortDesc: "Republic of Tajikistan as a sovereign state.",
+    yearEnd: "ҳозир",
+    shortDesc: "Ҷумҳурии Тоҷикистон ҳамчун давлати соҳиб.",
     description:
-      "Since 9 September 1991 Tajikistan has been an independent republic. Early years included civil conflict; later decades focused on reconstruction and state-building.",
+      "Аз 9 сентябри 1991 Тоҷикистон ҷумҳурии мустақил аст. Солҳои аввал бо ҷанги шаҳрвандӣ ҳамроҳ буданд; даҳоҳои баъдӣ ба бозсозӣ у бунёдгузории давлат нигаронида шудаанд.",
     status: "published",
   },
 ]

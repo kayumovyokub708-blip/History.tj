@@ -25,15 +25,15 @@ export const quizzes: Quiz[] = [
   {
     id: "1",
     slug: "daily",
-    title: "Daily Quiz",
-    description: "10 questions about Tajik and Central Asian history",
+    title: "Саволи рӯзона",
+    description: "10 савол дарбораи таърихи Тоҷикистон у Осиёи Миёна",
     timeLimitSec: 300,
     xpReward: 100,
     questions: [
       {
         id: "q1",
         text: "Исмоили Сомонӣ кадом сулоларо намояндагӣ мекард?",
-        explanation: "Уй асосгузори давлати Сомониён буд.",
+        explanation: "Уй асосгузори давлати мустақили Сомониён буд.",
         options: [
           { id: "a", text: "Сомониён", correct: true },
           { id: "b", text: "Темуриён", correct: false },
@@ -44,6 +44,7 @@ export const quizzes: Quiz[] = [
       {
         id: "q2",
         text: "Пойтахти асосии давлати Сомониён кадом шаҳр буд?",
+        explanation: "Дар замони Исмоили Сомонӣ Бухоро пойтахт буд.",
         options: [
           { id: "a", text: "Самарқанд", correct: false },
           { id: "b", text: "Бухоро", correct: true },
@@ -54,16 +55,18 @@ export const quizzes: Quiz[] = [
       {
         id: "q3",
         text: "Ки «падари шеъри форсӣ» ҳисоб мешавад?",
+        explanation: "Рӯдакӣ бунёнгузори шеъри классикии форсӣ ҳисоб меравад.",
         options: [
           { id: "a", text: "Фирдавсӣ", correct: false },
           { id: "b", text: "Рӯдакӣ", correct: true },
           { id: "c", text: "Ҳафиз", correct: false },
-          { id: "d", text: "Саадӣ", correct: false },
+          { id: "d", text: "Саъдӣ", correct: false },
         ],
       },
       {
         id: "q4",
         text: "Ибни Сино асасан дар кадом соҳа маъруф аст?",
+        explanation: "Уй ҳам табиб ва ҳам файласуф буд; «Ал-Қонун» асари маъруфи ӯст.",
         options: [
           { id: "a", text: "Тибб ва фалсафа", correct: true },
           { id: "b", text: "Шеър", correct: false },
@@ -73,12 +76,13 @@ export const quizzes: Quiz[] = [
       },
       {
         id: "q5",
-        text: "Шоҳнома асари кӣст?",
+        text: "«Шоҳнома» асари кӣст?",
+        explanation: "Фирдавсӣ ҳамосаи миллии «Шоҳнома»ро суруд.",
         options: [
           { id: "a", text: "Рӯдакӣ", correct: false },
           { id: "b", text: "Фирдавсӣ", correct: true },
           { id: "c", text: "Низомӣ", correct: false },
-          { id: "d", text: "Омар Хайём", correct: false },
+          { id: "d", text: "Умари Хайём", correct: false },
         ],
       },
     ],
@@ -86,39 +90,39 @@ export const quizzes: Quiz[] = [
   {
     id: "2",
     slug: "samanid",
-    title: "Samanid Empire",
-    description: "Test your knowledge of the Samanid period",
+    title: "Давлати Сомониён",
+    description: "Дониши худро дарбораи давраи Сомониён бисеҷед",
     timeLimitSec: 480,
     xpReward: 80,
     questions: [
       {
         id: "s1",
-        text: "The Samanid dynasty ruled roughly in which centuries?",
+        text: "Сулолаи Сомониён тақрибан дар кадом асрҳо ҳукмронӣ ранд?",
         options: [
-          { id: "a", text: "7th–8th", correct: false },
-          { id: "b", text: "9th–10th", correct: true },
-          { id: "c", text: "12th–13th", correct: false },
-          { id: "d", text: "15th–16th", correct: false },
+          { id: "a", text: "Садаҳои VII–VIII", correct: false },
+          { id: "b", text: "Садаҳои IX–X", correct: true },
+          { id: "c", text: "Садаҳои XII–XIII", correct: false },
+          { id: "d", text: "Садаҳои XV–XVI", correct: false },
         ],
       },
       {
         id: "s2",
-        text: "Which city was the main capital under Ismail Samani?",
+        text: "Дар замони Исмоили Сомонӣ кадом шаҳр пойтахти асосӣ буд?",
         options: [
-          { id: "a", text: "Samarkand", correct: false },
-          { id: "b", text: "Bukhara", correct: true },
-          { id: "c", text: "Herat", correct: false },
-          { id: "d", text: "Nishapur", correct: false },
+          { id: "a", text: "Самарқанд", correct: false },
+          { id: "b", text: "Бухоро", correct: true },
+          { id: "c", text: "Ҳирот", correct: false },
+          { id: "d", text: "Нейшобур", correct: false },
         ],
       },
       {
         id: "s3",
-        text: "Rudaki is best known as:",
+        text: "Рӯдакӣ бештар ҳамчун кӣ маъруф аст?",
         options: [
-          { id: "a", text: "A general", correct: false },
-          { id: "b", text: "A poet", correct: true },
-          { id: "c", text: "A merchant", correct: false },
-          { id: "d", text: "A caliph", correct: false },
+          { id: "a", text: "Сарлашкар", correct: false },
+          { id: "b", text: "Шоир", correct: true },
+          { id: "c", text: "Тоҷир", correct: false },
+          { id: "d", text: "Халифа", correct: false },
         ],
       },
     ],
