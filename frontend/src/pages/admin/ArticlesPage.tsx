@@ -1,24 +1,23 @@
 import ContentCrudPage from "./ContentCrudPage"
-import { events } from "@/data/events"
+import { articles } from "@/data/articles"
 
-export default function AdminEventsPage() {
+export default function AdminArticlesPage() {
   return (
     <ContentCrudPage
-      type="events"
-      title="⚔️ Events"
-      seed={events}
+      type="articles"
+      title="📝 Articles"
+      seed={articles}
       titleKey="titleTj"
       titleKey2="title"
       fields={[
         { key: "titleTj", label: "Title (TJ)" },
         { key: "title", label: "Title (EN)" },
         { key: "slug", label: "Slug" },
-        { key: "dateStart", label: "Date start" },
-        { key: "dateEnd", label: "Date end" },
-        { key: "location", label: "Location" },
+        { key: "category", label: "Category" },
         { key: "period", label: "Period" },
+        { key: "readTime", label: "Read time" },
         { key: "shortDesc", label: "Short", type: "textarea" },
-        { key: "description", label: "Description", type: "textarea" },
+        { key: "content", label: "Content", type: "textarea" },
       ]}
     />
   )
