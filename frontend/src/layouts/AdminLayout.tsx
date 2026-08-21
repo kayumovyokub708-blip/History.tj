@@ -7,6 +7,7 @@ const adminNav = [
   { path: "/admin/users", label: "Users", icon: "👥" },
   { path: "/admin/people", label: "People", icon: "👑" },
   { path: "/admin/events", label: "Events", icon: "⚔️" },
+  { path: "/admin/places", label: "Places", icon: "🏛️" },
   { path: "/admin/articles", label: "Articles", icon: "📝" },
   { path: "/admin/courses", label: "Courses", icon: "📚" },
   { path: "/admin/quizzes", label: "Quizzes", icon: "❓" },
@@ -36,7 +37,6 @@ export default function AdminLayout() {
             <span className="text-xs text-muted ml-2">Admin</span>
           </Link>
         </div>
-
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {adminNav.map((item) => (
             <Link
@@ -54,7 +54,6 @@ export default function AdminLayout() {
             </Link>
           ))}
         </nav>
-
         <div className="p-4 border-t border-border">
           <Button
             variant="ghost"
@@ -66,15 +65,11 @@ export default function AdminLayout() {
           >
             🚪 Logout
           </Button>
-          <Link
-            to="/"
-            className="block mt-2 text-xs text-center text-muted hover:text-primary"
-          >
+          <Link to="/" className="block mt-2 text-xs text-center text-muted hover:text-primary">
             ← Back to site
           </Link>
         </div>
       </aside>
-
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 border-b border-border bg-surface/50 flex items-center justify-between px-6">
           <h1 className="font-semibold text-lg">Admin Panel</h1>

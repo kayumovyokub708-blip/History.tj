@@ -7,6 +7,17 @@ import PeoplePage from "./pages/PeoplePage"
 import PersonPage from "./pages/PersonPage"
 import EventsPage from "./pages/EventsPage"
 import EventPage from "./pages/EventPage"
+import PlacesPage from "./pages/PlacesPage"
+import PlacePage from "./pages/PlacePage"
+import PeriodsPage from "./pages/PeriodsPage"
+import PeriodPage from "./pages/PeriodPage"
+import DynastiesPage from "./pages/DynastiesPage"
+import DynastyPage from "./pages/DynastyPage"
+import BattlesPage from "./pages/BattlesPage"
+import BattlePage from "./pages/BattlePage"
+import ArticlesPage from "./pages/ArticlesPage"
+import ArticlePage from "./pages/ArticlePage"
+import SearchPage from "./pages/SearchPage"
 import TimelinePage from "./pages/TimelinePage"
 import MapPage from "./pages/MapPage"
 import CoursesPage from "./pages/CoursesPage"
@@ -23,6 +34,8 @@ import AdminDashboardPage from "./pages/admin/DashboardPage"
 import AdminUsersPage from "./pages/admin/UsersPage"
 import AdminPeoplePage from "./pages/admin/PeoplePage"
 import AdminEventsPage from "./pages/admin/EventsPage"
+import AdminPlacesPage from "./pages/admin/PlacesPage"
+import AdminArticlesPage from "./pages/admin/ArticlesPage"
 import AdminCoursesPage from "./pages/admin/CoursesPage"
 import AdminQuizzesPage from "./pages/admin/QuizzesPage"
 import AdminExpeditionsPage from "./pages/admin/ExpeditionsPage"
@@ -40,6 +53,17 @@ function App() {
           <Route path="/encyclopedia/people/:slug" element={<PersonPage />} />
           <Route path="/encyclopedia/events" element={<EventsPage />} />
           <Route path="/encyclopedia/events/:slug" element={<EventPage />} />
+          <Route path="/encyclopedia/places" element={<PlacesPage />} />
+          <Route path="/encyclopedia/places/:slug" element={<PlacePage />} />
+          <Route path="/encyclopedia/periods" element={<PeriodsPage />} />
+          <Route path="/encyclopedia/periods/:slug" element={<PeriodPage />} />
+          <Route path="/encyclopedia/dynasties" element={<DynastiesPage />} />
+          <Route path="/encyclopedia/dynasties/:slug" element={<DynastyPage />} />
+          <Route path="/encyclopedia/battles" element={<BattlesPage />} />
+          <Route path="/encyclopedia/battles/:slug" element={<BattlePage />} />
+          <Route path="/articles" element={<ArticlesPage />} />
+          <Route path="/articles/:slug" element={<ArticlePage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/courses" element={<CoursesPage />} />
@@ -58,6 +82,8 @@ function App() {
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="people" element={<AdminPeoplePage />} />
           <Route path="events" element={<AdminEventsPage />} />
+          <Route path="places" element={<AdminPlacesPage />} />
+          <Route path="articles" element={<AdminArticlesPage />} />
           <Route path="courses" element={<AdminCoursesPage />} />
           <Route path="quizzes" element={<AdminQuizzesPage />} />
           <Route path="expeditions" element={<AdminExpeditionsPage />} />
