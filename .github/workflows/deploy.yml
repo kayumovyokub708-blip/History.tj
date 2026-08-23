@@ -30,16 +30,30 @@ jobs:
         working-directory: frontend
         run: npm install
 
-      - name: Build
+      - name: Build React app
         working-directory: frontend
         env:
           GITHUB_PAGES: "true"
           VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: npm run build
 
-      - name: Copy 404.html for SPA fallback
+      - name: SPA 404 fallback
         working-directory: frontend
         run: cp dist/index.html dist/404.html
+
+      - name: Copy prototype HTML into dist/legacy
+        run: |
+          mkdir -p frontend/dist/legacy
+          for f in index.html events.html heroes.html kitobho.html konstitutsia.html periods.html prezident.html surooda.html thelaw.html Tajikistan_map.html; do
+            if [ -f "$f" ]; then cp "$f" "frontend/dist/legacy/$f"; fi
+          done
+          # Optional: books folder (skip huge PDFs if over size — copy only if small)
+          if [ -d "китобхо" ]; then
+            mkdir -p frontend/dist/legacy/kitobho
+            # copy images only (skip large PDFs to keep Pages deploy size reasonable)
+            find китобхо -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \) -exec cp --parents {} frontend/dist/legacy/ \; 2>/dev/null || true
+          fi
+          ls -la frontend/dist/legacy
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
