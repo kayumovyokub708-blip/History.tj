@@ -1,18 +1,20 @@
 import { Link, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { getPersonBySlug } from "@/data/people"
 
 export default function PersonPage() {
+  const { t } = useTranslation()
   const { slug } = useParams()
   const person = slug ? getPersonBySlug(slug) : undefined
 
   if (!person) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold mb-2">Person not found</h1>
+        <h1 className="text-2xl font-bold mb-2">{t("encyclopedia.personNotFound")}</h1>
         <Link to="/encyclopedia/people" className="text-primary hover:underline">
-          ← Back to People
+          \u2190 {t("encyclopedia.people")}
         </Link>
       </div>
     )
@@ -21,12 +23,12 @@ export default function PersonPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Link to="/encyclopedia/people" className="text-sm text-primary hover:underline">
-        ← Шахсиятҳо
+        \u2190 {t("encyclopedia.people")}
       </Link>
 
       <div className="mt-6 flex flex-col sm:flex-row gap-8">
         <div className="h-48 w-48 shrink-0 rounded-xl bg-surface border border-border flex items-center justify-center text-6xl opacity-50">
-          👤
+          \ud83d\udc64
         </div>
         <div className="flex-1">
           <h1 className="text-3xl font-bold">{person.nameTj}</h1>
@@ -36,18 +38,14 @@ export default function PersonPage() {
             {person.period && <Badge variant="secondary">{person.period}</Badge>}
             {person.dynasty && <Badge variant="outline">{person.dynasty}</Badge>}
             {(person.birthYear || person.deathYear) && (
-              <Badge variant="outline">
-                {person.birthYear}–{person.deathYear}
-              </Badge>
+              <Badge variant="outline">{person.birthYear}\u2013{person.deathYear}</Badge>
             )}
           </div>
         </div>
       </div>
 
       <Card className="mt-8">
-        <CardHeader>
-          <CardTitle>Biography</CardTitle>
-        </CardHeader>
+        <CardHeader><CardTitle>{t("encyclopedia.biography")}</CardTitle></CardHeader>
         <CardContent className="prose prose-invert max-w-none">
           <p className="text-muted-foreground leading-relaxed">{person.biography}</p>
         </CardContent>
@@ -55,14 +53,12 @@ export default function PersonPage() {
 
       {person.achievements && person.achievements.length > 0 && (
         <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Achievements</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle>{t("encyclopedia.achievements")}</CardTitle></CardHeader>
           <CardContent>
             <ul className="space-y-2">
               {person.achievements.map((a, i) => (
                 <li key={i} className="flex gap-2 text-sm">
-                  <span className="text-primary">•</span>
+                  <span className="text-primary">\u2022</span>
                   <span>{a}</span>
                 </li>
               ))}
@@ -74,20 +70,16 @@ export default function PersonPage() {
       <div className="grid sm:grid-cols-2 gap-4 mt-6">
         {(person.birthPlace || person.deathPlace) && (
           <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Places</CardTitle>
-            </CardHeader>
+            <CardHeader><CardTitle className="text-base">{t("encyclopedia.places")}</CardTitle></CardHeader>
             <CardContent className="text-sm space-y-1 text-muted">
-              {person.birthPlace && <p>Birth: {person.birthPlace}</p>}
-              {person.deathPlace && <p>Death: {person.deathPlace}</p>}
+              {person.birthPlace && <p>{t("encyclopedia.born")}: {person.birthPlace}</p>}
+              {person.deathPlace && <p>{t("encyclopedia.died")}: {person.deathPlace}</p>}
             </CardContent>
           </Card>
         )}
         {person.sources && person.sources.length > 0 && (
           <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Sources</CardTitle>
-            </CardHeader>
+            <CardHeader><CardTitle className="text-base">{t("encyclopedia.sources")}</CardTitle></CardHeader>
             <CardContent className="text-sm space-y-1 text-muted">
               {person.sources.map((s, i) => (
                 <p key={i}>{i + 1}. {s}</p>
