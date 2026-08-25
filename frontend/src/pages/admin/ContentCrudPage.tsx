@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,7 +20,15 @@ interface Props {
   titleKey2?: string
 }
 
-export default function ContentCrudPage({ type, title, seed, fields, titleKey = "nameTj", titleKey2 = "name" }: Props) {
+export default function ContentCrudPage({
+  type,
+  title,
+  seed,
+  fields,
+  titleKey = "nameTj",
+  titleKey2 = "name",
+}: Props) {
+  const { t } = useTranslation()
   const [list, setList] = useState<any[]>([])
   const [editing, setEditing] = useState<any | null>(null)
   const [form, setForm] = useState<Record<string, string>>({})
@@ -68,7 +77,7 @@ export default function ContentCrudPage({ type, title, seed, fields, titleKey = 
   }
 
   const remove = (id: string) => {
-    if (!confirm("Delete?")) return
+    if (!confirm(t("admin.confirmDelete"))) return
     const next = list.filter((x) => x.id !== id)
     saveContent(type, next)
     setList(next)
@@ -79,14 +88,18 @@ export default function ContentCrudPage({ type, title, seed, fields, titleKey = 
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">{title}</h2>
-          <p className="text-muted">{list.length} items · saved in browser (localStorage)</p>
+          <p className="text-muted">
+            {list.length} {t("admin.items")} \u00b7 {t("admin.savedLocal")}
+          </p>
         </div>
-        <Button onClick={openNew}>+ Add</Button>
+        <Button onClick={openNew}>+ {t("common.create")}</Button>
       </div>
 
       {editing && (
-        <Card className="p-5 space-y-3 border-primary/30">
-          <h3 className="font-semibold">{editing.id?.startsWith("new-") ? "Create" : "Edit"}</h3>
+        <Card className="p-6 space-y-4">
+          <h3 className="font-semibold">
+            {editing.id?.startsWith("new-") ? t("common.create") : t("common.edit")}
+          </h3>
           {fields.map((field) => (
             <div key={field.key}>
               <label className="text-sm text-muted">{field.label}</label>
@@ -106,8 +119,8 @@ export default function ContentCrudPage({ type, title, seed, fields, titleKey = 
             </div>
           ))}
           <div className="flex gap-2">
-            <Button onClick={save}>Save</Button>
-            <Button variant="ghost" onClick={() => setEditing(null)}>Cancel</Button>
+            <Button onClick={save}>{t("common.save")}</Button>
+            <Button variant="ghost" onClick={() => setEditing(null)}>{t("common.cancel")}</Button>
           </div>
         </Card>
       )}
@@ -117,9 +130,9 @@ export default function ContentCrudPage({ type, title, seed, fields, titleKey = 
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-muted text-left">
-                <th className="px-4 py-3">Title</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Actions</th>
+                <th className="px-4 py-3">{t("admin.colTitle")}</th>
+                <th className="px-4 py-3">{t("admin.colStatus")}</th>
+                <th className="px-4 py-3">{t("admin.colActions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -135,8 +148,8 @@ export default function ContentCrudPage({ type, title, seed, fields, titleKey = 
                     </Badge>
                   </td>
                   <td className="px-4 py-3 flex gap-2">
-                    <Button size="sm" variant="ghost" onClick={() => openEdit(item)}>Edit</Button>
-                    <Button size="sm" variant="ghost" onClick={() => remove(item.id)}>Delete</Button>
+                    <Button size="sm" variant="ghost" onClick={() => openEdit(item)}>{t("common.edit")}</Button>
+                    <Button size="sm" variant="ghost" onClick={() => remove(item.id)}>{t("common.delete")}</Button>
                   </td>
                 </tr>
               ))}
