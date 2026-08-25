@@ -1,25 +1,28 @@
 import { Outlet, Link, useLocation } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Avatar } from "@/components/ui/avatar"
 import { useAuth } from "@/context/AuthContext"
-
-const navItems = [
-  { path: "/", label: "Home" },
-  { path: "/encyclopedia", label: "Encyclopedia" },
-  { path: "/articles", label: "Articles" },
-  { path: "/search", label: "Search" },
-  { path: "/timeline", label: "Timeline" },
-  { path: "/map", label: "Map" },
-  { path: "/courses", label: "Courses" },
-  { path: "/quiz", label: "Quiz" },
-  { path: "/expeditions", label: "Expeditions" },
-  { path: "/leaderboard", label: "Leaderboard" },
-]
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 
 export default function RootLayout() {
   const location = useLocation()
   const { user, logout } = useAuth()
+  const { t } = useTranslation()
+
+  const navItems = [
+    { path: "/", label: t("nav.home") },
+    { path: "/encyclopedia", label: t("nav.encyclopedia") },
+    { path: "/articles", label: t("nav.articles") },
+    { path: "/search", label: t("nav.search") },
+    { path: "/timeline", label: t("nav.timeline") },
+    { path: "/map", label: t("nav.map") },
+    { path: "/courses", label: t("nav.courses") },
+    { path: "/quiz", label: t("nav.quiz") },
+    { path: "/expeditions", label: t("nav.expeditions") },
+    { path: "/leaderboard", label: t("nav.leaderboard") },
+  ]
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -52,10 +55,13 @@ export default function RootLayout() {
             </nav>
 
             <div className="flex items-center gap-2 sm:gap-3">
+              {/* Language switcher — before auth buttons */}
+              <LanguageSwitcher />
+
               <Link
                 to="/search"
                 className="p-2 rounded-md text-muted-foreground hover:text-white hover:bg-card/60"
-                title="Search"
+                title={t("common.search")}
               >
                 🔍
               </Link>
@@ -69,16 +75,16 @@ export default function RootLayout() {
                     </span>
                   </Link>
                   <Button size="sm" variant="ghost" onClick={logout} className="hidden sm:inline-flex">
-                    Logout
+                    {t("auth.logout")}
                   </Button>
                 </div>
               ) : (
                 <>
                   <Link to="/login" className="hidden sm:block">
-                    <Button size="sm" variant="ghost">Sign in</Button>
+                    <Button size="sm" variant="ghost">{t("auth.login")}</Button>
                   </Link>
                   <Link to="/register">
-                    <Button size="sm">Register</Button>
+                    <Button size="sm">{t("auth.register")}</Button>
                   </Link>
                 </>
               )}
@@ -112,12 +118,13 @@ export default function RootLayout() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted">
           <div>
             © 2026 <span className="text-primary font-medium">Histori.tj</span>
+            {" — "}{t("footer.rights")}
           </div>
           <div className="flex gap-4">
-            <Link to="/encyclopedia" className="hover:text-white">Encyclopedia</Link>
-            <Link to="/search" className="hover:text-white">Search</Link>
-            <Link to="/quiz" className="hover:text-white">Quiz</Link>
-            <Link to="/admin/login" className="hover:text-white">Admin</Link>
+            <Link to="/encyclopedia" className="hover:text-white">{t("nav.encyclopedia")}</Link>
+            <Link to="/search" className="hover:text-white">{t("nav.search")}</Link>
+            <Link to="/quiz" className="hover:text-white">{t("nav.quiz")}</Link>
+            <Link to="/admin/login" className="hover:text-white">{t("nav.admin")}</Link>
           </div>
         </div>
       </footer>
