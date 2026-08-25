@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { useAuth } from "@/context/AuthContext"
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -23,7 +25,7 @@ export default function LoginPage() {
     const res = await login(email.trim(), password)
     setLoading(false)
     if (res.ok) navigate("/profile")
-    else setError(res.error || "Error")
+    else setError(res.error || t("common.error"))
   }
 
   return (
@@ -33,13 +35,13 @@ export default function LoginPage() {
           <div className="text-2xl font-bold mb-2">
             <span className="text-primary">Histori</span>.tj
           </div>
-          <CardTitle>Sign in</CardTitle>
-          <CardDescription>Ба ҳисоби худ ворид шавед</CardDescription>
+          <CardTitle>{t("auth.signIn")}</CardTitle>
+          <CardDescription>{t("auth.welcomeBack")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1.5">Email</label>
+              <label className="block text-sm font-medium mb-1.5">{t("auth.email")}</label>
               <input
                 type="email"
                 value={email}
@@ -50,7 +52,7 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Password</label>
+              <label className="block text-sm font-medium mb-1.5">{t("auth.password")}</label>
               <input
                 type="password"
                 value={password}
@@ -67,32 +69,14 @@ export default function LoginPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? t("common.loading") : t("auth.signIn")}
             </Button>
           </form>
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-card px-2 text-muted">or</span>
-            </div>
-          </div>
-
-          <Button
-            variant="secondary"
-            className="w-full"
-            type="button"
-            onClick={() => alert("Google OAuth дар қадами баъдӣ (ба backend) пайваст мешавад")}
-          >
-            Continue with Google
-          </Button>
-
           <p className="text-center text-sm text-muted mt-6">
-            Ҳисоб надоред?{" "}
+            {t("auth.noAccount")}{" "}
             <Link to="/register" className="text-primary hover:underline">
-              Register
+              {t("auth.register")}
             </Link>
           </p>
         </CardContent>
