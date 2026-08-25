@@ -1,22 +1,24 @@
 import { Link, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { getPlaceBySlug } from "@/data/places"
 
 export default function PlacePage() {
+  const { t } = useTranslation()
   const { slug } = useParams()
   const place = slug ? getPlaceBySlug(slug) : undefined
   if (!place) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold">Not found</h1>
-        <Link to="/encyclopedia/places" className="text-primary">← Places</Link>
+        <h1 className="text-2xl font-bold">{t("common.notFound")}</h1>
+        <Link to="/encyclopedia/places" className="text-primary">\u2190 {t("encyclopedia.places")}</Link>
       </div>
     )
   }
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <Link to="/encyclopedia/places" className="text-sm text-primary hover:underline">← Places</Link>
+      <Link to="/encyclopedia/places" className="text-sm text-primary hover:underline">\u2190 {t("encyclopedia.places")}</Link>
       <h1 className="text-3xl font-bold mt-4">{place.nameTj}</h1>
       <p className="text-xl text-muted">{place.name}</p>
       <div className="flex flex-wrap gap-2 mt-3">
@@ -24,11 +26,11 @@ export default function PlacePage() {
         {place.location && <Badge variant="outline">{place.location}</Badge>}
       </div>
       <Card className="mt-8">
-        <CardHeader><CardTitle>Description</CardTitle></CardHeader>
+        <CardHeader><CardTitle>{t("encyclopedia.description")}</CardTitle></CardHeader>
         <CardContent><p className="text-muted-foreground leading-relaxed">{place.description}</p></CardContent>
       </Card>
       {place.coordinates && (
-        <p className="text-sm text-muted mt-4">Coordinates: {place.coordinates}</p>
+        <p className="text-sm text-muted mt-4">{t("encyclopedia.coordinates")}: {place.coordinates}</p>
       )}
     </div>
   )
