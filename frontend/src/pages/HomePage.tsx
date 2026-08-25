@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -21,48 +22,46 @@ const leaders = [
 ]
 
 export default function HomePage() {
+  const { t } = useTranslation()
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-      {/* Hero */}
       <section className="text-center space-y-6 mb-16">
         <Badge variant="secondary" className="mb-2">
-          Платформаи таърихӣ
+          {t("home.badge")}
         </Badge>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-          Таърихро омӯз.
+          {t("home.line1")}
           <br />
-          <span className="text-primary">Гузаштаро кашф кун.</span>
+          <span className="text-primary">{t("home.line2")}</span>
           <br />
-          Меросаро нигоҳ дор.
+          {t("home.line3")}
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Платформаи рақамӣ барои омӯзиш, кашф ва нигоҳдории
-          таърихи Тоҷикистон ва Осиёи Марказӣ
+          {t("home.subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
           <Link to="/encyclopedia" className={cn(buttonVariants({ size: "lg" }))}>
-            Encyclopedia
+            {t("home.ctaEncyclopedia")}
           </Link>
           <Link to="/quiz" className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}>
-            Take a Quiz
+            {t("home.ctaQuiz")}
           </Link>
         </div>
       </section>
 
-      {/* Stats */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-16">
-        <StatCard value="540+" label="Historical Figures" />
-        <StatCard value="830+" label="Events" />
-        <StatCard value="1,240+" label="Articles" />
-        <StatCard value="5,200+" label="Quiz Questions" />
+        <StatCard value="540+" label={t("home.statPeople")} />
+        <StatCard value="830+" label={t("home.statEvents")} />
+        <StatCard value="1,240+" label={t("home.statArticles")} />
+        <StatCard value="5,200+" label={t("home.statQuestions")} />
       </section>
 
-      {/* Featured People */}
       <section className="mb-16">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">👑 Historical Figures</h2>
+          <h2 className="text-2xl font-bold">👑 {t("home.featuredPeople")}</h2>
           <Link to="/encyclopedia" className="text-sm text-primary hover:underline">
-            View all →
+            {t("home.viewAll")} →
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -83,21 +82,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Two column */}
-      <section className="grid md:grid-cols-2 gap-6 mb-16">
+      <section className="grid md:grid-cols-2 gap-4 mb-16">
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <span className="text-xl">🔥</span>
-              <CardTitle>Daily Quiz</CardTitle>
+              <span className="text-xl">🧠</span>
+              <CardTitle>{t("home.dailyQuiz")}</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-muted-foreground">10 Questions · 5 min</p>
+            <p className="text-muted-foreground">{t("home.dailyQuizMeta")}</p>
             <div className="flex items-center justify-between">
               <Badge>+100 XP</Badge>
               <Link to="/quiz" className={cn(buttonVariants())}>
-                Start
+                {t("home.start")}
               </Link>
             </div>
           </CardContent>
@@ -107,26 +105,23 @@ export default function HomePage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <span className="text-xl">🗺️</span>
-              <CardTitle>Interactive Map</CardTitle>
+              <CardTitle>{t("home.interactiveMap")}</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-muted-foreground">
-              Explore historical places, battles and ancient cities
-            </p>
+            <p className="text-muted-foreground">{t("home.mapDesc")}</p>
             <Link to="/map" className={cn(buttonVariants({ variant: "secondary" }))}>
-              Open Map
+              {t("home.openMap")}
             </Link>
           </CardContent>
         </Card>
       </section>
 
-      {/* Leaderboard Preview */}
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">🏆 Leaderboard</h2>
+          <h2 className="text-2xl font-bold">🏆 {t("home.leaderboard")}</h2>
           <Link to="/leaderboard" className="text-sm text-primary hover:underline">
-            Full ranking →
+            {t("home.fullRanking")} →
           </Link>
         </div>
         <Card>
