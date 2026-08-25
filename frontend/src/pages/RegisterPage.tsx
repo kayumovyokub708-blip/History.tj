@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { useAuth } from "@/context/AuthContext"
 
 export default function RegisterPage() {
+  const { t } = useTranslation()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -22,14 +24,14 @@ export default function RegisterPage() {
     e.preventDefault()
     setError("")
     if (password !== confirm) {
-      setError("Passwordҳо мувофиқат надоранд")
+      setError(t("auth.passwordMismatch"))
       return
     }
     setLoading(true)
     const res = await register(name.trim(), email.trim(), password)
     setLoading(false)
     if (res.ok) navigate("/profile")
-    else setError(res.error || "Error")
+    else setError(res.error || t("common.error"))
   }
 
   return (
@@ -39,72 +41,45 @@ export default function RegisterPage() {
           <div className="text-2xl font-bold mb-2">
             <span className="text-primary">Histori</span>.tj
           </div>
-          <CardTitle>Register</CardTitle>
-          <CardDescription>Ҳисоби нав созед ва омӯзишро оғоз кунед</CardDescription>
+          <CardTitle>{t("auth.register")}</CardTitle>
+          <CardDescription>{t("auth.createAccount")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1.5">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+              <label className="block text-sm font-medium mb-1.5">{t("auth.name")}</label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)}
                 className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                placeholder="Номи шумо"
-                required
-                minLength={2}
-              />
+                required minLength={2} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+              <label className="block text-sm font-medium mb-1.5">{t("auth.email")}</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                 className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                placeholder="you@example.com"
-                required
-              />
+                required />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+              <label className="block text-sm font-medium mb-1.5">{t("auth.password")}</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                 className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                required
-                minLength={6}
-              />
+                required minLength={6} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Confirm password</label>
-              <input
-                type="password"
-                value={confirm}
-                onChange={(e) => setConfirm(e.target.value)}
+              <label className="block text-sm font-medium mb-1.5">{t("auth.confirmPassword")}</label>
+              <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
                 className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                required
-              />
+                required />
             </div>
-
             {error && (
-              <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
-                {error}
-              </div>
+              <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</div>
             )}
-
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? t("common.loading") : t("auth.signUp")}
             </Button>
           </form>
-
           <p className="text-center text-sm text-muted mt-6">
-            Аллакай ҳисоб доред?{" "}
-            <Link to="/login" className="text-primary hover:underline">
-              Sign in
-            </Link>
+            {t("auth.haveAccount")}{" "}
+            <Link to="/login" className="text-primary hover:underline">{t("auth.login")}</Link>
           </p>
         </CardContent>
       </Card>
