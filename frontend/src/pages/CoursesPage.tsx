@@ -21,7 +21,7 @@ export default function CoursesPage() {
         {courses.map((course) => (
           <Card key={course.titleKey} className="hover:border-primary/40 transition cursor-pointer overflow-hidden">
             <div className="h-40 bg-surface flex items-center justify-center">
-              <span className="text-5xl opacity-30">\ud83d\udcda</span>
+              <span className="text-5xl opacity-30">📚</span>
             </div>
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2 mb-1">
@@ -31,7 +31,9 @@ export default function CoursesPage() {
               <CardTitle className="text-lg">{t(`courses.items.${course.titleKey}`)}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted">{course.lessons} {t("courses.lessons")}</p>
+              <p className="text-sm text-muted">
+                {course.lessons} {t("courses.lessons")}
+              </p>
             </CardContent>
           </Card>
         ))}
