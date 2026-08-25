@@ -23,6 +23,37 @@ export interface Person {
 
 export const people: Person[] = [
   {
+    id: "7",
+    slug: "emomali-rahmon",
+    name: "Emomali Rahmon",
+    nameTj: "Эмомалӣ Раҳмон",
+    nameRu: "Эмомали Рахмон",
+    alternativeNames: ["Эмомалӣ Шарифович Раҳмонов", "Emomali Sharipovich Rakhmonov"],
+    birthYear: "1952",
+    birthPlace: "Данғара",
+    title: "Президенти Ҷумҳурии Тоҷикистон",
+    period: "Муосир",
+    shortBio:
+      "Раҳбари Ҷумҳурии Тоҷикистон аз соли 1992; Президент аз соли 1994.",
+    biography:
+      "Эмомалӣ Раҳмон соли 1952 дар ноҳияи Данғара таваллуд шудааст. Соли 1992 раиси Шурои Олии Тоҷикистон интихоб гардид ва дар давраи ҷанги шаҳрвандӣ роҳбарии давлатро ба уҳда гирифт. Соли 1994 Президенти Ҷумҳурии Тоҷикистон интихоб шуд. Дар солҳои минбаъда дар раванди сулҳ, барқарорсозии давлат, рушди иқтисодӣ ва сиёсати хориҷӣ нақши марказӣ доштааст. Унвони «Пешвои миллат» ба ӯ дода шудааст.",
+    biographyRu:
+      "Эмомали Рахмон родился в 1952 году в районе Дангара. В 1992 году был избран председателем Верховного Совета Таджикистана и возглавил государство в период гражданской войны. В 1994 году избран Президентом Республики Таджикистан. В последующие годы играл центральную роль в процессе мира, восстановлении государства, экономическом развитии и внешней политике. Ему присвоено звание «Лидер нации».",
+    biographyEn:
+      "Emomali Rahmon was born in 1952 in the Danghara district. In 1992 he was elected Chairman of the Supreme Council of Tajikistan and led the state during the civil war. In 1994 he was elected President of the Republic of Tajikistan. In later years he played a central role in the peace process, state rebuilding, economic development and foreign policy. He has been given the title Leader of the Nation.",
+    achievements: [
+      "Раҳбарии давлат дар давраи ҷанги шаҳрвандӣ",
+      "Раванди сулҳ ва созиши миллӣ",
+      "Президенти Ҷумҳурии Тоҷикистон аз соли 1994",
+      "Таҳкими истиқлолият ва ниҳодҳои давлатӣ",
+    ],
+    sources: [
+      "Сомонаи расмии Президенти Ҷумҳурии Тоҷикистон",
+      "Таърихи муосири Тоҷикистон",
+    ],
+    status: "published",
+  },
+  {
     id: "1",
     slug: "ismoili-somoni",
     name: "Ismail Samani",
@@ -150,37 +181,6 @@ export const people: Person[] = [
     shortBio: "Бунёдгузори империяи Темурӣ; Самарқандро пойтахт кард.",
     biography:
       "Темур империяи бузургеро дар Осиёи Миёна ва берун аз он бунёд кард. Самарқанд дар замони ӯ маркази сиёсӣ ва фарҳангӣ шуд.",
-    status: "published",
-  },
-  {
-    id: "7",
-    slug: "emomali-rahmon",
-    name: "Emomali Rahmon",
-    nameTj: "Эмомалӣ Раҳмон",
-    nameRu: "Эмомали Рахмон",
-    alternativeNames: ["Эмомалӣ Шарифович Раҳмонов", "Emomali Sharipovich Rakhmonov"],
-    birthYear: "1952",
-    birthPlace: "Данғара",
-    title: "Президенти Ҷумҳурии Тоҷикистон",
-    period: "Муосир",
-    shortBio:
-      "Раҳбари Ҷумҳурии Тоҷикистон аз соли 1992; Президент аз соли 1994.",
-    biography:
-      "Эмомалӣ Раҳмон соли 1952 дар ноҳияи Данғара таваллуд шудааст. Соли 1992 раиси Шурои Олии Тоҷикистон интихоб гардид ва дар давраи ҷанги шаҳрвандӣ роҳбарии давлатро ба уҳда гирифт. Соли 1994 Президенти Ҷумҳурии Тоҷикистон интихоб шуд. Дар солҳои минбаъда дар раванди сулҳ, барқарорсозии давлат, рушди иқтисодӣ ва сиёсати хориҷӣ нақши марказӣ доштааст. Унвони «Пешвои миллат» ба ӯ дода шудааст.",
-    biographyRu:
-      "Эмомали Рахмон родился в 1952 году в районе Дангара. В 1992 году был избран председателем Верховного Совета Таджикистана и возглавил государство в период гражданской войны. В 1994 году избран Президентом Республики Таджикистан. В последующие годы играл центральную роль в процессе мира, восстановлении государства, экономическом развитии и внешней политике. Ему присвоено звание «Лидер нации».",
-    biographyEn:
-      "Emomali Rahmon was born in 1952 in the Danghara district. In 1992 he was elected Chairman of the Supreme Council of Tajikistan and led the state during the civil war. In 1994 he was elected President of the Republic of Tajikistan. In later years he played a central role in the peace process, state rebuilding, economic development and foreign policy. He has been given the title Leader of the Nation.",
-    achievements: [
-      "Раҳбарии давлат дар давраи ҷанги шаҳрвандӣ",
-      "Раванди сулҳ ва созиши миллӣ",
-      "Президенти Ҷумҳурии Тоҷикистон аз соли 1994",
-      "Таҳкими истиқлолият ва ниҳодҳои давлатӣ",
-    ],
-    sources: [
-      "Сомонаи расмии Президенти Ҷумҳурии Тоҷикистон",
-      "Таърихи муосири Тоҷикистон",
-    ],
     status: "published",
   },
 ]
