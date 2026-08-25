@@ -45,7 +45,7 @@ export function searchAll(query: string): SearchHit[] {
   }
 
   for (const p of getPublishedPlaces()) {
-    const blob = `${p.name} ${p.nameTj} ${p.shortDesc}`.toLowerCase()
+    const blob = `${p.name} ${p.nameTj} ${p.shortDesc} ${p.location || ""}`.toLowerCase()
     if (blob.includes(q)) {
       hits.push({
         type: "Place",
@@ -93,12 +93,12 @@ export function searchAll(query: string): SearchHit[] {
   }
 
   for (const a of getPublishedArticles()) {
-    const blob = `${a.title} ${a.titleTj} ${a.shortDesc} ${a.content}`.toLowerCase()
+    const blob = `${a.title.tg} ${a.title.ru} ${a.title.en} ${a.shortDesc.tg} ${a.shortDesc.ru} ${a.shortDesc.en} ${a.content.tg}`.toLowerCase()
     if (blob.includes(q)) {
       hits.push({
         type: "Article",
-        title: a.titleTj,
-        subtitle: a.category,
+        title: a.title.tg,
+        subtitle: a.category?.tg,
         path: `/articles/${a.slug}`,
       })
     }
@@ -109,7 +109,7 @@ export function searchAll(query: string): SearchHit[] {
       hits.push({
         type: "Quiz",
         title: quiz.title,
-        subtitle: `${quiz.questions.length} questions`,
+        subtitle: quiz.description,
         path: `/quiz/${quiz.slug}`,
       })
     }
