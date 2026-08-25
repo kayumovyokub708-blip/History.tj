@@ -37,7 +37,7 @@ export default function QuizPlayPage() {
       <div className="max-w-xl mx-auto px-4 py-20 text-center">
         <h1 className="text-xl font-bold">{t("quiz.notFound")}</h1>
         <Link to="/quiz" className="text-primary hover:underline">
-          \u2190 {t("quiz.title")}
+          ← {t("quiz.title")}
         </Link>
       </div>
     )
@@ -80,7 +80,9 @@ export default function QuizPlayPage() {
             <Badge>+{xp} XP</Badge>
             {!user && (
               <p className="text-sm text-muted">
-                <Link to="/login" className="text-primary hover:underline">{t("auth.signIn")}</Link>{" "}
+                <Link to="/login" className="text-primary hover:underline">
+                  {t("auth.signIn")}
+                </Link>{" "}
                 {t("quiz.saveXpHint")}
               </p>
             )}
@@ -106,7 +108,7 @@ export default function QuizPlayPage() {
           {t("quiz.question")} {index + 1} / {quiz.questions.length}
         </span>
         <span className="tabular-nums font-medium text-white">
-          \u23f1 {mins}:{secs.toString().padStart(2, "0")}
+          ⏱ {mins}:{secs.toString().padStart(2, "0")}
         </span>
       </div>
       <Progress value={progress} className="mb-6" />

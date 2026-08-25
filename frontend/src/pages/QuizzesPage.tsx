@@ -23,11 +23,14 @@ export default function QuizzesPage() {
             <CardContent className="space-y-4">
               <p className="text-sm text-muted">{quiz.description}</p>
               <p className="text-sm text-muted">
-                {quiz.questions.length} {t("quiz.questions")} \u00b7 {Math.round(quiz.timeLimitSec / 60)} {t("quiz.minutes")}
+                {quiz.questions.length} {t("quiz.questions")} ·{" "}
+                {Math.round(quiz.timeLimitSec / 60)} {t("quiz.minutes")}
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-primary font-semibold">+{quiz.xpReward} XP</span>
-                <Link to={`/quiz/${quiz.slug}`}><Button size="sm">{t("quiz.start")}</Button></Link>
+                <Link to={`/quiz/${quiz.slug}`}>
+                  <Button size="sm">{t("quiz.start")}</Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
