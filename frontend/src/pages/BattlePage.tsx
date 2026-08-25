@@ -11,13 +11,17 @@ export default function BattlePage() {
   if (!item) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <Link to="/encyclopedia/battles" className="text-primary">\u2190 {t("encyclopedia.battles")}</Link>
+        <Link to="/encyclopedia/battles" className="text-primary">
+          ← {t("encyclopedia.battles")}
+        </Link>
       </div>
     )
   }
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <Link to="/encyclopedia/battles" className="text-sm text-primary hover:underline">\u2190 {t("encyclopedia.battles")}</Link>
+      <Link to="/encyclopedia/battles" className="text-sm text-primary hover:underline">
+        ← {t("encyclopedia.battles")}
+      </Link>
       <h1 className="text-3xl font-bold mt-4">{item.nameTj}</h1>
       <p className="text-muted">{item.name}</p>
       <div className="flex gap-2 mt-3">
@@ -25,14 +29,22 @@ export default function BattlePage() {
         {item.location && <Badge variant="outline">{item.location}</Badge>}
       </div>
       <Card className="mt-8">
-        <CardHeader><CardTitle>{t("encyclopedia.description")}</CardTitle></CardHeader>
-        <CardContent><p className="text-muted-foreground leading-relaxed">{item.description}</p></CardContent>
+        <CardHeader>
+          <CardTitle>{t("encyclopedia.description")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+        </CardContent>
       </Card>
       {item.participants && (
         <Card className="mt-4">
-          <CardHeader><CardTitle className="text-base">{t("encyclopedia.participants")}</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">{t("encyclopedia.participants")}</CardTitle>
+          </CardHeader>
           <CardContent className="text-sm space-y-1">
-            {item.participants.map((p) => <p key={p}>\u2022 {p}</p>)}
+            {item.participants.map((p) => (
+              <p key={p}>• {p}</p>
+            ))}
           </CardContent>
         </Card>
       )}

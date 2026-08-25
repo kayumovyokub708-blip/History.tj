@@ -12,9 +12,9 @@ export default function PeoplePage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
         <Link to="/encyclopedia" className="text-sm text-primary hover:underline">
-          \u2190 {t("encyclopedia.title")}
+          ← {t("encyclopedia.title")}
         </Link>
-        <h1 className="text-3xl font-bold mt-2">\ud83d\udc51 {t("encyclopedia.people")}</h1>
+        <h1 className="text-3xl font-bold mt-2">👑 {t("encyclopedia.people")}</h1>
         <p className="text-muted">{t("encyclopedia.peopleSubtitle")}</p>
       </div>
 
@@ -23,7 +23,7 @@ export default function PeoplePage() {
           <Link key={p.id} to={`/encyclopedia/people/${p.slug}`}>
             <Card className="h-full hover:border-primary/40 transition cursor-pointer">
               <div className="h-32 bg-surface flex items-center justify-center rounded-t-xl">
-                <span className="text-4xl opacity-40">\ud83d\udc64</span>
+                <span className="text-4xl opacity-40">👤</span>
               </div>
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap gap-2 mb-1">
@@ -36,7 +36,9 @@ export default function PeoplePage() {
               <CardContent>
                 <p className="text-sm text-muted line-clamp-2">{p.shortBio}</p>
                 {(p.birthYear || p.deathYear) && (
-                  <p className="text-xs text-muted mt-2">{p.birthYear}\u2013{p.deathYear}</p>
+                  <p className="text-xs text-muted mt-2">
+                    {p.birthYear}–{p.deathYear}
+                  </p>
                 )}
               </CardContent>
             </Card>

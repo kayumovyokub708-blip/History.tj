@@ -12,13 +12,17 @@ export default function PlacePage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold">{t("common.notFound")}</h1>
-        <Link to="/encyclopedia/places" className="text-primary">\u2190 {t("encyclopedia.places")}</Link>
+        <Link to="/encyclopedia/places" className="text-primary">
+          ← {t("encyclopedia.places")}
+        </Link>
       </div>
     )
   }
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <Link to="/encyclopedia/places" className="text-sm text-primary hover:underline">\u2190 {t("encyclopedia.places")}</Link>
+      <Link to="/encyclopedia/places" className="text-sm text-primary hover:underline">
+        ← {t("encyclopedia.places")}
+      </Link>
       <h1 className="text-3xl font-bold mt-4">{place.nameTj}</h1>
       <p className="text-xl text-muted">{place.name}</p>
       <div className="flex flex-wrap gap-2 mt-3">
@@ -26,11 +30,17 @@ export default function PlacePage() {
         {place.location && <Badge variant="outline">{place.location}</Badge>}
       </div>
       <Card className="mt-8">
-        <CardHeader><CardTitle>{t("encyclopedia.description")}</CardTitle></CardHeader>
-        <CardContent><p className="text-muted-foreground leading-relaxed">{place.description}</p></CardContent>
+        <CardHeader>
+          <CardTitle>{t("encyclopedia.description")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground leading-relaxed">{place.description}</p>
+        </CardContent>
       </Card>
       {place.coordinates && (
-        <p className="text-sm text-muted mt-4">{t("encyclopedia.coordinates")}: {place.coordinates}</p>
+        <p className="text-sm text-muted mt-4">
+          {t("encyclopedia.coordinates")}: {place.coordinates}
+        </p>
       )}
     </div>
   )
