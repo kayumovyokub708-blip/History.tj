@@ -13,7 +13,7 @@ export default function BattlesPage() {
   }))
   return (
     <CategoryListPage
-      title={`\ud83d\udde1\ufe0f ${t("encyclopedia.battles")}`}
+      title={`🗡️ ${t("encyclopedia.battles")}`}
       description={t("encyclopedia.battlesSubtitle")}
       basePath="/encyclopedia/battles"
       items={items}

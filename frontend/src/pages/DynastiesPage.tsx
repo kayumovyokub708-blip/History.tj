@@ -8,12 +8,12 @@ export default function DynastiesPage() {
     slug: d.slug,
     title: d.nameTj,
     subtitle: d.name,
-    badge: `${d.yearStart}\u2013${d.yearEnd}`,
+    badge: `${d.yearStart}–${d.yearEnd}`,
     meta: d.shortDesc,
   }))
   return (
     <CategoryListPage
-      title={`\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 ${t("encyclopedia.dynasties")}`}
+      title={`👨‍👩‍👧 ${t("encyclopedia.dynasties")}`}
       description={t("encyclopedia.dynastiesSubtitle")}
       basePath="/encyclopedia/dynasties"
       items={items}

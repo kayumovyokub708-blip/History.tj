@@ -8,12 +8,12 @@ export default function PeriodsPage() {
     slug: p.slug,
     title: p.nameTj,
     subtitle: p.name,
-    badge: `${p.yearStart}\u2013${p.yearEnd}`,
+    badge: `${p.yearStart}–${p.yearEnd}`,
     meta: p.shortDesc,
   }))
   return (
     <CategoryListPage
-      title={`\ud83d\udcc5 ${t("encyclopedia.periods")}`}
+      title={`📅 ${t("encyclopedia.periods")}`}
       description={t("encyclopedia.periodsSubtitle")}
       basePath="/encyclopedia/periods"
       items={items}

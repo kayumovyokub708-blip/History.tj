@@ -13,7 +13,7 @@ export default function PlacesPage() {
   }))
   return (
     <CategoryListPage
-      title={`\ud83c\udfdb\ufe0f ${t("encyclopedia.places")}`}
+      title={`🏛️ ${t("encyclopedia.places")}`}
       description={t("encyclopedia.placesSubtitle")}
       basePath="/encyclopedia/places"
       items={items}

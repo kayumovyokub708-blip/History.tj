@@ -4,14 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 const categories = [
-  { path: "/encyclopedia/people", icon: "\ud83d\udc51", key: "people", count: "6" },
-  { path: "/encyclopedia/events", icon: "\u2694\ufe0f", key: "events", count: "6" },
-  { path: "/encyclopedia/places", icon: "\ud83c\udfdb\ufe0f", key: "places", count: "4" },
-  { path: "/encyclopedia/periods", icon: "\ud83d\udcc5", key: "periods", count: "4" },
-  { path: "/encyclopedia/dynasties", icon: "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67", key: "dynasties", count: "3" },
-  { path: "/encyclopedia/battles", icon: "\ud83d\udde1\ufe0f", key: "battles", count: "2" },
-  { path: "/articles", icon: "\ud83d\udcdd", key: "articles", count: "3", nav: true },
-  { path: "/search", icon: "\ud83d\udd0d", key: "search", count: "all", nav: true },
+  { path: "/encyclopedia/people", icon: "👑", key: "people", count: "6" },
+  { path: "/encyclopedia/events", icon: "⚔️", key: "events", count: "6" },
+  { path: "/encyclopedia/places", icon: "🏛️", key: "places", count: "4" },
+  { path: "/encyclopedia/periods", icon: "📅", key: "periods", count: "4" },
+  { path: "/encyclopedia/dynasties", icon: "👨‍👩‍👧", key: "dynasties", count: "3" },
+  { path: "/encyclopedia/battles", icon: "🗡️", key: "battles", count: "2" },
+  { path: "/articles", icon: "📝", key: "articles", count: "3", nav: true },
+  { path: "/search", icon: "🔍", key: "search", count: "all", nav: true },
 ]
 
 export default function EncyclopediaPage() {
