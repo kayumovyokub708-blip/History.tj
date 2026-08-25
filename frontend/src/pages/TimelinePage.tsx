@@ -4,13 +4,13 @@ import { Badge } from "@/components/ui/badge"
 
 const eras = [
   { year: "500 BC", titleKey: "ancient", descKey: "ancientDesc" },
-  { year: "224\u2013651", titleKey: "sasanian", descKey: "sasanianDesc" },
-  { year: "819\u2013999", titleKey: "samanid", descKey: "samanidDesc" },
-  { year: "999\u20131220", titleKey: "ghaznavid", descKey: "ghaznavidDesc" },
-  { year: "1220\u20131500", titleKey: "mongol", descKey: "mongolDesc" },
-  { year: "1500\u20131868", titleKey: "later", descKey: "laterDesc" },
-  { year: "1868\u20131991", titleKey: "soviet", descKey: "sovietDesc" },
-  { year: "1991\u2014", titleKey: "independent", descKey: "independentDesc" },
+  { year: "224–651", titleKey: "sasanian", descKey: "sasanianDesc" },
+  { year: "819–999", titleKey: "samanid", descKey: "samanidDesc" },
+  { year: "999–1220", titleKey: "ghaznavid", descKey: "ghaznavidDesc" },
+  { year: "1220–1500", titleKey: "mongol", descKey: "mongolDesc" },
+  { year: "1500–1868", titleKey: "later", descKey: "laterDesc" },
+  { year: "1868–1991", titleKey: "soviet", descKey: "sovietDesc" },
+  { year: "1991—", titleKey: "independent", descKey: "independentDesc" },
 ]
 
 export default function TimelinePage() {
@@ -18,7 +18,7 @@ export default function TimelinePage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-10">
-        <h1 className="text-3xl font-bold mb-2">\ud83d\udd70\ufe0f {t("timeline.title")}</h1>
+        <h1 className="text-3xl font-bold mb-2">⏱️ {t("timeline.title")}</h1>
         <p className="text-muted">{t("timeline.subtitle")}</p>
       </div>
       <div className="relative border-l-2 border-border ml-3 space-y-8">
