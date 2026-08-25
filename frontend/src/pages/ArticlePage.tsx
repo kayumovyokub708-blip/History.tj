@@ -11,13 +11,17 @@ export default function ArticlePage() {
   if (!article) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <Link to="/articles" className="text-primary">\u2190 {t("articles.title")}</Link>
+        <Link to="/articles" className="text-primary">
+          ← {t("articles.title")}
+        </Link>
       </div>
     )
   }
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <Link to="/articles" className="text-sm text-primary hover:underline">\u2190 {t("articles.title")}</Link>
+      <Link to="/articles" className="text-sm text-primary hover:underline">
+        ← {t("articles.title")}
+      </Link>
       <div className="flex gap-2 mt-4 mb-2">
         {article.category && <Badge variant="secondary">{article.category}</Badge>}
         {article.readTime && <Badge variant="outline">{article.readTime}</Badge>}
@@ -31,9 +35,15 @@ export default function ArticlePage() {
       </Card>
       {article.sources && article.sources.length > 0 && (
         <Card className="mt-4">
-          <CardHeader><CardTitle className="text-base">{t("encyclopedia.sources")}</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">{t("encyclopedia.sources")}</CardTitle>
+          </CardHeader>
           <CardContent className="text-sm text-muted space-y-1">
-            {article.sources.map((s, i) => <p key={i}>{i + 1}. {s}</p>)}
+            {article.sources.map((s, i) => (
+              <p key={i}>
+                {i + 1}. {s}
+              </p>
+            ))}
           </CardContent>
         </Card>
       )}

@@ -35,7 +35,7 @@ export default function CategoryListPage({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
         <Link to={backTo} className="text-sm text-primary hover:underline">
-          \u2190 {label}
+          ← {label}
         </Link>
         <h1 className="text-3xl font-bold mt-2">{title}</h1>
         {description && <p className="text-muted">{description}</p>}
@@ -47,7 +47,9 @@ export default function CategoryListPage({
             <Card className="h-full hover:border-primary/40 transition cursor-pointer">
               <CardHeader className="pb-2">
                 {item.badge && (
-                  <Badge variant="secondary" className="mb-2 w-fit">{item.badge}</Badge>
+                  <Badge variant="secondary" className="mb-2 w-fit">
+                    {item.badge}
+                  </Badge>
                 )}
                 <CardTitle className="text-lg">{item.title}</CardTitle>
                 {item.subtitle && <p className="text-sm text-muted">{item.subtitle}</p>}

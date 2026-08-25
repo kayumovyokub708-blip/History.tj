@@ -15,7 +15,7 @@ export default function ArticlesPage() {
     <CategoryListPage
       backTo="/"
       backLabel={t("nav.home")}
-      title={`\ud83d\udcdd ${t("articles.title")}`}
+      title={`📝 ${t("articles.title")}`}
       description={t("articles.subtitle")}
       basePath="/articles"
       items={items}
