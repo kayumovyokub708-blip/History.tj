@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next"
 import CategoryListPage from "./CategoryListPage"
 import { getPublishedBattles } from "@/data/battles"
 
 export default function BattlesPage() {
+  const { t } = useTranslation()
   const items = getPublishedBattles().map((b) => ({
     slug: b.slug,
     title: b.nameTj,
@@ -11,8 +13,8 @@ export default function BattlesPage() {
   }))
   return (
     <CategoryListPage
-      title="🗡️ Ҷангҳо"
-      description="Major battles"
+      title={`\ud83d\udde1\ufe0f ${t("encyclopedia.battles")}`}
+      description={t("encyclopedia.battlesSubtitle")}
       basePath="/encyclopedia/battles"
       items={items}
     />

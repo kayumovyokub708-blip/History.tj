@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
@@ -21,30 +22,32 @@ interface Props {
 
 export default function CategoryListPage({
   backTo = "/encyclopedia",
-  backLabel = "Encyclopedia",
+  backLabel,
   title,
   description,
   basePath,
   items,
 }: Props) {
+  const { t } = useTranslation()
+  const label = backLabel ?? t("encyclopedia.title")
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
         <Link to={backTo} className="text-sm text-primary hover:underline">
-          ← {backLabel}
+          \u2190 {label}
         </Link>
         <h1 className="text-3xl font-bold mt-2">{title}</h1>
         {description && <p className="text-muted">{description}</p>}
       </div>
+
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {items.map((item) => (
           <Link key={item.slug} to={`${basePath}/${item.slug}`}>
             <Card className="h-full hover:border-primary/40 transition cursor-pointer">
               <CardHeader className="pb-2">
                 {item.badge && (
-                  <Badge variant="secondary" className="w-fit mb-1">
-                    {item.badge}
-                  </Badge>
+                  <Badge variant="secondary" className="mb-2 w-fit">{item.badge}</Badge>
                 )}
                 <CardTitle className="text-lg">{item.title}</CardTitle>
                 {item.subtitle && <p className="text-sm text-muted">{item.subtitle}</p>}

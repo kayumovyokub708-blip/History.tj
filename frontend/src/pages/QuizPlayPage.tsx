@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { Link, useParams, useNavigate } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -9,10 +10,10 @@ import { useAuth } from "@/context/AuthContext"
 import { cn } from "@/lib/utils"
 
 export default function QuizPlayPage() {
+  const { t } = useTranslation()
   const { slug } = useParams()
   const quiz = slug ? getQuizBySlug(slug) : undefined
   const { user } = useAuth()
-  const navigate = useNavigate()
 
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState<string | null>(null)
@@ -27,16 +28,16 @@ export default function QuizPlayPage() {
       setDone(true)
       return
     }
-    const t = setTimeout(() => setTimeLeft((x) => x - 1), 1000)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setTimeLeft((x) => x - 1), 1000)
+    return () => clearTimeout(timer)
   }, [timeLeft, quiz, done])
 
   if (!quiz) {
     return (
       <div className="max-w-xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-xl font-bold">Quiz not found</h1>
+        <h1 className="text-xl font-bold">{t("quiz.notFound")}</h1>
         <Link to="/quiz" className="text-primary hover:underline">
-          ← Quizzes
+          \u2190 {t("quiz.title")}
         </Link>
       </div>
     )
@@ -69,25 +70,24 @@ export default function QuizPlayPage() {
       <div className="max-w-lg mx-auto px-4 py-16">
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Result</CardTitle>
+            <CardTitle className="text-2xl">{t("quiz.result")}</CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <div className="text-4xl font-bold text-primary">
               {score} / {quiz.questions.length}
             </div>
-            <p className="text-muted">
-              Accuracy: {Math.round((score / quiz.questions.length) * 100)}%
-            </p>
+            <p className="text-muted">{t("quiz.score")}</p>
             <Badge>+{xp} XP</Badge>
             {!user && (
               <p className="text-sm text-muted">
-                <Link to="/login" className="text-primary hover:underline">Sign in</Link> to save XP
+                <Link to="/login" className="text-primary hover:underline">{t("auth.signIn")}</Link>{" "}
+                {t("quiz.saveXpHint")}
               </p>
             )}
             <div className="flex gap-3 justify-center pt-4">
-              <Button onClick={() => window.location.reload()}>Retry</Button>
+              <Button onClick={() => window.location.reload()}>{t("quiz.tryAgain")}</Button>
               <Link to="/quiz">
-                <Button variant="secondary">All quizzes</Button>
+                <Button variant="secondary">{t("quiz.allQuizzes")}</Button>
               </Link>
             </div>
           </CardContent>
@@ -103,10 +103,10 @@ export default function QuizPlayPage() {
     <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="flex items-center justify-between mb-4 text-sm text-muted">
         <span>
-          Question {index + 1} / {quiz.questions.length}
+          {t("quiz.question")} {index + 1} / {quiz.questions.length}
         </span>
         <span className="tabular-nums font-medium text-white">
-          ⏱ {mins}:{secs.toString().padStart(2, "0")}
+          \u23f1 {mins}:{secs.toString().padStart(2, "0")}
         </span>
       </div>
       <Progress value={progress} className="mb-6" />
@@ -130,10 +130,7 @@ export default function QuizPlayPage() {
                 type="button"
                 onClick={() => handleSelect(opt.id)}
                 disabled={revealed}
-                className={cn(
-                  "w-full text-left px-4 py-3 rounded-lg border transition",
-                  style
-                )}
+                className={cn("w-full text-left px-4 py-3 rounded-lg border transition", style)}
               >
                 {opt.text}
               </button>
@@ -146,7 +143,7 @@ export default function QuizPlayPage() {
 
           {revealed && (
             <Button className="w-full mt-2" onClick={handleNext}>
-              {index + 1 >= quiz.questions.length ? "Finish" : "Next"}
+              {index + 1 >= quiz.questions.length ? t("quiz.finish") : t("common.next")}
             </Button>
           )}
         </CardContent>
