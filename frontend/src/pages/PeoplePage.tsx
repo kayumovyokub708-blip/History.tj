@@ -3,9 +3,12 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { getPublishedPeople } from "@/data/people"
+import { getLocalizedName } from "@/lib/getLocalized"
+import type { Language } from "@/i18n/types"
 
 export default function PeoplePage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = (i18n.language as Language) || "tg"
   const list = getPublishedPeople()
 
   return (
@@ -30,8 +33,7 @@ export default function PeoplePage() {
                   {p.period && <Badge variant="secondary">{p.period}</Badge>}
                   {p.dynasty && <Badge variant="outline">{p.dynasty}</Badge>}
                 </div>
-                <CardTitle className="text-lg">{p.nameTj}</CardTitle>
-                <p className="text-sm text-muted">{p.name}</p>
+                <CardTitle className="text-lg">{getLocalizedName(p, lang)}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted line-clamp-2">{p.shortBio}</p>
