@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Главная",
+    "encyclopedia": "Энциклопедия",
+    "articles": "Статьи",
+    "search": "Поиск",
+    "timeline": "Хронология",
+    "map": "Карта",
+    "courses": "Курсы",
+    "quiz": "Викторины",
+    "expeditions": "Экспедиции",
+    "leaderboard": "Рейтинг",
+    "admin": "Админ"
+  },
+  "auth": {
+    "login": "Вход",
+    "register": "Регистрация",
+    "logout": "Выход"
+  },
+  "common": {
+    "search": "Поиск",
+    "more": "Ещё",
+    "loading": "Загрузка..."
+  },
+  "encyclopedia": {
+    "people": "Личности",
+    "events": "События"
+  },
+  "quiz": {
+    "start": "Начать"
+  },
+  "footer": {
+    "rights": "Все права защищены"
+  },
+  "language": {
+    "tg": "Тоҷикӣ",
+    "ru": "Русский",
+    "en": "English",
+    "switch": "Сменить язык"
+  }
+}

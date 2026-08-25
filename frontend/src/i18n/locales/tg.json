@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Асосӣ",
+    "encyclopedia": "Энциклопедия",
+    "articles": "Мақолаҳо",
+    "search": "Ҷустуҷӯ",
+    "timeline": "Хронология",
+    "map": "Харита",
+    "courses": "Курсҳо",
+    "quiz": "Викторинаҳо",
+    "expeditions": "Экспедитсияҳо",
+    "leaderboard": "Рейтинг",
+    "admin": "Админ"
+  },
+  "auth": {
+    "login": "Вуруд",
+    "register": "Сабти ном",
+    "logout": "Баромад"
+  },
+  "common": {
+    "search": "Ҷустуҷӯ",
+    "more": "Бештар",
+    "loading": "Бор шуда истодааст..."
+  },
+  "encyclopedia": {
+    "people": "Шахсиятҳо",
+    "events": "Рӯйдодҳо"
+  },
+  "quiz": {
+    "start": "Оғоз кардан"
+  },
+  "footer": {
+    "rights": "Ҳамаи ҳуқуқҳо ҳифз шудаанд"
+  },
+  "language": {
+    "tg": "Тоҷикӣ",
+    "ru": "Русӣ",
+    "en": "English",
+    "switch": "Ивази забон"
+  }
+}
