@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Link, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -33,15 +34,16 @@ function streakBonus(streak: number): number {
   return 0
 }
 
-function difficultyLabel(d: QuizDifficulty) {
-  if (d === "easy") return { text: "Easy", className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" }
-  if (d === "hard") return { text: "Hard", className: "bg-red-500/15 text-red-400 border-red-500/30" }
-  return { text: "Medium", className: "bg-amber-500/15 text-amber-400 border-amber-500/30" }
+function difficultyStyle(d: QuizDifficulty) {
+  if (d === "easy") return "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+  if (d === "hard") return "bg-red-500/15 text-red-400 border-red-500/30"
+  return "bg-amber-500/15 text-amber-400 border-amber-500/30"
 }
 
 type PreparedQuestion = QuizQuestion & { options: QuizOption[]; difficulty: QuizDifficulty }
 
 export default function QuizPlayPage() {
+  const { t } = useTranslation()
   const { slug } = useParams()
   const quiz = slug ? getQuizBySlug(slug) : undefined
   const { user } = useAuth()
@@ -236,9 +238,9 @@ export default function QuizPlayPage() {
   if (!quiz) {
     return (
       <div className="max-w-xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-xl font-bold">Quiz not found</h1>
+        <h1 className="text-xl font-bold">{t("quiz.notFound")}</h1>
         <Link to="/quiz" className="text-primary hover:underline">
-          ← All quizzes
+          ← {t("quiz.allQuizzes")}
         </Link>
       </div>
     )
@@ -257,28 +259,35 @@ export default function QuizPlayPage() {
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-lg bg-surface border border-border p-3 text-center">
                 <div className="text-2xl mb-1">❤️</div>
-                <div className="font-semibold">3 Lives</div>
+                <div className="font-semibold">3 {t("quiz.lives")}</div>
               </div>
               <div className="rounded-lg bg-surface border border-border p-3 text-center">
                 <div className="text-2xl mb-1">⏱️</div>
-                <div className="font-semibold">{QUESTION_TIME}s / question</div>
+                <div className="font-semibold">
+                  {QUESTION_TIME}
+                  {t("quiz.perQuestion")}
+                </div>
               </div>
               <div className="rounded-lg bg-surface border border-border p-3 text-center">
                 <div className="text-2xl mb-1">🔥</div>
-                <div className="font-semibold">Streak bonuses</div>
+                <div className="font-semibold">{t("quiz.streakBonuses")}</div>
               </div>
               <div className="rounded-lg bg-surface border border-border p-3 text-center">
                 <div className="text-2xl mb-1">🎯</div>
-                <div className="font-semibold">{quiz.questions.length} questions</div>
+                <div className="font-semibold">
+                  {quiz.questions.length} {t("quiz.questions")}
+                </div>
               </div>
             </div>
             <div className="text-xs text-muted space-y-1">
-              <p>🟢 Easy = 10 pts · 🟡 Medium = 20 pts · 🔴 Hard = 30 pts</p>
-              <p>Speed & streak bonuses on correct answers</p>
+              <p>
+                🟢 {t("quiz.ptsEasy")} · 🟡 {t("quiz.ptsMedium")} · 🔴 {t("quiz.ptsHard")}
+              </p>
+              <p>{t("quiz.speedStreakHint")}</p>
             </div>
             {lb.length > 0 && (
               <div>
-                <p className="text-sm font-semibold mb-2">🏆 Top scores</p>
+                <p className="text-sm font-semibold mb-2">🏆 {t("quiz.topScores")}</p>
                 <div className="space-y-1">
                   {lb.map((e, i) => (
                     <div
@@ -295,10 +304,10 @@ export default function QuizPlayPage() {
               </div>
             )}
             <Button className="w-full" size="lg" onClick={startQuiz}>
-              Start Quiz
+              {t("quiz.startQuiz")}
             </Button>
             <Link to="/quiz" className="block text-center text-sm text-primary hover:underline">
-              ← Back to quizzes
+              ← {t("quiz.backToQuizzes")}
             </Link>
           </CardContent>
         </Card>
@@ -318,30 +327,32 @@ export default function QuizPlayPage() {
       <div className="max-w-lg mx-auto px-4 py-12">
         <Card className="overflow-hidden">
           <div className="bg-gradient-to-br from-primary/20 to-transparent p-6 text-center border-b border-border">
-            <p className="text-sm text-muted mb-1">Quiz complete</p>
-            <h2 className="text-3xl font-bold text-primary tabular-nums">{score} pts</h2>
+            <p className="text-sm text-muted mb-1">{t("quiz.quizComplete")}</p>
+            <h2 className="text-3xl font-bold text-primary tabular-nums">
+              {score} {t("quiz.pts")}
+            </h2>
             <p className="text-sm text-muted mt-1">
-              Rank #{playerRank || "—"} · {accuracy}% accuracy
+              {t("quiz.rank")} #{playerRank || "—"} · {accuracy}% {t("quiz.accuracy")}
             </p>
           </div>
           <CardContent className="pt-6 space-y-6">
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <Stat label="Correct" value={String(correctCount)} tone="good" />
-              <Stat label="Wrong" value={String(wrongCount)} tone="bad" />
-              <Stat label="Accuracy" value={`${accuracy}%`} />
-              <Stat label="Best streak" value={`🔥 ${bestStreak}`} />
-              <Stat label="Time" value={`${mins}:${secs.toString().padStart(2, "0")}`} />
+              <Stat label={t("quiz.correct")} value={String(correctCount)} tone="good" />
+              <Stat label={t("quiz.wrong")} value={String(wrongCount)} tone="bad" />
+              <Stat label={t("quiz.accuracy")} value={`${accuracy}%`} />
+              <Stat label={t("quiz.bestStreak")} value={`🔥 ${bestStreak}`} />
+              <Stat label={t("quiz.time")} value={`${mins}:${secs.toString().padStart(2, "0")}`} />
               <Stat
-                label="XP reward"
+                label={t("quiz.xpReward")}
                 value={`+${Math.round((correctCount / Math.max(1, questions.length)) * quiz.xpReward)}`}
               />
             </div>
 
             <div>
-              <h3 className="font-semibold mb-3 flex items-center gap-2">🏆 Leaderboard</h3>
+              <h3 className="font-semibold mb-3 flex items-center gap-2">🏆 {t("quiz.leaderboard")}</h3>
               <div className="space-y-2">
                 {top3.length === 0 && (
-                  <p className="text-sm text-muted">No scores yet — you are first!</p>
+                  <p className="text-sm text-muted">{t("quiz.noScoresYet")}</p>
                 )}
                 {top3.map((e, i) => (
                   <div
@@ -355,7 +366,9 @@ export default function QuizPlayPage() {
                       <span className="text-xl w-8 text-center">{medals[i]}</span>
                       <div>
                         <p className="font-medium">{e.name}</p>
-                        <p className="text-xs text-muted">{e.accuracy}% accuracy</p>
+                        <p className="text-xs text-muted">
+                          {e.accuracy}% {t("quiz.accuracy")}
+                        </p>
                       </div>
                     </div>
                     <span className="font-bold text-primary tabular-nums">{e.score}</span>
@@ -366,11 +379,11 @@ export default function QuizPlayPage() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Button className="flex-1" onClick={startQuiz}>
-                Play again
+                {t("quiz.playAgain")}
               </Button>
               <Link to="/quiz" className="flex-1">
                 <Button variant="secondary" className="w-full">
-                  All quizzes
+                  {t("quiz.allQuizzes")}
                 </Button>
               </Link>
             </div>
@@ -383,7 +396,8 @@ export default function QuizPlayPage() {
   const q = questions[index]
   if (!q) return null
   const progress = ((index + (revealed ? 1 : 0)) / questions.length) * 100
-  const diff = difficultyLabel(q.difficulty)
+  const diffText = t(`quiz.difficulty${q.difficulty[0].toUpperCase()}${q.difficulty.slice(1)}`)
+  const diffClass = difficultyStyle(q.difficulty)
   const timerCritical = questionTime <= 5
 
   return (
@@ -406,16 +420,18 @@ export default function QuizPlayPage() {
           {streak >= 3 && (
             <span className="font-semibold text-amber-400 animate-pulse">🔥 {streak}</span>
           )}
-          <span className="font-bold text-primary tabular-nums">{score} pts</span>
+          <span className="font-bold text-primary tabular-nums">
+            {score} {t("quiz.pts")}
+          </span>
         </div>
       </div>
 
       <div className="flex items-center justify-between mb-2 text-sm text-muted">
         <span>
-          Question {index + 1} / {questions.length}
+          {t("quiz.question")} {index + 1} / {questions.length}
         </span>
-        <Badge variant="outline" className={cn("border", diff.className)}>
-          {diff.text}
+        <Badge variant="outline" className={cn("border", diffClass)}>
+          {diffText}
         </Badge>
       </div>
 
@@ -423,7 +439,7 @@ export default function QuizPlayPage() {
 
       <div className="mb-6">
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-muted">Time left</span>
+          <span className="text-muted">{t("quiz.timeLeft")}</span>
           <span
             className={cn(
               "font-mono font-bold tabular-nums",
@@ -482,16 +498,18 @@ export default function QuizPlayPage() {
 
           {revealed && feedback === "correct" && (
             <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 text-sm text-emerald-300 flex items-center justify-between">
-              <span>✓ Correct!</span>
-              <span className="font-bold">+{lastGain} pts</span>
+              <span>✓ {t("quiz.correctFeedback")}</span>
+              <span className="font-bold">
+                +{lastGain} {t("quiz.pts")}
+              </span>
             </div>
           )}
           {revealed && feedback === "wrong" && (
             <div className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-300">
-              ✕ Wrong
+              ✕ {t("quiz.wrongFeedback")}
               {lives <= 0
-                ? " — no lives left"
-                : ` — ${lives} ${lives === 1 ? "life" : "lives"} left`}
+                ? ` — ${t("quiz.noLivesLeft")}`
+                : ` — ${lives} ${lives === 1 ? t("quiz.lifeLeft") : t("quiz.livesLeft")}`}
             </div>
           )}
 
@@ -501,12 +519,12 @@ export default function QuizPlayPage() {
 
           {revealed && lives > 0 && (
             <Button className="w-full mt-2" onClick={handleNext}>
-              {index + 1 >= questions.length ? "See results" : "Next question"}
+              {index + 1 >= questions.length ? t("quiz.seeResults") : t("quiz.nextQuestion")}
             </Button>
           )}
           {revealed && lives <= 0 && (
             <Button className="w-full mt-2" onClick={finishQuiz}>
-              See results
+              {t("quiz.seeResults")}
             </Button>
           )}
         </CardContent>
@@ -518,10 +536,10 @@ export default function QuizPlayPage() {
           onClick={() => setSoundOn((s) => !s)}
           className="hover:text-white transition"
         >
-          {soundOn ? "🔊 Feedback on" : "🔇 Feedback off"}
+          {soundOn ? `🔊 ${t("quiz.feedbackOn")}` : `🔇 ${t("quiz.feedbackOff")}`}
         </button>
         <span>
-          {POINTS.easy}/{POINTS.medium}/{POINTS.hard} pts by difficulty
+          {POINTS.easy}/{POINTS.medium}/{POINTS.hard} {t("quiz.pointsByDifficulty")}
         </span>
       </div>
     </div>
