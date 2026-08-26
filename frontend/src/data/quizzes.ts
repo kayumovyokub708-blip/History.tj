@@ -4,10 +4,13 @@ export interface QuizOption {
   correct: boolean
 }
 
+export type QuizDifficulty = "easy" | "medium" | "hard"
+
 export interface QuizQuestion {
   id: string
   text: string
   explanation?: string
+  difficulty?: QuizDifficulty
   options: QuizOption[]
 }
 
@@ -34,6 +37,7 @@ export const quizzes: Quiz[] = [
         id: "q1",
         text: "Исмоили Сомонӣ кадом сулоларо намояндагӣ мекард?",
         explanation: "Уй асосгузори давлати мустақили Сомониён буд.",
+        difficulty: "easy",
         options: [
           { id: "a", text: "Сомониён", correct: true },
           { id: "b", text: "Темуриён", correct: false },
@@ -45,6 +49,7 @@ export const quizzes: Quiz[] = [
         id: "q2",
         text: "Пойтахти асосии давлати Сомониён кадом шаҳр буд?",
         explanation: "Дар замони Исмоили Сомонӣ Бухоро пойтахт буд.",
+        difficulty: "easy",
         options: [
           { id: "a", text: "Самарқанд", correct: false },
           { id: "b", text: "Бухоро", correct: true },
@@ -56,6 +61,7 @@ export const quizzes: Quiz[] = [
         id: "q3",
         text: "Ки «падари шеъри форсӣ» ҳисоб мешавад?",
         explanation: "Рӯдакӣ бунёнгузори шеъри классикии форсӣ ҳисоб меравад.",
+        difficulty: "medium",
         options: [
           { id: "a", text: "Фирдавсӣ", correct: false },
           { id: "b", text: "Рӯдакӣ", correct: true },
@@ -67,6 +73,7 @@ export const quizzes: Quiz[] = [
         id: "q4",
         text: "Ибни Сино асасан дар кадом соҳа маъруф аст?",
         explanation: "Уй ҳам табиб ва ҳам файласуф буд; «Ал-Қонун» асари маъруфи ӯст.",
+        difficulty: "easy",
         options: [
           { id: "a", text: "Тибб ва фалсафа", correct: true },
           { id: "b", text: "Шеър", correct: false },
@@ -78,6 +85,7 @@ export const quizzes: Quiz[] = [
         id: "q5",
         text: "«Шоҳнома» асари кӣст?",
         explanation: "Фирдавсӣ ҳамосаи миллии «Шоҳнома»ро суруд.",
+        difficulty: "medium",
         options: [
           { id: "a", text: "Рӯдакӣ", correct: false },
           { id: "b", text: "Фирдавсӣ", correct: true },
@@ -98,6 +106,7 @@ export const quizzes: Quiz[] = [
       {
         id: "s1",
         text: "Сулолаи Сомониён тақрибан дар кадом асрҳо ҳукмронӣ ранд?",
+        difficulty: "medium",
         options: [
           { id: "a", text: "Садаҳои VII–VIII", correct: false },
           { id: "b", text: "Садаҳои IX–X", correct: true },
@@ -108,6 +117,7 @@ export const quizzes: Quiz[] = [
       {
         id: "s2",
         text: "Дар замони Исмоили Сомонӣ кадом шаҳр пойтахти асосӣ буд?",
+        difficulty: "easy",
         options: [
           { id: "a", text: "Самарқанд", correct: false },
           { id: "b", text: "Бухоро", correct: true },
@@ -118,6 +128,7 @@ export const quizzes: Quiz[] = [
       {
         id: "s3",
         text: "Рӯдакӣ бештар ҳамчун кӣ маъруф аст?",
+        difficulty: "easy",
         options: [
           { id: "a", text: "Сарлашкар", correct: false },
           { id: "b", text: "Шоир", correct: true },
