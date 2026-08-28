@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -68,15 +68,7 @@ function CircularTimer({
   return (
     <div className="relative w-16 h-16 sm:w-[72px] sm:h-[72px] shrink-0">
       <svg className="w-full h-full -rotate-90" viewBox="0 0 72 72">
-        <circle
-          cx="36"
-          cy="36"
-          r={r}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="5"
-          className="text-border"
-        />
+        <circle cx="36" cy="36" r={r} fill="none" stroke="currentColor" strokeWidth="5" className="text-border" />
         <circle
           cx="36"
           cy="36"
@@ -119,9 +111,7 @@ function Podium({
     "border-slate-400/40 bg-slate-500/10",
     "border-amber-700/40 bg-amber-900/20",
   ]
-
   if (entries.length === 0) return null
-
   return (
     <div className="space-y-2">
       {entries.map((e, i) => (
@@ -142,9 +132,7 @@ function Podium({
               </p>
             </div>
           </div>
-          <span className="font-bold text-primary tabular-nums text-lg shrink-0">
-            {e.score}
-          </span>
+          <span className="font-bold text-primary tabular-nums text-lg shrink-0">{e.score}</span>
         </div>
       ))}
     </div>
@@ -154,6 +142,8 @@ function Podium({
 export default function QuizPlayPage() {
   const { t } = useTranslation()
   const { slug } = useParams()
+  const [searchParams] = useSearchParams()
+  const mode = searchParams.get("mode")
   const quiz = slug ? getQuizBySlug(slug) : undefined
   const { user } = useAuth()
 
@@ -385,7 +375,18 @@ export default function QuizPlayPage() {
       <div className="max-w-lg mx-auto px-4 py-10 sm:py-14">
         <Card className="border-primary/25 overflow-hidden quiz-card-glow">
           <div className="bg-gradient-to-br from-primary/15 via-transparent to-transparent px-6 pt-8 pb-4 text-center">
-            <div className="text-4xl mb-3">🎯</div>
+            <div className="text-4xl mb-3">
+              {mode === "prize" ? "💰" : mode === "challenge" ? "🎯" : mode === "daily" ? "⚡" : "🎯"}
+            </div>
+            {mode === "prize" && (
+              <Badge className="mb-2 bg-amber-500/20 text-amber-300 border border-amber-500/40">Prize Mode</Badge>
+            )}
+            {mode === "challenge" && (
+              <Badge className="mb-2 bg-rose-500/20 text-rose-300 border border-rose-500/40">Challenge Mode</Badge>
+            )}
+            {mode === "daily" && (
+              <Badge className="mb-2 bg-violet-500/20 text-violet-300 border border-violet-500/40">Daily Challenge</Badge>
+            )}
             <CardTitle className="text-2xl sm:text-3xl mb-2">{quiz.title}</CardTitle>
             <p className="text-muted text-sm max-w-sm mx-auto">{quiz.description}</p>
           </div>
@@ -414,9 +415,7 @@ export default function QuizPlayPage() {
             </div>
             {lb.length > 0 && (
               <div>
-                <p className="text-sm font-semibold mb-3 text-center">
-                  🏆 {t("quiz.topScores")}
-                </p>
+                <p className="text-sm font-semibold mb-3 text-center">🏆 {t("quiz.topScores")}</p>
                 <Podium entries={lb} accuracyLabel={t("quiz.accuracy")} />
               </div>
             )}
@@ -427,10 +426,7 @@ export default function QuizPlayPage() {
             >
               {t("quiz.startQuiz")}
             </Button>
-            <Link
-              to="/quiz"
-              className="block text-center text-sm text-primary hover:underline"
-            >
+            <Link to="/quiz" className="block text-center text-sm text-primary hover:underline">
               ← {t("quiz.backToQuizzes")}
             </Link>
           </CardContent>
@@ -455,9 +451,7 @@ export default function QuizPlayPage() {
             <p className="text-sm text-muted mb-1">{t("quiz.quizComplete")}</p>
             <h2 className="text-4xl sm:text-5xl font-bold text-primary tabular-nums tracking-tight">
               {score}{" "}
-              <span className="text-lg font-semibold text-primary/80">
-                {t("quiz.pts")}
-              </span>
+              <span className="text-lg font-semibold text-primary/80">{t("quiz.pts")}</span>
             </h2>
             <p className="text-sm text-muted mt-2">
               {t("quiz.rank")} #{playerRank || "—"} · {accuracy}% {t("quiz.accuracy")}
@@ -469,10 +463,7 @@ export default function QuizPlayPage() {
               <Stat label={t("quiz.wrong")} value={String(wrongCount)} tone="bad" />
               <Stat label={t("quiz.accuracy")} value={`${accuracy}%`} />
               <Stat label={t("quiz.bestStreak")} value={`🔥 ${bestStreak}`} />
-              <Stat
-                label={t("quiz.time")}
-                value={`${mins}:${secs.toString().padStart(2, "0")}`}
-              />
+              <Stat label={t("quiz.time")} value={`${mins}:${secs.toString().padStart(2, "0")}`} />
               <Stat
                 label={t("quiz.xpReward")}
                 value={`+${Math.round(
@@ -480,7 +471,6 @@ export default function QuizPlayPage() {
                 )}`}
               />
             </div>
-
             <div>
               <h3 className="font-semibold mb-3 flex items-center justify-center gap-2">
                 🏆 {t("quiz.leaderboard")}
@@ -491,7 +481,6 @@ export default function QuizPlayPage() {
                 <Podium entries={top3} accuracyLabel={t("quiz.accuracy")} />
               )}
             </div>
-
             <div className="flex flex-col sm:flex-row gap-3">
               <Button className="flex-1 h-11 font-semibold" onClick={startQuiz}>
                 {t("quiz.playAgain")}
@@ -555,7 +544,6 @@ export default function QuizPlayPage() {
             )
           })}
         </div>
-
         <div className="flex items-center gap-3 text-sm">
           {streak >= 3 && (
             <span className="hidden sm:inline font-semibold text-amber-400 animate-pulse">
@@ -586,20 +574,11 @@ export default function QuizPlayPage() {
 
       <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
         <div className="flex justify-center sm:justify-start">
-          <CircularTimer
-            seconds={questionTime}
-            max={QUESTION_TIME}
-            critical={timerCritical}
-          />
+          <CircularTimer seconds={questionTime} max={QUESTION_TIME} critical={timerCritical} />
         </div>
         <p className="text-xs text-muted text-center sm:text-left sm:pt-2 flex-1">
           {t("quiz.timeLeft")}:{" "}
-          <span
-            className={cn(
-              "font-mono font-bold",
-              timerCritical ? "text-red-400" : "text-white"
-            )}
-          >
+          <span className={cn("font-mono font-bold", timerCritical ? "text-red-400" : "text-white")}>
             {questionTime}s
           </span>
         </p>
@@ -609,15 +588,12 @@ export default function QuizPlayPage() {
         className={cn(
           "border-border/80 shadow-xl transition-all duration-300 relative overflow-hidden",
           feedback === "correct" && "ring-2 ring-emerald-500/60 border-emerald-500/40",
-          feedback === "wrong" &&
-            "ring-2 ring-red-500/60 border-red-500/40 quiz-wrong-shake"
+          feedback === "wrong" && "ring-2 ring-red-500/60 border-red-500/40 quiz-wrong-shake"
         )}
       >
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
         <CardHeader className="pb-3 pt-6">
-          <CardTitle className="text-lg sm:text-xl leading-snug font-semibold">
-            {q.text}
-          </CardTitle>
+          <CardTitle className="text-lg sm:text-xl leading-snug font-semibold">{q.text}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 pb-6">
           {q.options.map((opt, optIdx) => {
@@ -627,8 +603,7 @@ export default function QuizPlayPage() {
               if (opt.correct)
                 style =
                   "border-emerald-500 bg-emerald-500/15 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.12)]"
-              else if (selected === opt.id)
-                style = "border-red-500 bg-red-500/15 text-red-100"
+              else if (selected === opt.id) style = "border-red-500 bg-red-500/15 text-red-100"
               else style = "border-border opacity-45"
             } else if (selected === opt.id) {
               style = "border-primary bg-primary/15"
@@ -672,16 +647,12 @@ export default function QuizPlayPage() {
           )}
 
           {revealed && q.explanation && (
-            <p className="text-sm text-muted leading-relaxed border-t border-border/50 pt-3">
-              {q.explanation}
-            </p>
+            <p className="text-sm text-muted leading-relaxed border-t border-border/50 pt-3">{q.explanation}</p>
           )}
 
           {revealed && lives > 0 && (
             <Button className="w-full mt-1 h-11 font-semibold" onClick={handleNext}>
-              {index + 1 >= questions.length
-                ? t("quiz.seeResults")
-                : t("quiz.nextQuestion")}
+              {index + 1 >= questions.length ? t("quiz.seeResults") : t("quiz.nextQuestion")}
             </Button>
           )}
           {revealed && lives <= 0 && (
@@ -693,11 +664,7 @@ export default function QuizPlayPage() {
       </Card>
 
       <div className="mt-5 flex justify-between items-center text-xs text-muted">
-        <button
-          type="button"
-          onClick={() => setSoundOn((s) => !s)}
-          className="hover:text-white transition"
-        >
+        <button type="button" onClick={() => setSoundOn((s) => !s)} className="hover:text-white transition">
           {soundOn ? `🔊 ${t("quiz.feedbackOn")}` : `🔇 ${t("quiz.feedbackOff")}`}
         </button>
         <span>
