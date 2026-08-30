@@ -1,36 +1,49 @@
-import { StatCard } from "@/components/ui/stat-card"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Link } from "react-router-dom"
 
-const recentActivity = [
-  { action: "User registered", detail: "abdu...@gmail.com", time: "2 min ago" },
-  { action: "Quiz created", detail: "Samanid Empire Quiz", time: "15 min ago" },
-  { action: "Course published", detail: "History of Tajikistan", time: "1 hour ago" },
-  { action: "Expedition drafted", detail: "The Lost Manuscript", time: "3 hours ago" },
-  { action: "Question edited", detail: "Q #124 in Daily Quiz", time: "5 hours ago" },
-]
+function StatCard({ value, label }: { value: string; label: string }) {
+  return (
+    <Card>
+      <CardContent className="pt-5 pb-4 text-center">
+        <p className="text-2xl font-bold text-primary tabular-nums">{value}</p>
+        <p className="text-xs text-muted mt-1">{label}</p>
+      </CardContent>
+    </Card>
+  )
+}
 
 export default function AdminDashboardPage() {
+  const { t } = useTranslation()
+
+  const recentActivity = [
+    { action: "Quiz completed", detail: "Daily Quiz · +100 XP", time: "2m" },
+    { action: "New registration", detail: "user@example.com", time: "15m" },
+    { action: "Article published", detail: "Why Samanids matter", time: "1h" },
+    { action: "Person updated", detail: "Ismail Samani", time: "3h" },
+  ]
+
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold">Dashboard</h2>
-        <p className="text-muted">Overview of Histori.tj</p>
+        <h2 className="text-2xl font-bold">{t("admin.dashboard")}</h2>
+        <p className="text-muted">{t("admin.dashboardSubtitle")}</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <StatCard value="9,704" label="Users" />
-        <StatCard value="82" label="Courses" />
-        <StatCard value="341" label="Quizzes" />
-        <StatCard value="5,210" label="Questions" />
-        <StatCard value="2" label="Expeditions" />
-        <StatCard value="540" label="People" />
+        <StatCard value="9,704" label={t("admin.statUsers")} />
+        <StatCard value="82" label={t("admin.statCourses")} />
+        <StatCard value="341" label={t("admin.statQuizzes")} />
+        <StatCard value="5,210" label={t("admin.statQuestions")} />
+        <StatCard value="2" label={t("admin.statExpeditions")} />
+        <StatCard value="540" label={t("admin.statPeople")} />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle>{t("admin.recentActivity")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -49,44 +62,44 @@ export default function AdminDashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle>{t("admin.quickActions")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <a
-              href="/#/admin/courses"
+            <Link
+              to="/admin/courses"
               className="block p-4 rounded-lg bg-surface border border-border hover:border-primary/40 transition"
             >
-              <div className="font-medium">+ Create Course</div>
-              <div className="text-sm text-muted">Add a new learning path</div>
-            </a>
-            <a
-              href="/#/admin/quizzes"
+              <div className="font-medium">{t("admin.createCourse")}</div>
+              <div className="text-sm text-muted">{t("admin.createCourseDesc")}</div>
+            </Link>
+            <Link
+              to="/admin/quizzes"
               className="block p-4 rounded-lg bg-surface border border-border hover:border-primary/40 transition"
             >
-              <div className="font-medium">+ Create Quiz</div>
-              <div className="text-sm text-muted">Add questions and options</div>
-            </a>
-            <a
-              href="/#/admin/expeditions"
+              <div className="font-medium">{t("admin.createQuiz")}</div>
+              <div className="text-sm text-muted">{t("admin.createQuizDesc")}</div>
+            </Link>
+            <Link
+              to="/admin/expeditions"
               className="block p-4 rounded-lg bg-surface border border-border hover:border-primary/40 transition"
             >
-              <div className="font-medium">+ Create Expedition</div>
-              <div className="text-sm text-muted">Missions, map & timeline challenges</div>
-            </a>
+              <div className="font-medium">{t("admin.createExpedition")}</div>
+              <div className="text-sm text-muted">{t("admin.createExpeditionDesc")}</div>
+            </Link>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>System Status</CardTitle>
+          <CardTitle>{t("admin.systemStatus")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Badge variant="success">Frontend Online</Badge>
-            <Badge variant="secondary">Auth: Demo Mode</Badge>
-            <Badge variant="warning">Backend not fully connected</Badge>
-            <Badge variant="outline">Expeditions: V2.0</Badge>
+            <Badge variant="success">{t("admin.frontendOnline")}</Badge>
+            <Badge variant="secondary">{t("admin.authDemo")}</Badge>
+            <Badge variant="warning">{t("admin.backendPartial")}</Badge>
+            <Badge variant="outline">{t("admin.expeditionsV2")}</Badge>
           </div>
         </CardContent>
       </Card>

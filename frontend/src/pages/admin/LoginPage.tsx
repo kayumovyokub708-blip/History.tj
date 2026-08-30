@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 export default function AdminLoginPage() {
+  const { t } = useTranslation()
   const [email, setEmail] = useState("admin@histori.tj")
   const [password, setPassword] = useState("admin123")
   const [error, setError] = useState("")
@@ -23,7 +25,7 @@ export default function AdminLoginPage() {
       localStorage.setItem("admin_token", "demo-admin-token")
       navigate("/admin")
     } else {
-      setError("Email ё password нодуруст")
+      setError(t("admin.loginError"))
     }
     setLoading(false)
   }
@@ -35,13 +37,13 @@ export default function AdminLoginPage() {
           <div className="text-2xl font-bold mb-2">
             <span className="text-primary">Histori</span>.tj
           </div>
-          <CardTitle>Admin Login</CardTitle>
-          <CardDescription>Manage the platform</CardDescription>
+          <CardTitle>{t("admin.loginTitle")}</CardTitle>
+          <CardDescription>{t("admin.loginSubtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1.5">Email</label>
+              <label className="block text-sm font-medium mb-1.5">{t("auth.email")}</label>
               <input
                 type="email"
                 value={email}
@@ -51,7 +53,7 @@ export default function AdminLoginPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Password</label>
+              <label className="block text-sm font-medium mb-1.5">{t("auth.password")}</label>
               <input
                 type="password"
                 value={password}
@@ -66,12 +68,10 @@ export default function AdminLoginPage() {
               </div>
             )}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Login"}
+              {loading ? t("admin.signingIn") : t("admin.loginBtn")}
             </Button>
+            <p className="text-xs text-center text-muted">{t("admin.demoHint")}</p>
           </form>
-          <p className="text-xs text-muted text-center mt-6">
-            Demo: admin@histori.tj / admin123
-          </p>
         </CardContent>
       </Card>
     </div>
