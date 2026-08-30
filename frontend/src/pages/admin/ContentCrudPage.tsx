@@ -89,17 +89,14 @@ export default function ContentCrudPage({
         <div>
           <h2 className="text-2xl font-bold">{title}</h2>
           <p className="text-muted">
-            {list.length} {t("admin.items")} \u00b7 {t("admin.savedLocal")}
+            {list.length} {t("admin.items")} · {t("admin.savedLocal")}
           </p>
         </div>
-        <Button onClick={openNew}>+ {t("common.create")}</Button>
+        <Button onClick={openNew}>+ {t("admin.addItem")}</Button>
       </div>
 
       {editing && (
-        <Card className="p-6 space-y-4">
-          <h3 className="font-semibold">
-            {editing.id?.startsWith("new-") ? t("common.create") : t("common.edit")}
-          </h3>
+        <Card className="p-5 space-y-4">
           {fields.map((field) => (
             <div key={field.key}>
               <label className="text-sm text-muted">{field.label}</label>
@@ -144,7 +141,11 @@ export default function ContentCrudPage({
                   </td>
                   <td className="px-4 py-3">
                     <Badge variant={item.status === "published" ? "success" : "secondary"}>
-                      {item.status || "published"}
+                      {item.status === "draft"
+                        ? t("admin.draft")
+                        : item.status === "archived"
+                          ? t("admin.archived")
+                          : t("admin.published")}
                     </Badge>
                   </td>
                   <td className="px-4 py-3 flex gap-2">
