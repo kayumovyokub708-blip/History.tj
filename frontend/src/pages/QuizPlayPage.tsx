@@ -13,6 +13,7 @@ import {
 } from "@/data/quizzes"
 import { useAuth } from "@/context/AuthContext"
 import { cn } from "@/lib/utils"
+import { getLocalized } from "@/lib/getLocalized"
 import { getLeaderboard, saveScore, type LeaderboardEntry } from "@/lib/quizLeaderboard"
 
 const QUESTION_TIME = 20
@@ -379,16 +380,16 @@ export default function QuizPlayPage() {
               {mode === "prize" ? "💰" : mode === "challenge" ? "🎯" : mode === "daily" ? "⚡" : "🎯"}
             </div>
             {mode === "prize" && (
-              <Badge className="mb-2 bg-amber-500/20 text-amber-300 border border-amber-500/40">Prize Mode</Badge>
+              <Badge className="mb-2 bg-amber-500/20 text-amber-300 border border-amber-500/40">{t("quiz.modeBadgePrize")}</Badge>
             )}
             {mode === "challenge" && (
-              <Badge className="mb-2 bg-rose-500/20 text-rose-300 border border-rose-500/40">Challenge Mode</Badge>
+              <Badge className="mb-2 bg-rose-500/20 text-rose-300 border border-rose-500/40">{t("quiz.modeBadgeChallenge")}</Badge>
             )}
             {mode === "daily" && (
-              <Badge className="mb-2 bg-violet-500/20 text-violet-300 border border-violet-500/40">Daily Challenge</Badge>
+              <Badge className="mb-2 bg-violet-500/20 text-violet-300 border border-violet-500/40">{t("quiz.modeBadgeDaily")}</Badge>
             )}
-            <CardTitle className="text-2xl sm:text-3xl mb-2">{quiz.title}</CardTitle>
-            <p className="text-muted text-sm max-w-sm mx-auto">{quiz.description}</p>
+            <CardTitle className="text-2xl sm:text-3xl mb-2">{getLocalized(quiz.title)}</CardTitle>
+            <p className="text-muted text-sm max-w-sm mx-auto">{getLocalized(quiz.description)}</p>
           </div>
           <CardContent className="space-y-6 pt-2 pb-8">
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -593,7 +594,7 @@ export default function QuizPlayPage() {
       >
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
         <CardHeader className="pb-3 pt-6">
-          <CardTitle className="text-lg sm:text-xl leading-snug font-semibold">{q.text}</CardTitle>
+          <CardTitle className="text-lg sm:text-xl leading-snug font-semibold">{getLocalized(q.text)}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 pb-6">
           {q.options.map((opt, optIdx) => {
@@ -623,7 +624,7 @@ export default function QuizPlayPage() {
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-surface border border-border text-xs font-bold text-muted">
                     {String.fromCharCode(65 + optIdx)}
                   </span>
-                  <span>{opt.text}</span>
+                  <span>{getLocalized(opt.text)}</span>
                 </span>
               </button>
             )
@@ -647,7 +648,7 @@ export default function QuizPlayPage() {
           )}
 
           {revealed && q.explanation && (
-            <p className="text-sm text-muted leading-relaxed border-t border-border/50 pt-3">{q.explanation}</p>
+            <p className="text-sm text-muted leading-relaxed border-t border-border/50 pt-3">{getLocalized(q.explanation)}</p>
           )}
 
           {revealed && lives > 0 && (
