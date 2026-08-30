@@ -106,6 +106,10 @@ export const people: Person[] = [
       "Нахустин шоири бузурги адабиёти форсии дарӣ; дар дарбори Сомониён шеър гуфт.",
     biography:
       "Рӯдакӣ бунёнгузори шеъри классикии форсӣ шинохта мешавад. Уй дар дарбори Сомониён дар Бухоро хизмат мекард ва ҳазорҳо байт суруд, ки ҳамааш то ба рӯзгор расидааст. Эҷоди ӯ ба таҳкими забони форсӣ ҳамчун забони адабӣ кумак кард.",
+    biographyRu:
+      "Рудаки признан основоположником классической персидской поэзии. Он служил при дворе Саманидов в Бухаре и сложил тысячи бейтов, из которых до наших дней дошла лишь часть. Его творчество способствовало укреплению персидского языка как языка высокой литературы.",
+    biographyEn:
+      "Rudaki is recognized as the founder of classical Persian poetry. He served at the Samanid court in Bukhara and composed thousands of verses, of which only a portion survives. His work helped establish Persian as a language of high literature.",
     achievements: [
       "Бунёдгузори шеъри классикии форсӣ",
       "Шоири дарбори Сомониён",
@@ -128,6 +132,10 @@ export const people: Person[] = [
     shortBio: "Файласуф, табиб ва олими бузурги Осиёи Миёна; муаллифи Қонуни тиб.",
     biography:
       "Ибни Сино яке аз бузургтарин олимони асри миёна аст. Уй дар Бухоро таҳсил кард ва китоби «ал-Қонун фи-т-тиб»-ро навишт, ки садсолаҳо дар Аврупо ва Шарқ ҳамчун дастури тиббӣ истифода мешуд.",
+    biographyRu:
+      "Ибн Сина — один из величайших учёных Средневековья. Он учился в Бухаре и написал «Канон врачебной науки», который веками использовался как медицинский справочник в Европе и на Востоке.",
+    biographyEn:
+      "Ibn Sina is one of the greatest scholars of the Middle Ages. He studied in Bukhara and wrote The Canon of Medicine, used for centuries as a medical handbook in Europe and the East.",
     achievements: ["Муаллифи Қонуни тиб", "Фалсафа ва мантиқ"],
     status: "published",
   },
@@ -147,6 +155,10 @@ export const people: Person[] = [
     shortBio: "Муаллифи ҳамосаи Шоҳнома — достони бузурги таърихи Эрон.",
     biography:
       "Фирдавсӣ Шоҳномаро тақрибан 30 сол навишт. Ин асар таърих, афсона ва ҳувияти фарҳангии ҷаҳони форсиро ҳифз мекунад.",
+    biographyRu:
+      "Фирдоуси писал «Шахнаме» около 30 лет. Это произведение сохраняет историю, мифы и культурную идентичность персоязычного мира.",
+    biographyEn:
+      "Ferdowsi spent about 30 years writing the Shahnameh. The work preserves history, myth and cultural identity of the Persian-speaking world.",
     achievements: ["Муаллифи Шоҳнома"],
     status: "published",
   },
@@ -163,6 +175,10 @@ export const people: Person[] = [
     shortBio: "Бунёдгузори империяи Ҳахоманишӣ.",
     biography:
       "Куруши Кабир империяи васеъро аз Осиёи Миёна то Баҳри Миёназамин бунёд кард ва бо сиёсати таҳаммулпазирӣ маъруф аст.",
+    biographyRu:
+      "Кир Великий создал обширную империю от Средней Азии до Средиземного моря и известен политикой веротерпимости.",
+    biographyEn:
+      "Cyrus the Great built a vast empire from Central Asia to the Mediterranean and is known for a policy of religious tolerance.",
     status: "published",
   },
   {
@@ -181,6 +197,10 @@ export const people: Person[] = [
     shortBio: "Бунёдгузори империяи Темурӣ; Самарқандро пойтахт кард.",
     biography:
       "Темур империяи бузургеро дар Осиёи Миёна ва берун аз он бунёд кард. Самарқанд дар замони ӯ маркази сиёсӣ ва фарҳангӣ шуд.",
+    biographyRu:
+      "Тимур создал большую империю в Средней Азии и за её пределами. При нём Самарканд стал политическим и культурным центром.",
+    biographyEn:
+      "Timur built a large empire in Central Asia and beyond. Under him Samarkand became a political and cultural centre.",
     status: "published",
   },
 ]
