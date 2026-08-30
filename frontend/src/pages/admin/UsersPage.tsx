@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,7 @@ const mockUsers = [
 ]
 
 export default function AdminUsersPage() {
+  const { t } = useTranslation()
   const [search, setSearch] = useState("")
 
   const filtered = mockUsers.filter(
@@ -24,12 +26,14 @@ export default function AdminUsersPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Users</h2>
-          <p className="text-muted">{mockUsers.length} total users</p>
+          <h2 className="text-2xl font-bold">{t("admin.usersTitle")}</h2>
+          <p className="text-muted">
+            {mockUsers.length} {t("admin.usersTotal")}
+          </p>
         </div>
         <input
           type="search"
-          placeholder="Search users..."
+          placeholder={t("admin.searchUsers")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="h-10 px-3 rounded-lg bg-surface border border-border text-sm w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-primary/50"
@@ -41,35 +45,32 @@ export default function AdminUsersPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-muted text-left">
-                <th className="px-4 py-3 font-medium">ID</th>
-                <th className="px-4 py-3 font-medium">Name</th>
-                <th className="px-4 py-3 font-medium">Email</th>
-                <th className="px-4 py-3 font-medium">XP</th>
-                <th className="px-4 py-3 font-medium">Level</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Actions</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colId")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colName")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colEmail")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colXp")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colLevel")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colStatus")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.colActions")}</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map((user) => (
-                <tr key={user.id} className="border-b border-border last:border-0 hover:bg-surface/40">
-                  <td className="px-4 py-3 text-muted">{user.id}</td>
-                  <td className="px-4 py-3 font-medium">{user.name}</td>
-                  <td className="px-4 py-3 text-muted">{user.email}</td>
-                  <td className="px-4 py-3">{user.xp.toLocaleString()}</td>
-                  <td className="px-4 py-3">{user.level}</td>
+              {filtered.map((u) => (
+                <tr key={u.id} className="border-b border-border last:border-0">
+                  <td className="px-4 py-3">{u.id}</td>
+                  <td className="px-4 py-3 font-medium">{u.name}</td>
+                  <td className="px-4 py-3 text-muted">{u.email}</td>
+                  <td className="px-4 py-3 tabular-nums">{u.xp}</td>
+                  <td className="px-4 py-3">{u.level}</td>
                   <td className="px-4 py-3">
-                    <Badge variant={user.status === "active" ? "success" : "destructive"}>
-                      {user.status}
+                    <Badge variant={u.status === "active" ? "success" : "destructive"}>
+                      {u.status === "active" ? t("admin.statusActive") : t("admin.statusBanned")}
                     </Badge>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="ghost">View</Button>
-                      <Button size="sm" variant="ghost">
-                        {user.status === "active" ? "Ban" : "Unban"}
-                      </Button>
-                    </div>
+                    <Button size="sm" variant="ghost">
+                      {t("common.edit")}
+                    </Button>
                   </td>
                 </tr>
               ))}

@@ -4,17 +4,17 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 const adminNav = [
-  { path: "/admin", key: "dashboard", icon: "\ud83d\udcca" },
-  { path: "/admin/users", key: "users", icon: "\ud83d\udc65" },
-  { path: "/admin/people", key: "people", icon: "\ud83d\udc51" },
-  { path: "/admin/events", key: "events", icon: "\u2694\ufe0f" },
-  { path: "/admin/places", key: "places", icon: "\ud83c\udfdb\ufe0f" },
-  { path: "/admin/articles", key: "articles", icon: "\ud83d\udcdd" },
-  { path: "/admin/courses", key: "courses", icon: "\ud83d\udcda" },
-  { path: "/admin/quizzes", key: "quizzes", icon: "\u2753" },
-  { path: "/admin/expeditions", key: "expeditions", icon: "\ud83e\udded" },
-  { path: "/admin/resources", key: "resources", icon: "\ud83d\uddc2\ufe0f" },
-  { path: "/admin/settings", key: "settings", icon: "\u2699\ufe0f" },
+  { path: "/admin", key: "dashboard", icon: "📊" },
+  { path: "/admin/users", key: "users", icon: "👥" },
+  { path: "/admin/people", key: "people", icon: "👑" },
+  { path: "/admin/events", key: "events", icon: "⚔️" },
+  { path: "/admin/places", key: "places", icon: "🏛️" },
+  { path: "/admin/articles", key: "articles", icon: "📝" },
+  { path: "/admin/courses", key: "courses", icon: "📚" },
+  { path: "/admin/quizzes", key: "quizzes", icon: "❓" },
+  { path: "/admin/expeditions", key: "expeditions", icon: "🧭" },
+  { path: "/admin/resources", key: "resources", icon: "🗂️" },
+  { path: "/admin/settings", key: "settings", icon: "⚙️" },
 ]
 
 export default function AdminLayout() {
@@ -65,10 +65,10 @@ export default function AdminLayout() {
               window.location.href = "/#/admin/login"
             }}
           >
-            \ud83d\udeaa {t("auth.logout")}
+            🚪 {t("auth.logout")}
           </Button>
           <Link to="/" className="block mt-2 text-xs text-center text-muted hover:text-primary">
-            \u2190 {t("admin.backToSite")}
+            ← {t("admin.backToSite")}
           </Link>
         </div>
       </aside>
