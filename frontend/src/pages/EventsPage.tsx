@@ -3,9 +3,12 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { getPublishedEvents } from "@/data/events"
+import { getLocalized } from "@/lib/getLocalized"
+import { getCurrentLanguage } from "@/i18n"
 
 export default function EventsPage() {
   const { t } = useTranslation()
+  const lang = getCurrentLanguage()
   const list = getPublishedEvents()
 
   return (
@@ -19,31 +22,46 @@ export default function EventsPage() {
       </div>
 
       <div className="space-y-4">
-        {list.map((e) => (
-          <Link key={e.id} to={`/encyclopedia/events/${e.slug}`}>
-            <Card className="hover:border-primary/40 transition cursor-pointer mb-4">
-              <CardContent className="p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                <div className="sm:w-28 shrink-0">
-                  <Badge variant="secondary" className="text-sm">
-                    {e.dateStart}
-                    {e.dateEnd ? `–${e.dateEnd}` : ""}
-                  </Badge>
-                </div>
-                <div className="flex-1">
-                  <div className="flex flex-wrap gap-2 mb-1">
-                    {e.period && <Badge variant="outline">{e.period}</Badge>}
-                    {e.location && (
-                      <span className="text-xs text-muted">📍 {e.location}</span>
-                    )}
+        {list.map((e) => {
+          const title = getLocalized(
+            { tg: e.titleTj, ru: e.titleRu || e.titleTj, en: e.title },
+            lang
+          )
+          const shortDesc = getLocalized(
+            {
+              tg: e.shortDesc,
+              ru: e.shortDescRu || e.shortDesc,
+              en: e.shortDescEn || e.shortDesc,
+            },
+            lang
+          )
+          return (
+            <Link key={e.id} to={`/encyclopedia/events/${e.slug}`}>
+              <Card className="hover:border-primary/40 transition cursor-pointer mb-4">
+                <CardContent className="p-5 flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div className="sm:w-28 shrink-0">
+                    <Badge variant="secondary" className="text-sm">
+                      {e.dateStart}
+                      {e.dateEnd ? `–${e.dateEnd}` : ""}
+                    </Badge>
                   </div>
-                  <h2 className="font-semibold text-lg">{e.titleTj}</h2>
-                  <p className="text-sm text-muted">{e.title}</p>
-                  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{e.shortDesc}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+                  <div className="flex-1">
+                    <div className="flex flex-wrap gap-2 mb-1">
+                      {e.period && <Badge variant="outline">{e.period}</Badge>}
+                      {e.location && (
+                        <span className="text-xs text-muted">📍 {e.location}</span>
+                      )}
+                    </div>
+                    <h2 className="font-semibold text-lg">{title}</h2>
+                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                      {shortDesc}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
