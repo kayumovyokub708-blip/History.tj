@@ -1,112 +1,146 @@
-# Histori.tj — Free Deploy Guide
+# Histori.tj — Infrastructure Deploy (Windows)
 
-## Architecture (free tier)
+## Ҳадаф
 
 ```
-Frontend  →  Vercel (free)  OR  GitHub Pages (already works)
-Backend   →  Fly.io (free allowance)
-Database  →  Neon Postgres (free)  OR  SQLite on Fly (demo only)
+Frontend  → GitHub Pages (аллакай кор мекунад)
+Backend   → Fly.io  →  https://histori-tj-api.fly.dev
+Database  → Neon Postgres (free)  Ё  SQLite дар Fly (demo)
 ```
-
-Later: paid plans on same platforms, or Coolify/Dokploy on a VPS.
 
 ---
 
-## A) Backend on Fly.io
+## 1) Neon Postgres (тавсия)
 
-### 1. Install Fly CLI
-https://fly.io/docs/hands-on/install-flyctl/
+1. https://console.neon.tech → Sign up (GitHub)
+2. **New Project** → ном: `histori-tj` → Region наздиктар (Frankfurt агар бошад)
+3. **Connection string** нусхабардорӣ (Connection string → URI)
+   - Шакл: `postgresql://user:pass@ep-xxx.eu-central-1.aws.neon.tech/neondb?sslmode=require`
 
-```bash
-# Windows (PowerShell)
+Инро баъдтар ба Fly secrets мегузорем.
+
+---
+
+## 2) Fly CLI (Windows)
+
+PowerShell **Administrator**:
+
+```powershell
 powershell -Command "iwr https://fly.io/install.ps1 -useb | iex"
 ```
 
-### 2. Login & deploy
+Терминалро бандед, аз нав кушоед:
 
-```bash
+```powershell
+fly version
 fly auth login
-cd backend
-fly launch --name histori-tj-api --region fra --no-deploy
 ```
 
-Set secrets:
+---
 
-```bash
-fly secrets set SECRET_KEY="paste-a-long-random-string-here"
+## 3) Deploy backend
+
+```powershell
+cd "C:\Users\Note Book\Desktop\таърих"
+git pull origin main
+cd backend
+
+fly launch --name histori-tj-api --region fra --no-deploy --copy-config
+```
+
+Агар ном банд бошад: `--name histori-tj-api-2`
+
+### Secrets
+
+```powershell
+fly secrets set SECRET_KEY="histori-prod-change-this-to-long-random-string-2026"
 fly secrets set FRONTEND_URL="https://kayumovyokub708-blip.github.io"
 fly secrets set ADMIN_EMAIL="admin@histori.tj"
 fly secrets set ADMIN_PASSWORD="admin123"
 fly secrets set ENVIRONMENT="production"
 ```
 
-Optional — Neon Postgres (recommended):
+**Бо Neon** (муҳим барои маълумоти пойдор):
 
-1. Create free project at https://neon.tech
-2. Copy connection string
-3. `fly secrets set DATABASE_URL="postgresql://..."`
+```powershell
+fly secrets set DATABASE_URL="postgresql://USER:PASSWORD@HOST/neondb?sslmode=require"
+```
 
-Deploy:
+(без Neon: SQLite — маълумот ҳангоми restart гум мешавад)
 
-```bash
+### Deploy
+
+```powershell
 fly deploy
 ```
 
-Your API URL will look like: `https://histori-tj-api.fly.dev`
+Санҷиш:
 
-Test: `https://histori-tj-api.fly.dev/api/v1/health`
+```powershell
+fly status
+fly open
+```
 
----
-
-## B) Frontend on Vercel (optional, free)
-
-1. https://vercel.com → Import GitHub repo `History.tj`
-2. **Root Directory:** `frontend`
-3. Framework: Vite
-4. Env:
-   - `VITE_API_URL` = `https://histori-tj-api.fly.dev`
-5. Deploy
-
-Vercel gives a clean URL without hash routing issues.
+Браузер:
+- `https://histori-tj-api.fly.dev/api/v1/health`
+- `https://histori-tj-api.fly.dev/docs`
 
 ---
 
-## C) Keep GitHub Pages (current)
+## 4) Frontend → API
 
-Already deployed. After Fly API is live:
+### Варианти A — Admin Settings (зуд)
 
-1. Open Admin → Settings
-2. Paste API URL: `https://histori-tj-api.fly.dev`
-3. Save & Test
+1. https://kayumovyokub708-blip.github.io/History.tj/#/admin/login  
+   `admin@histori.tj` / `admin123`
+2. **Settings** → API URL: `https://histori-tj-api.fly.dev`
+3. **Save & Test** → бояд Online шавад
 
-Or in browser console:
+### Варианти B — GitHub Actions (ба build мепайвандад)
+
+Repo → **Settings** → **Secrets and variables** → **Actions** → **Variables**:
+
+- Name: `VITE_API_URL`
+- Value: `https://histori-tj-api.fly.dev`
+
+Баъд push / re-run workflow.
+
+### Варианти C — console
 
 ```js
 localStorage.setItem("histori_api_url", "https://histori-tj-api.fly.dev")
+location.reload()
 ```
 
-Optionally set GitHub Actions variable `VITE_API_URL` so builds bake in the API URL.
+---
+
+## 5) Санҷиши пурра
+
+1. Health OK
+2. Сайт → Register user нав
+3. Logout / Login
+4. Admin login бо API
 
 ---
 
-## D) Coolify / Dokploy (later)
+## Хатоҳои маъмул
 
-When you rent a cheap VPS ($4–6/mo):
-
-1. Install Coolify or Dokploy on the VPS
-2. Connect the same GitHub repo
-3. Deploy backend Docker + Postgres + (optional) frontend
-
-Good for full control and lower long-term cost.
+| Хато | Ҳал |
+|------|-----|
+| `name already taken` | `--name histori-tj-api-YOURNAME` |
+| CORS | `FRONTEND_URL` = `https://kayumovyokub708-blip.github.io` |
+| DB connection | Neon URL бо `?sslmode=require` |
+| Machine stopped | аввалин request machine-ро фаъол мекунад (cold start ~5–15s) |
+| API offline дар сайт | URL-ро бе trailing slash гузоред |
 
 ---
 
-## Quick checklist
+## Checklist
 
+- [ ] Neon project + connection string
 - [ ] `fly auth login`
-- [ ] `cd backend && fly launch && fly secrets set ... && fly deploy`
-- [ ] Health check OK
+- [ ] `fly launch` + secrets + `DATABASE_URL`
+- [ ] `fly deploy`
+- [ ] `/api/v1/health` → OK
 - [ ] Admin Settings → API URL
-- [ ] Register a user on the live site
-- [ ] (Optional) Neon for persistent DB
-- [ ] (Optional) Vercel for frontend
+- [ ] Register / Login дар сайт

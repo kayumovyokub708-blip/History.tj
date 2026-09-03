@@ -4,24 +4,25 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-url = settings.DATABASE_URL
+url = settings.DATABASE_URL.strip()
 
-# Neon / managed Postgres often needs SSL
-connect_args = {}
+# Normalize Neon / Heroku style URLs for SQLAlchemy + psycopg2
+if url.startswith("postgres://"):
+    url = url.replace("postgres://", "postgresql://", 1)
+
+connect_args: dict = {}
+engine_kwargs: dict = {"pool_pre_ping": True}
+
 if url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
-elif url.startswith("postgres"):
-    # Neon requires SSL; if not in URL, enable it
+else:
+    # Postgres (Neon, etc.)
+    engine_kwargs["pool_size"] = 5
+    engine_kwargs["max_overflow"] = 10
     if "sslmode" not in url:
         connect_args = {"sslmode": "require"}
 
-engine = create_engine(
-    url,
-    pool_pre_ping=True,
-    pool_size=5,
-    max_overflow=10,
-    connect_args=connect_args,
-)
+engine = create_engine(url, connect_args=connect_args, **engine_kwargs)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

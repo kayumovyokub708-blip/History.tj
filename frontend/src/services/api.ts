@@ -1,14 +1,19 @@
-const API_BASE =
-  (import.meta as any).env?.VITE_API_URL ||
-  localStorage.getItem("histori_api_url") ||
-  ""
+/** API client — reads VITE_API_URL (build-time) or localStorage (runtime). */
 
 export function getApiBase(): string {
-  return API_BASE.replace(/\/$/, "")
+  const fromEnv = (import.meta as any).env?.VITE_API_URL as string | undefined
+  const fromLs =
+    typeof localStorage !== "undefined"
+      ? localStorage.getItem("histori_api_url") || ""
+      : ""
+  const base = (fromEnv || fromLs || "").trim()
+  return base.replace(/\/$/, "")
 }
 
 export function setApiBase(url: string) {
-  localStorage.setItem("histori_api_url", url.replace(/\/$/, ""))
+  const clean = url.trim().replace(/\/$/, "")
+  if (clean) localStorage.setItem("histori_api_url", clean)
+  else localStorage.removeItem("histori_api_url")
 }
 
 export async function apiFetch<T>(
@@ -20,7 +25,9 @@ export async function apiFetch<T>(
     throw new Error("API URL not configured")
   }
 
-  const token = localStorage.getItem("histori_token")
+  const token =
+    localStorage.getItem("histori_token") ||
+    localStorage.getItem("admin_token")
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
@@ -39,8 +46,8 @@ export async function apiFetch<T>(
       typeof detail === "string"
         ? detail
         : Array.isArray(detail)
-        ? detail.map((d: any) => d.msg).join(", ")
-        : res.statusText || "Request failed"
+          ? detail.map((d: any) => d.msg).join(", ")
+          : res.statusText || "Request failed"
     throw new Error(msg)
   }
   return data as T

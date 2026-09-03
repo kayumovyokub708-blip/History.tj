@@ -12,20 +12,26 @@ settings = get_settings()
 app = FastAPI(
     title="Histori.tj API",
     description="Educational historical platform — Backend API",
-    version="0.2.0",
+    version="0.2.1",
     docs_url="/docs",
     redoc_url="/redoc",
 )
 
+# Allow GitHub Pages origin + optional custom FRONTEND_URL
+_origins = {
+    settings.FRONTEND_URL.rstrip("/"),
+    "https://kayumovyokub708-blip.github.io",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+}
+# Also allow with trailing path variants used by some browsers
+_origins.discard("")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        settings.FRONTEND_URL,
-        "https://kayumovyokub708-blip.github.io",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:4173",
-    ],
+    allow_origins=list(_origins),
+    allow_origin_regex=r"https://.*\.github\.io",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -59,7 +65,8 @@ def on_startup():
 def root():
     return {
         "message": "Histori.tj API",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "docs": "/docs",
         "health": "/api/v1/health",
+        "environment": settings.ENVIRONMENT,
     }
