@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
 import { apiLogin, apiRegister, apiMe, getApiBase } from "@/services/api"
+import { awardXp, ensureUserOnBoard, levelFromXp, getEntry } from "@/lib/ranking"
 
 export interface User {
   id: string
@@ -17,6 +18,8 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>
   register: (name: string, email: string, password: string) => Promise<{ ok: boolean; error?: string }>
   logout: () => void
+  /** Add XP locally + ranking board (and sync user state). */
+  addXp: (amount: number) => number
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -69,6 +72,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             level: me.level ?? 1,
             avatar: me.avatar,
           }
+          // Merge ranking board XP if higher (local progress)
+          const board = getEntry(u.id)
+          if (board && board.xp > u.xp) {
+            u.xp = board.xp
+            u.level = board.level
+          } else {
+            ensureUserOnBoard(u.id, u.name, u.xp)
+          }
           setUser(u)
           localStorage.setItem(STORAGE_KEY, JSON.stringify(u))
           setIsLoading(false)
@@ -80,7 +91,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       try {
         const raw = localStorage.getItem(STORAGE_KEY)
-        if (raw) setUser(JSON.parse(raw))
+        if (raw) {
+          const u = JSON.parse(raw) as User
+          const board = getEntry(u.id)
+          if (board) {
+            u.xp = board.xp
+            u.level = board.level
+          } else {
+            ensureUserOnBoard(u.id, u.name, u.xp ?? 0)
+          }
+          setUser(u)
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(u))
+        }
       } catch {
         /* ignore */
       }
@@ -97,16 +119,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = async (email: string, password: string) => {
-    // Prefer API when configured
     if (getApiBase()) {
       try {
         const res = await apiLogin(email.trim(), password)
-        const u: User = {
+        let u: User = {
           id: String(res.user.id),
           name: res.user.name,
           email: res.user.email,
           xp: res.user.xp ?? 0,
           level: res.user.level ?? 1,
+        }
+        const board = getEntry(u.id)
+        if (board && board.xp > u.xp) {
+          u = { ...u, xp: board.xp, level: board.level }
+        } else {
+          ensureUserOnBoard(u.id, u.name, u.xp)
         }
         persist(u, res.access_token)
         setApiOnline(true)
@@ -116,19 +143,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    // Local fallback (demo without backend)
     await new Promise((r) => setTimeout(r, 300))
     const users = loadLocalUsers()
     const found = users[email.toLowerCase()]
     if (!found || found.password !== password) {
       return { ok: false, error: "Email ё password нодуруст" }
     }
+    const id = email.toLowerCase()
+    const board = getEntry(id)
+    const xp = board?.xp ?? found.xp
+    const level = board?.level ?? found.level
+    ensureUserOnBoard(id, found.name, xp)
     persist({
-      id: email,
+      id,
       name: found.name,
       email: found.email,
-      xp: found.xp,
-      level: found.level,
+      xp,
+      level,
     })
     return { ok: true }
   }
@@ -144,6 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           xp: res.user.xp ?? 0,
           level: res.user.level ?? 1,
         }
+        ensureUserOnBoard(u.id, u.name, u.xp)
         persist(u, res.access_token)
         setApiOnline(true)
         return { ok: true }
@@ -159,14 +191,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (password.length < 6) return { ok: false, error: "Password бояд ҳадакал 6 аломат бошад" }
     users[key] = { name, email: key, password, xp: 0, level: 1 }
     saveLocalUsers(users)
+    ensureUserOnBoard(key, name, 0)
     persist({ id: key, name, email: key, xp: 0, level: 1 })
     return { ok: true }
   }
 
   const logout = () => persist(null, null)
 
+  const addXp = (amount: number) => {
+    if (!user || amount <= 0) return user?.xp ?? 0
+    const entry = awardXp({ id: user.id, name: user.name, amount })
+    const next: User = {
+      ...user,
+      xp: entry.xp,
+      level: entry.level || levelFromXp(entry.xp),
+    }
+    persist(next)
+    // Keep local users table in sync
+    const users = loadLocalUsers()
+    if (users[user.email.toLowerCase()]) {
+      users[user.email.toLowerCase()].xp = next.xp
+      users[user.email.toLowerCase()].level = next.level
+      saveLocalUsers(users)
+    }
+    return next.xp
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, apiOnline, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, apiOnline, login, register, logout, addXp }}>
       {children}
     </AuthContext.Provider>
   )

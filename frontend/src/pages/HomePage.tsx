@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { StatCard } from "@/components/ui/stat-card"
 import { cn } from "@/lib/utils"
+import { getRanking } from "@/lib/ranking"
 
 const featuredPeople = [
   { name: "Исмоили Сомонӣ", period: "849–907", role: "Асосгузори давлати Сомониён" },
@@ -13,16 +14,9 @@ const featuredPeople = [
   { name: "Фирдавсӣ", period: "940–1020", role: "Муаллифи Шоҳнома" },
 ]
 
-const leaders = [
-  { rank: 1, name: "Абдулло Р.", xp: 2488 },
-  { rank: 2, name: "Муҳаммад С.", xp: 2410 },
-  { rank: 3, name: "Фаридун Н.", xp: 2356 },
-  { rank: 4, name: "Нигина А.", xp: 2280 },
-  { rank: 5, name: "Саид М.", xp: 2195 },
-]
-
 export default function HomePage() {
   const { t } = useTranslation()
+  const leaders = getRanking("global").slice(0, 5)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
@@ -125,26 +119,35 @@ export default function HomePage() {
           </Link>
         </div>
         <Card>
-          <div className="divide-y divide-border">
-            {leaders.map((user) => (
-              <div
-                key={user.rank}
-                className="flex items-center justify-between px-6 py-4 hover:bg-surface/40 transition"
-              >
-                <div className="flex items-center gap-4">
-                  <span
-                    className={`w-8 text-center font-bold ${
-                      user.rank <= 3 ? "text-primary" : "text-muted"
-                    }`}
+          {leaders.length === 0 ? (
+            <div className="p-8 text-center text-muted text-sm">
+              {t("leaderboard.emptyHint", "Quiz гузаред — аввалин дар рейтинг шавед!")}
+            </div>
+          ) : (
+            <div className="divide-y divide-border">
+              {leaders.map((user, i) => {
+                const rank = i + 1
+                return (
+                  <div
+                    key={user.id}
+                    className="flex items-center justify-between px-6 py-4 hover:bg-surface/40 transition"
                   >
-                    {user.rank}
-                  </span>
-                  <span className="font-medium">{user.name}</span>
-                </div>
-                <span className="font-semibold tabular-nums">{user.xp.toLocaleString()} XP</span>
-              </div>
-            ))}
-          </div>
+                    <div className="flex items-center gap-4">
+                      <span
+                        className={`w-8 text-center font-bold ${
+                          rank <= 3 ? "text-primary" : "text-muted"
+                        }`}
+                      >
+                        {rank <= 3 ? ["🥇", "🥈", "🥉"][rank - 1] : rank}
+                      </span>
+                      <span className="font-medium">{user.name}</span>
+                    </div>
+                    <span className="font-semibold tabular-nums">{user.xp.toLocaleString()} XP</span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </Card>
       </section>
     </div>
