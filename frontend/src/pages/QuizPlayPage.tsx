@@ -140,13 +140,38 @@ function Podium({
   )
 }
 
+function Stat({
+  label,
+  value,
+  tone,
+}: {
+  label: string
+  value: string
+  tone?: "good" | "bad"
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-surface/60 p-3 text-center">
+      <div
+        className={cn(
+          "text-lg font-bold tabular-nums",
+          tone === "good" && "text-emerald-400",
+          tone === "bad" && "text-red-400"
+        )}
+      >
+        {value}
+      </div>
+      <div className="text-xs text-muted mt-0.5">{label}</div>
+    </div>
+  )
+}
+
 export default function QuizPlayPage() {
   const { t } = useTranslation()
   const { slug } = useParams()
   const [searchParams] = useSearchParams()
   const mode = searchParams.get("mode")
   const quiz = slug ? getQuizBySlug(slug) : undefined
-  const { user } = useAuth()
+  const { user, addXp } = useAuth()
 
   const [started, setStarted] = useState(false)
   const [questions, setQuestions] = useState<PreparedQuestion[]>([])
@@ -223,7 +248,13 @@ export default function QuizPlayPage() {
     setLeaderboard(list)
     const rank = list.findIndex((e) => e.score === finalScore && e.name === name) + 1
     setPlayerRank(rank || list.length)
-  }, [quiz, user])
+    // Global ranking XP (profile + leaderboard)
+    if (user) {
+      const denom = Math.max(1, correct + wrong || quiz.questions.length)
+      const xpGain = Math.max(5, Math.round((correct / denom) * quiz.xpReward))
+      addXp(xpGain)
+    }
+  }, [quiz, user, addXp])
 
   const startQuiz = useCallback(() => {
     if (!quiz) return
@@ -380,13 +411,19 @@ export default function QuizPlayPage() {
               {mode === "prize" ? "💰" : mode === "challenge" ? "🎯" : mode === "daily" ? "⚡" : "🎯"}
             </div>
             {mode === "prize" && (
-              <Badge className="mb-2 bg-amber-500/20 text-amber-300 border border-amber-500/40">{t("quiz.modeBadgePrize")}</Badge>
+              <Badge className="mb-2 bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                {t("quiz.modeBadgePrize")}
+              </Badge>
             )}
             {mode === "challenge" && (
-              <Badge className="mb-2 bg-rose-500/20 text-rose-300 border border-rose-500/40">{t("quiz.modeBadgeChallenge")}</Badge>
+              <Badge className="mb-2 bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                {t("quiz.modeBadgeChallenge")}
+              </Badge>
             )}
             {mode === "daily" && (
-              <Badge className="mb-2 bg-violet-500/20 text-violet-300 border border-violet-500/40">{t("quiz.modeBadgeDaily")}</Badge>
+              <Badge className="mb-2 bg-violet-500/20 text-violet-300 border border-violet-500/40">
+                {t("quiz.modeBadgeDaily")}
+              </Badge>
             )}
             <CardTitle className="text-2xl sm:text-3xl mb-2">{getLocalized(quiz.title)}</CardTitle>
             <p className="text-muted text-sm max-w-sm mx-auto">{getLocalized(quiz.description)}</p>
@@ -443,6 +480,10 @@ export default function QuizPlayPage() {
     const mins = Math.floor(elapsedSec / 60)
     const secs = elapsedSec % 60
     const top3 = leaderboard.slice(0, 3)
+    const xpGain = Math.max(
+      5,
+      Math.round((correctCount / Math.max(1, questions.length)) * quiz.xpReward)
+    )
 
     return (
       <div className="max-w-lg mx-auto px-4 py-10 sm:py-14">
@@ -457,6 +498,14 @@ export default function QuizPlayPage() {
             <p className="text-sm text-muted mt-2">
               {t("quiz.rank")} #{playerRank || "—"} · {accuracy}% {t("quiz.accuracy")}
             </p>
+            {user && (
+              <p className="text-sm text-primary font-semibold mt-2">+{xpGain} XP → 🏆 {t("nav.leaderboard")}</p>
+            )}
+            {!user && (
+              <p className="text-xs text-muted mt-2">
+                {t("profile.loginHint")} — XP ба рейтинг илова мешавад
+              </p>
+            )}
           </div>
           <CardContent className="pt-6 space-y-6 pb-8">
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -465,12 +514,7 @@ export default function QuizPlayPage() {
               <Stat label={t("quiz.accuracy")} value={`${accuracy}%`} />
               <Stat label={t("quiz.bestStreak")} value={`🔥 ${bestStreak}`} />
               <Stat label={t("quiz.time")} value={`${mins}:${secs.toString().padStart(2, "0")}`} />
-              <Stat
-                label={t("quiz.xpReward")}
-                value={`+${Math.round(
-                  (correctCount / Math.max(1, questions.length)) * quiz.xpReward
-                )}`}
-              />
+              <Stat label={t("quiz.xpReward")} value={`+${xpGain}`} />
             </div>
             <div>
               <h3 className="font-semibold mb-3 flex items-center justify-center gap-2">
@@ -486,12 +530,15 @@ export default function QuizPlayPage() {
               <Button className="flex-1 h-11 font-semibold" onClick={startQuiz}>
                 {t("quiz.playAgain")}
               </Button>
-              <Link to="/quiz" className="flex-1">
+              <Link to="/leaderboard" className="flex-1">
                 <Button variant="secondary" className="w-full h-11">
-                  {t("quiz.allQuizzes")}
+                  🏆 {t("nav.leaderboard")}
                 </Button>
               </Link>
             </div>
+            <Link to="/quiz" className="block text-center text-sm text-primary hover:underline">
+              ← {t("quiz.allQuizzes")}
+            </Link>
           </CardContent>
         </Card>
       </div>
@@ -533,169 +580,92 @@ export default function QuizPlayPage() {
               <span
                 key={i}
                 className={cn(
-                  "text-2xl sm:text-3xl select-none transition-all duration-300",
-                  alive
-                    ? "opacity-100 quiz-heart-pop"
-                    : "quiz-heart-lost opacity-25 grayscale scale-75"
+                  "text-2xl sm:text-3xl select-none transition",
+                  alive ? "opacity-100" : "opacity-25 grayscale"
                 )}
-                aria-hidden
               >
                 ❤️
               </span>
             )
           })}
         </div>
-        <div className="flex items-center gap-3 text-sm">
-          {streak >= 3 && (
-            <span className="hidden sm:inline font-semibold text-amber-400 animate-pulse">
-              🔥 {streak}
-            </span>
-          )}
-          <span className="font-bold text-primary tabular-nums text-base sm:text-lg rounded-lg bg-primary/10 border border-primary/25 px-3 py-1">
+        <div className="flex items-center gap-3">
+          <Badge variant="outline" className="tabular-nums font-semibold">
             {score} {t("quiz.pts")}
-          </span>
+          </Badge>
+          {streak > 0 && (
+            <Badge className="bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              🔥 {streak}
+            </Badge>
+          )}
         </div>
       </div>
 
-      <div className="flex items-center justify-between mb-2 text-sm text-muted">
-        <span className="font-medium">
-          {t("quiz.question")} {index + 1}{" "}
-          <span className="text-muted/70">/ {questions.length}</span>
-        </span>
-        <Badge variant="outline" className={cn("border font-medium", diffClass)}>
-          {q.difficulty === "easy" && "🟢 "}
-          {q.difficulty === "medium" && "🟡 "}
-          {q.difficulty === "hard" && "🔴 "}
-          {diffText}
-        </Badge>
-      </div>
-      <div className="mb-5">
-        <Progress value={progress} className="h-2.5 rounded-full" />
-      </div>
+      <Progress value={progress} className="mb-4 h-2" />
 
-      <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
-        <div className="flex justify-center sm:justify-start">
-          <CircularTimer seconds={questionTime} max={QUESTION_TIME} critical={timerCritical} />
-        </div>
-        <p className="text-xs text-muted text-center sm:text-left sm:pt-2 flex-1">
-          {t("quiz.timeLeft")}:{" "}
-          <span className={cn("font-mono font-bold", timerCritical ? "text-red-400" : "text-white")}>
-            {questionTime}s
+      <div className="flex items-center justify-between mb-4 gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-sm text-muted">
+            {index + 1} / {questions.length}
           </span>
-        </p>
+          <span className={cn("text-xs px-2 py-0.5 rounded-full border", diffClass)}>{diffText}</span>
+        </div>
+        <CircularTimer seconds={questionTime} max={QUESTION_TIME} critical={timerCritical} />
       </div>
 
       <Card
         className={cn(
-          "border-border/80 shadow-xl transition-all duration-300 relative overflow-hidden",
-          feedback === "correct" && "ring-2 ring-emerald-500/60 border-emerald-500/40",
-          feedback === "wrong" && "ring-2 ring-red-500/60 border-red-500/40 quiz-wrong-shake"
+          "mb-5 transition border",
+          feedback === "correct" && "border-emerald-500/50",
+          feedback === "wrong" && "border-red-500/50"
         )}
       >
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <CardHeader className="pb-3 pt-6">
-          <CardTitle className="text-lg sm:text-xl leading-snug font-semibold">{getLocalized(q.text)}</CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg sm:text-xl leading-snug">{getLocalized(q.text)}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 pb-6">
-          {q.options.map((opt, optIdx) => {
-            let style =
-              "border-border hover:border-primary/50 hover:bg-surface/80 active:scale-[0.99]"
-            if (revealed) {
-              if (opt.correct)
-                style =
-                  "border-emerald-500 bg-emerald-500/15 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.12)]"
-              else if (selected === opt.id) style = "border-red-500 bg-red-500/15 text-red-100"
-              else style = "border-border opacity-45"
-            } else if (selected === opt.id) {
-              style = "border-primary bg-primary/15"
-            }
+        <CardContent className="space-y-2.5">
+          {q.options.map((opt) => {
+            const isSelected = selected === opt.id
+            const showCorrect = revealed && opt.correct
+            const showWrong = revealed && isSelected && !opt.correct
             return (
               <button
                 key={opt.id}
                 type="button"
-                onClick={() => handleSelect(opt.id)}
                 disabled={revealed}
+                onClick={() => handleSelect(opt.id)}
                 className={cn(
-                  "w-full text-left px-4 py-3.5 rounded-xl border transition-all duration-200 font-medium",
-                  style
+                  "w-full text-left rounded-xl border px-4 py-3.5 text-sm sm:text-base transition",
+                  "hover:border-primary/40 hover:bg-surface/80",
+                  isSelected && !revealed && "border-primary bg-primary/10",
+                  showCorrect && "border-emerald-500 bg-emerald-500/15",
+                  showWrong && "border-red-500 bg-red-500/15",
+                  revealed && !opt.correct && !isSelected && "opacity-50"
                 )}
               >
-                <span className="inline-flex items-center gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-surface border border-border text-xs font-bold text-muted">
-                    {String.fromCharCode(65 + optIdx)}
-                  </span>
-                  <span>{getLocalized(opt.text)}</span>
-                </span>
+                {getLocalized(opt.text)}
               </button>
             )
           })}
-
-          {revealed && feedback === "correct" && (
-            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 text-sm text-emerald-300 flex items-center justify-between">
-              <span className="font-semibold">✓ {t("quiz.correctFeedback")}</span>
-              <span className="font-bold tabular-nums">
-                +{lastGain} {t("quiz.pts")}
-              </span>
-            </div>
-          )}
-          {revealed && feedback === "wrong" && (
-            <div className="rounded-xl bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-300">
-              ✕ {t("quiz.wrongFeedback")}
-              {lives <= 0
-                ? ` — ${t("quiz.noLivesLeft")}`
-                : ` — ${lives} ${lives === 1 ? t("quiz.lifeLeft") : t("quiz.livesLeft")}`}
-            </div>
-          )}
-
-          {revealed && q.explanation && (
-            <p className="text-sm text-muted leading-relaxed border-t border-border/50 pt-3">{getLocalized(q.explanation)}</p>
-          )}
-
-          {revealed && lives > 0 && (
-            <Button className="w-full mt-1 h-11 font-semibold" onClick={handleNext}>
-              {index + 1 >= questions.length ? t("quiz.seeResults") : t("quiz.nextQuestion")}
-            </Button>
-          )}
-          {revealed && lives <= 0 && (
-            <Button className="w-full mt-1 h-11 font-semibold" onClick={finishQuiz}>
-              {t("quiz.seeResults")}
-            </Button>
-          )}
         </CardContent>
       </Card>
 
-      <div className="mt-5 flex justify-between items-center text-xs text-muted">
-        <button type="button" onClick={() => setSoundOn((s) => !s)} className="hover:text-white transition">
-          {soundOn ? `🔊 ${t("quiz.feedbackOn")}` : `🔇 ${t("quiz.feedbackOff")}`}
-        </button>
-        <span>
-          {POINTS.easy}/{POINTS.medium}/{POINTS.hard} {t("quiz.pointsByDifficulty")}
-        </span>
-      </div>
-    </div>
-  )
-}
+      {revealed && (
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          {feedback === "correct" && lastGain > 0 && (
+            <p className="text-sm text-emerald-400 font-medium flex-1">+{lastGain} {t("quiz.pts")}</p>
+          )}
+          {feedback === "wrong" && (
+            <p className="text-sm text-red-400 font-medium flex-1">{t("quiz.wrong")}</p>
+          )}
+          <Button className="sm:ml-auto" onClick={handleNext}>
+            {index + 1 >= questions.length || lives <= 0 ? t("quiz.finish", "Натиҷа") : t("quiz.next", "Баъдӣ")}
+          </Button>
+        </div>
+      )}
 
-function Stat({
-  label,
-  value,
-  tone,
-}: {
-  label: string
-  value: string
-  tone?: "good" | "bad"
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-surface/80 px-3 py-3.5 text-center hover:border-primary/20 transition">
-      <p className="text-xs text-muted mb-1.5">{label}</p>
-      <p
-        className={cn(
-          "font-bold tabular-nums text-base",
-          tone === "good" && "text-emerald-400",
-          tone === "bad" && "text-red-400"
-        )}
-      >
-        {value}
+      <p className="text-center text-xs text-muted mt-6 tabular-nums">
+        ⏱️ {Math.floor(elapsedSec / 60)}:{(elapsedSec % 60).toString().padStart(2, "0")}
       </p>
     </div>
   )
