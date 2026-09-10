@@ -15,6 +15,7 @@ export default function RootLayout() {
     { path: "/", label: t("nav.home") },
     { path: "/encyclopedia", label: t("nav.encyclopedia") },
     { path: "/articles", label: t("nav.articles") },
+    { path: "/video", label: t("nav.video") },
     { path: "/search", label: t("nav.search") },
     { path: "/timeline", label: t("nav.timeline") },
     { path: "/map", label: t("nav.map") },
