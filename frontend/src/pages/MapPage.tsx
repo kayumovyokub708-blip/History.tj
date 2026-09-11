@@ -14,6 +14,42 @@ declare global {
   }
 }
 
+/** Approximate outline of Tajikistan (simplified polygon, lat/lng). */
+const TAJIKISTAN_OUTLINE: [number, number][] = [
+  [41.05, 70.0],
+  [41.0, 70.6],
+  [40.9, 71.3],
+  [40.6, 71.8],
+  [40.2, 71.6],
+  [39.8, 71.9],
+  [39.4, 73.5],
+  [38.9, 74.8],
+  [38.4, 74.9],
+  [37.9, 74.5],
+  [37.4, 74.8],
+  [37.0, 74.5],
+  [36.7, 72.5],
+  [36.7, 71.0],
+  [37.0, 69.5],
+  [37.2, 68.3],
+  [37.5, 67.8],
+  [38.0, 67.6],
+  [38.5, 67.5],
+  [39.0, 67.6],
+  [39.5, 68.0],
+  [39.9, 68.5],
+  [40.3, 69.0],
+  [40.7, 69.5],
+  [41.0, 69.8],
+  [41.05, 70.0],
+]
+
+// Tight bounds for Tajikistan [south, west] → [north, east]
+const TJ_BOUNDS: [[number, number], [number, number]] = [
+  [36.65, 67.35],
+  [41.15, 75.15],
+]
+
 function parseCoords(raw?: string): [number, number] | null {
   if (!raw) return null
   const parts = raw.split(",").map((s) => parseFloat(s.trim()))
@@ -23,10 +59,26 @@ function parseCoords(raw?: string): [number, number] | null {
   return null
 }
 
+function isInTajikistan(coords: [number, number]): boolean {
+  const [lat, lng] = coords
+  return (
+    lat >= TJ_BOUNDS[0][0] &&
+    lat <= TJ_BOUNDS[1][0] &&
+    lng >= TJ_BOUNDS[0][1] &&
+    lng <= TJ_BOUNDS[1][1]
+  )
+}
+
 export default function MapPage() {
   const { t } = useTranslation()
   const lang = getCurrentLanguage()
-  const places = getPublishedPlaces()
+  const allPlaces = getPublishedPlaces()
+  // Map focuses on Tajikistan places; regional cities stay in encyclopedia list
+  const places = allPlaces.filter((p) => {
+    if (p.country === "Тоҷикистон" || p.country === "Tajikistan") return true
+    const c = parseCoords(p.coordinates)
+    return c ? isInTajikistan(c) : false
+  })
   const battles = getPublishedBattles()
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<any>(null)
@@ -68,9 +120,16 @@ export default function MapPage() {
 
         const L = window.L
         const map = L.map(mapRef.current, {
-          center: [38.86, 71.28],
-          zoom: 6,
+          center: [38.86, 71.0],
+          zoom: 7,
           scrollWheelZoom: true,
+          minZoom: 6,
+          maxZoom: 14,
+          maxBounds: [
+            [35.5, 65.5],
+            [42.0, 76.5],
+          ],
+          maxBoundsViscosity: 0.7,
         })
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -79,12 +138,21 @@ export default function MapPage() {
           maxZoom: 18,
         }).addTo(map)
 
-        const bounds: [number, number][] = []
+        // Country outline
+        L.polygon(TAJIKISTAN_OUTLINE, {
+          color: "#d4a017",
+          weight: 2.5,
+          opacity: 0.95,
+          fillColor: "#d4a017",
+          fillOpacity: 0.08,
+        }).addTo(map)
+
+        // Fit to Tajikistan
+        map.fitBounds(TJ_BOUNDS, { padding: [24, 24], maxZoom: 8 })
 
         places.forEach((p) => {
           const coords = parseCoords(p.coordinates)
           if (!coords) return
-          bounds.push(coords)
           const name = getLocalizedName(p, lang)
           const marker = L.marker(coords).addTo(map)
           marker.bindPopup(
@@ -92,13 +160,9 @@ export default function MapPage() {
           )
         })
 
-        if (bounds.length > 0) {
-          map.fitBounds(bounds, { padding: [40, 40], maxZoom: 8 })
-        }
-
         mapInstance.current = map
         setReady(true)
-        setTimeout(() => map.invalidateSize(), 100)
+        setTimeout(() => map.invalidateSize(), 120)
       })
       .catch(() => {
         if (!cancelled) setError(true)
@@ -148,7 +212,7 @@ export default function MapPage() {
       </div>
 
       <Card className="mb-8 overflow-hidden">
-        <div className="relative w-full h-[360px] sm:h-[440px] bg-surface border-b border-border">
+        <div className="relative w-full h-[400px] sm:h-[520px] bg-surface border-b border-border">
           <div ref={mapRef} className="absolute inset-0 z-0" />
           {!ready && !error && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/80 text-muted text-sm">
@@ -163,7 +227,7 @@ export default function MapPage() {
           )}
         </div>
         <CardContent className="p-5">
-          <h2 className="font-semibold mb-3">{t("map.places")}</h2>
+          <h2 className="font-semibold mb-3">{t("map.places")} — Тоҷикистон</h2>
           <div className="grid sm:grid-cols-2 gap-3">
             {places.map((p) => (
               <Link
