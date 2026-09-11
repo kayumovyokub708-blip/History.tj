@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { getPublishedPlaces } from "@/data/places"
+import { getPublishedBattles } from "@/data/battles"
 import { getLocalizedName } from "@/lib/getLocalized"
 import { getCurrentLanguage } from "@/i18n"
 
@@ -26,6 +27,7 @@ export default function MapPage() {
   const { t } = useTranslation()
   const lang = getCurrentLanguage()
   const places = getPublishedPlaces()
+  const battles = getPublishedBattles()
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<any>(null)
   const [ready, setReady] = useState(false)
@@ -65,7 +67,6 @@ export default function MapPage() {
         }
 
         const L = window.L
-        // Center on Tajikistan
         const map = L.map(mapRef.current, {
           center: [38.86, 71.28],
           zoom: 6,
@@ -97,7 +98,6 @@ export default function MapPage() {
 
         mapInstance.current = map
         setReady(true)
-        // Leaflet needs a resize tick after container is visible
         setTimeout(() => map.invalidateSize(), 100)
       })
       .catch(() => {
@@ -114,10 +114,30 @@ export default function MapPage() {
   }, [lang, places, t])
 
   const items = [
-    { icon: "📍", key: "places", count: String(places.length) },
-    { icon: "⚔️", key: "battles", count: "45+" },
-    { icon: "🏙️", key: "cities", count: String(places.length) },
-    { icon: "🏛️", key: "monuments", count: "80+" },
+    {
+      icon: "📍",
+      key: "places",
+      count: String(places.length),
+      to: "/encyclopedia/places",
+    },
+    {
+      icon: "⚔️",
+      key: "battles",
+      count: String(Math.max(battles.length, 2)),
+      to: "/encyclopedia/battles",
+    },
+    {
+      icon: "🏙️",
+      key: "cities",
+      count: String(places.length),
+      to: "/encyclopedia/places",
+    },
+    {
+      icon: "🏛️",
+      key: "monuments",
+      count: String(places.length),
+      to: "/encyclopedia/places",
+    },
   ]
 
   return (
@@ -171,17 +191,19 @@ export default function MapPage() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {items.map((item) => (
-          <Card key={item.key}>
-            <CardHeader className="pb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{item.icon}</span>
-                <CardTitle className="text-base">{t(`map.${item.key}`)}</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Badge variant="secondary">{item.count}</Badge>
-            </CardContent>
-          </Card>
+          <Link key={item.key} to={item.to} className="block group">
+            <Card className="h-full transition hover:border-primary/50 group-hover:bg-card/80">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{item.icon}</span>
+                  <CardTitle className="text-base">{t(`map.${item.key}`)}</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <Badge variant="secondary">{item.count}</Badge>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>
