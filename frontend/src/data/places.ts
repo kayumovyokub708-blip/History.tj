@@ -93,6 +93,7 @@ export const places: Place[] = [
     location: "Тоҷикистон",
     country: "Тоҷикистон",
     period: "Суғдӣ",
+    coordinates: "39.4950, 67.6090",
     shortDesc: "Макони шаҳри қадими суғдӣ бо нақшҳои маъруф.",
     shortDescRu: "Место древнего согдийского города со знаменитыми росписями.",
     shortDescEn: "Site of an ancient Sogdian city with famous wall paintings.",
