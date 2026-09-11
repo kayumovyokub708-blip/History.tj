@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-/** Tajikistan outline as [lat, lng] pairs */
+/** Tajikistan outline [lat, lng] for gold border */
 const TJ_LATLNG: [number, number][] = [
   [41.05, 70.0],
   [41.0, 69.8],
@@ -40,10 +40,18 @@ const TJ_LATLNG: [number, number][] = [
   [41.05, 70.0],
 ]
 
+// Tight country bounds [SW, NE]
 const TJ_BOUNDS: [[number, number], [number, number]] = [
-  [36.55, 67.25],
-  [41.25, 75.25],
+  [36.6, 67.3],
+  [41.1, 75.2],
 ]
+
+const MASK_STYLE = {
+  stroke: false,
+  fillColor: "#0b1220",
+  fillOpacity: 1,
+  interactive: false,
+} as const
 
 function parseCoords(raw?: string): [number, number] | null {
   if (!raw) return null
@@ -62,17 +70,6 @@ function isInTajikistan(coords: [number, number]): boolean {
     lng >= TJ_BOUNDS[0][1] &&
     lng <= TJ_BOUNDS[1][1]
   )
-}
-
-/** Convert [lat,lng] ring to GeoJSON [lng,lat] and close it. */
-function toLngLatRing(ring: [number, number][]): number[][] {
-  const out = ring.map(([lat, lng]) => [lng, lat])
-  const first = out[0]
-  const last = out[out.length - 1]
-  if (first[0] !== last[0] || first[1] !== last[1]) {
-    out.push([first[0], first[1]])
-  }
-  return out
 }
 
 export default function MapPage() {
@@ -128,10 +125,7 @@ export default function MapPage() {
           scrollWheelZoom: true,
           minZoom: 6,
           maxZoom: 12,
-          maxBounds: [
-            [36.2, 66.8],
-            [41.6, 75.6],
-          ],
+          maxBounds: TJ_BOUNDS,
           maxBoundsViscosity: 1.0,
         })
 
@@ -141,38 +135,42 @@ export default function MapPage() {
           maxZoom: 18,
         }).addTo(map)
 
-        // GeoJSON mask: outer world ring + hole = Tajikistan
-        // Outer clockwise, hole opposite direction for even-odd / winding rules
-        const outer: number[][] = [
-          [-180, -90],
-          [180, -90],
-          [180, 90],
-          [-180, 90],
-          [-180, -90],
-        ]
-        const hole = toLngLatRing(TJ_LATLNG).reverse()
-
-        L.geoJSON(
-          {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "Polygon",
-              coordinates: [outer, hole],
-            },
-          },
-          {
-            style: {
-              stroke: false,
-              fillColor: "#0b1220",
-              fillOpacity: 1,
-              fillRule: "evenodd",
-            },
-            interactive: false,
-          }
+        // Cover everything outside TJ bounding box with solid dark panels
+        const [[s, w], [n, e]] = TJ_BOUNDS
+        // North
+        L.rectangle(
+          [
+            [n, -180],
+            [90, 180],
+          ],
+          MASK_STYLE
+        ).addTo(map)
+        // South
+        L.rectangle(
+          [
+            [-90, -180],
+            [s, 180],
+          ],
+          MASK_STYLE
+        ).addTo(map)
+        // West
+        L.rectangle(
+          [
+            [s, -180],
+            [n, w],
+          ],
+          MASK_STYLE
+        ).addTo(map)
+        // East
+        L.rectangle(
+          [
+            [s, e],
+            [n, 180],
+          ],
+          MASK_STYLE
         ).addTo(map)
 
-        // Gold country border
+        // Gold border of approximate country shape
         L.polyline([...TJ_LATLNG, TJ_LATLNG[0]], {
           color: "#d4a017",
           weight: 3,
@@ -180,7 +178,7 @@ export default function MapPage() {
           interactive: false,
         }).addTo(map)
 
-        map.fitBounds(TJ_BOUNDS, { padding: [12, 12], maxZoom: 8 })
+        map.fitBounds(TJ_BOUNDS, { padding: [8, 8], maxZoom: 8 })
 
         places.forEach((p) => {
           const coords = parseCoords(p.coordinates)
