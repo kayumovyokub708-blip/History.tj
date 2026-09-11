@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,10 +7,111 @@ import { getPublishedPlaces } from "@/data/places"
 import { getLocalizedName } from "@/lib/getLocalized"
 import { getCurrentLanguage } from "@/i18n"
 
+declare global {
+  interface Window {
+    L?: any
+  }
+}
+
+function parseCoords(raw?: string): [number, number] | null {
+  if (!raw) return null
+  const parts = raw.split(",").map((s) => parseFloat(s.trim()))
+  if (parts.length >= 2 && !Number.isNaN(parts[0]) && !Number.isNaN(parts[1])) {
+    return [parts[0], parts[1]]
+  }
+  return null
+}
+
 export default function MapPage() {
   const { t } = useTranslation()
   const lang = getCurrentLanguage()
   const places = getPublishedPlaces()
+  const mapRef = useRef<HTMLDivElement>(null)
+  const mapInstance = useRef<any>(null)
+  const [ready, setReady] = useState(false)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadLeaflet = () =>
+      new Promise<void>((resolve, reject) => {
+        if (window.L) {
+          resolve()
+          return
+        }
+        const cssId = "leaflet-css"
+        if (!document.getElementById(cssId)) {
+          const link = document.createElement("link")
+          link.id = cssId
+          link.rel = "stylesheet"
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          document.head.appendChild(link)
+        }
+        const script = document.createElement("script")
+        script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        script.async = true
+        script.onload = () => resolve()
+        script.onerror = () => reject(new Error("Leaflet load failed"))
+        document.body.appendChild(script)
+      })
+
+    loadLeaflet()
+      .then(() => {
+        if (cancelled || !mapRef.current || !window.L) return
+        if (mapInstance.current) {
+          mapInstance.current.remove()
+          mapInstance.current = null
+        }
+
+        const L = window.L
+        // Center on Tajikistan
+        const map = L.map(mapRef.current, {
+          center: [38.86, 71.28],
+          zoom: 6,
+          scrollWheelZoom: true,
+        })
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 18,
+        }).addTo(map)
+
+        const bounds: [number, number][] = []
+
+        places.forEach((p) => {
+          const coords = parseCoords(p.coordinates)
+          if (!coords) return
+          bounds.push(coords)
+          const name = getLocalizedName(p, lang)
+          const marker = L.marker(coords).addTo(map)
+          marker.bindPopup(
+            `<strong>${name}</strong><br/>${p.period || ""}<br/><a href="#/encyclopedia/places/${p.slug}">${t("common.view")}</a>`
+          )
+        })
+
+        if (bounds.length > 0) {
+          map.fitBounds(bounds, { padding: [40, 40], maxZoom: 8 })
+        }
+
+        mapInstance.current = map
+        setReady(true)
+        // Leaflet needs a resize tick after container is visible
+        setTimeout(() => map.invalidateSize(), 100)
+      })
+      .catch(() => {
+        if (!cancelled) setError(true)
+      })
+
+    return () => {
+      cancelled = true
+      if (mapInstance.current) {
+        mapInstance.current.remove()
+        mapInstance.current = null
+      }
+    }
+  }, [lang, places, t])
 
   const items = [
     { icon: "📍", key: "places", count: String(places.length) },
@@ -26,10 +128,19 @@ export default function MapPage() {
       </div>
 
       <Card className="mb-8 overflow-hidden">
-        <div className="h-48 sm:h-56 bg-gradient-to-br from-primary/10 via-surface to-surface flex flex-col items-center justify-center gap-2 text-muted border-b border-border">
-          <span className="text-5xl opacity-50">🗺️</span>
-          <p className="text-sm">{t("map.comingSoon")}</p>
-          <Badge variant="secondary">Leaflet / Mapbox · V1.5</Badge>
+        <div className="relative w-full h-[360px] sm:h-[440px] bg-surface border-b border-border">
+          <div ref={mapRef} className="absolute inset-0 z-0" />
+          {!ready && !error && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/80 text-muted text-sm">
+              {t("common.loading")}
+            </div>
+          )}
+          {error && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-surface text-muted text-sm p-4 text-center">
+              <span className="text-3xl opacity-50">🗺️</span>
+              <p>{t("map.loadError")}</p>
+            </div>
+          )}
         </div>
         <CardContent className="p-5">
           <h2 className="font-semibold mb-3">{t("map.places")}</h2>
