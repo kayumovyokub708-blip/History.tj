@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-/** Approximate outline of Tajikistan (simplified polygon, lat/lng). */
+/** Approximate outline of Tajikistan (lat, lng) — clockwise. */
 const TAJIKISTAN_OUTLINE: [number, number][] = [
   [41.05, 70.0],
   [41.0, 70.6],
@@ -38,6 +38,14 @@ const TAJIKISTAN_OUTLINE: [number, number][] = [
   [40.7, 69.5],
   [41.0, 69.8],
   [41.05, 70.0],
+]
+
+/** Outer ring for mask (covers the whole view). */
+const WORLD_RING: [number, number][] = [
+  [90, -180],
+  [90, 180],
+  [-90, 180],
+  [-90, -180],
 ]
 
 const TJ_BOUNDS: [[number, number], [number, number]] = [
@@ -116,12 +124,9 @@ export default function MapPage() {
           zoom: 7,
           scrollWheelZoom: true,
           minZoom: 6,
-          maxZoom: 14,
-          maxBounds: [
-            [35.5, 65.5],
-            [42.0, 76.5],
-          ],
-          maxBoundsViscosity: 0.85,
+          maxZoom: 12,
+          maxBounds: TJ_BOUNDS,
+          maxBoundsViscosity: 1.0,
         })
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -130,15 +135,27 @@ export default function MapPage() {
           maxZoom: 18,
         }).addTo(map)
 
-        L.polygon(TAJIKISTAN_OUTLINE, {
-          color: "#d4a017",
-          weight: 2.5,
-          opacity: 0.95,
-          fillColor: "#d4a017",
-          fillOpacity: 0.08,
+        // Mask: hide everything outside Tajikistan (hole = country outline)
+        // Leaflet polygon with hole: [outerRing, holeRing]
+        // Outer ring must be opposite winding to hole for correct fill
+        const mask = L.polygon([WORLD_RING, TAJIKISTAN_OUTLINE], {
+          color: "#0b1220",
+          weight: 0,
+          fillColor: "#0b1220",
+          fillOpacity: 0.92,
+          interactive: false,
         }).addTo(map)
 
-        map.fitBounds(TJ_BOUNDS, { padding: [20, 20], maxZoom: 8 })
+        // Gold border of Tajikistan on top of mask
+        L.polygon(TAJIKISTAN_OUTLINE, {
+          color: "#d4a017",
+          weight: 3,
+          opacity: 1,
+          fillOpacity: 0,
+          interactive: false,
+        }).addTo(map)
+
+        map.fitBounds(TJ_BOUNDS, { padding: [16, 16], maxZoom: 8 })
 
         places.forEach((p) => {
           const coords = parseCoords(p.coordinates)
@@ -174,15 +191,15 @@ export default function MapPage() {
         <p className="text-muted text-sm mt-1">{t("map.subtitle")}</p>
       </div>
 
-      <div className="relative flex-1 w-full min-h-[70vh] bg-surface">
+      <div className="relative flex-1 w-full min-h-[70vh] bg-[#0b1220]">
         <div ref={mapRef} className="absolute inset-0 z-0" />
         {!ready && !error && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/80 text-muted text-sm">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0b1220]/90 text-muted text-sm">
             {t("common.loading")}
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-surface text-muted text-sm p-4 text-center">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-[#0b1220] text-muted text-sm p-4 text-center">
             <span className="text-3xl opacity-50">🗺️</span>
             <p>{t("map.loadError")}</p>
           </div>
