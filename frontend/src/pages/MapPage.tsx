@@ -10,7 +10,6 @@ declare global {
   }
 }
 
-/** Tajikistan outline [lat, lng] for gold border */
 const TJ_LATLNG: [number, number][] = [
   [41.05, 70.0],
   [41.0, 69.8],
@@ -40,18 +39,10 @@ const TJ_LATLNG: [number, number][] = [
   [41.05, 70.0],
 ]
 
-// Tight country bounds [SW, NE]
 const TJ_BOUNDS: [[number, number], [number, number]] = [
-  [36.6, 67.3],
-  [41.1, 75.2],
+  [36.65, 67.4],
+  [41.05, 75.1],
 ]
-
-const MASK_STYLE = {
-  stroke: false,
-  fillColor: "#0b1220",
-  fillOpacity: 1,
-  interactive: false,
-} as const
 
 function parseCoords(raw?: string): [number, number] | null {
   if (!raw) return null
@@ -127,50 +118,21 @@ export default function MapPage() {
           maxZoom: 12,
           maxBounds: TJ_BOUNDS,
           maxBoundsViscosity: 1.0,
+          zoomControl: true,
         })
+
+        // Dark background under tiles
+        map.getContainer().style.background = "#0b1220"
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           maxZoom: 18,
+          bounds: TJ_BOUNDS,
+          noWrap: true,
         }).addTo(map)
 
-        // Cover everything outside TJ bounding box with solid dark panels
-        const [[s, w], [n, e]] = TJ_BOUNDS
-        // North
-        L.rectangle(
-          [
-            [n, -180],
-            [90, 180],
-          ],
-          MASK_STYLE
-        ).addTo(map)
-        // South
-        L.rectangle(
-          [
-            [-90, -180],
-            [s, 180],
-          ],
-          MASK_STYLE
-        ).addTo(map)
-        // West
-        L.rectangle(
-          [
-            [s, -180],
-            [n, w],
-          ],
-          MASK_STYLE
-        ).addTo(map)
-        // East
-        L.rectangle(
-          [
-            [s, e],
-            [n, 180],
-          ],
-          MASK_STYLE
-        ).addTo(map)
-
-        // Gold border of approximate country shape
+        // Gold border
         L.polyline([...TJ_LATLNG, TJ_LATLNG[0]], {
           color: "#d4a017",
           weight: 3,
@@ -178,7 +140,7 @@ export default function MapPage() {
           interactive: false,
         }).addTo(map)
 
-        map.fitBounds(TJ_BOUNDS, { padding: [8, 8], maxZoom: 8 })
+        map.fitBounds(TJ_BOUNDS, { padding: [10, 10], maxZoom: 8 })
 
         places.forEach((p) => {
           const coords = parseCoords(p.coordinates)
@@ -192,7 +154,7 @@ export default function MapPage() {
 
         mapInstance.current = map
         setReady(true)
-        setTimeout(() => map.invalidateSize(), 120)
+        setTimeout(() => map.invalidateSize(), 150)
       })
       .catch(() => {
         if (!cancelled) setError(true)
@@ -208,25 +170,30 @@ export default function MapPage() {
   }, [lang, places, t])
 
   return (
-    <div className="w-full flex flex-col" style={{ minHeight: "calc(100vh - 8rem)" }}>
+    <div className="w-full flex flex-col bg-[#0b1220]" style={{ minHeight: "calc(100vh - 8rem)" }}>
       <div className="px-4 sm:px-6 lg:px-8 pt-6 pb-3 max-w-7xl mx-auto w-full">
-        <h1 className="text-2xl sm:text-3xl font-bold">🗺️ {t("map.title")}</h1>
-        <p className="text-muted text-sm mt-1">{t("map.subtitle")}</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">🗺️ {t("map.title")}</h1>
+        <p className="text-white/60 text-sm mt-1">{t("map.subtitle")}</p>
       </div>
 
-      <div className="relative flex-1 w-full min-h-[70vh] bg-[#0b1220]">
-        <div ref={mapRef} className="absolute inset-0 z-0" />
-        {!ready && !error && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0b1220]/90 text-muted text-sm">
-            {t("common.loading")}
-          </div>
-        )}
-        {error && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-[#0b1220] text-muted text-sm p-4 text-center">
-            <span className="text-3xl opacity-50">🗺️</span>
-            <p>{t("map.loadError")}</p>
-          </div>
-        )}
+      <div className="relative w-full flex-1 flex items-center justify-center px-2 pb-4">
+        <div
+          className="relative w-full max-w-4xl rounded-xl overflow-hidden border border-[#d4a017]/40 shadow-2xl"
+          style={{ height: "min(70vh, 560px)" }}
+        >
+          <div ref={mapRef} className="absolute inset-0 z-0" />
+          {!ready && !error && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0b1220] text-white/60 text-sm">
+              {t("common.loading")}
+            </div>
+          )}
+          {error && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-[#0b1220] text-white/60 text-sm p-4 text-center">
+              <span className="text-3xl opacity-50">🗺️</span>
+              <p>{t("map.loadError")}</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
