@@ -189,6 +189,69 @@ export const places: Place[] = [
       "Danghara is in Khatlon Region. The district is known for agriculture and its role in modern Tajik history. Important political figures of the country come from here; the place is linked to 20th-century events and the independence period.",
     status: "published",
   },
+  {
+    id: "9",
+    slug: "hisor",
+    name: "Hisor",
+    nameTj: "Ҳисор",
+    nameRu: "Гиссар",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Қалъаи қадим",
+    coordinates: "38.5250, 68.5510",
+    shortDesc: "Қалъаи Ҳисор — яке аз муҳимтарин ёдгориҳои таърихии назди Душанбе.",
+    shortDescRu: "Крепость Гиссар — один из важнейших исторических памятников близ Душанбе.",
+    shortDescEn: "Hisor Fortress — one of the most important historical monuments near Dushanbe.",
+    description:
+      "Ҳисор (Гиссар) бо қалъаи қадимии худ маъруф аст. Қалъа дар тӯли асрҳо маркази сиёсӣ ва ҳарбӣ буд ва имрӯз яке аз ҷойҳои асосии сайёҳӣ ва омӯзиши таърихи водии Ҳисор мебошад.",
+    descriptionRu:
+      "Гиссар известен своей древней крепостью. Крепость веками была политическим и военным центром и сегодня — одно из главных мест туризма и изучения истории Гиссарской долины.",
+    descriptionEn:
+      "Hisor is known for its ancient fortress. For centuries the fortress was a political and military centre; today it is a main site for tourism and the study of the history of the Hisor valley.",
+    status: "published",
+  },
+  {
+    id: "10",
+    slug: "istaravshan",
+    name: "Istaravshan",
+    nameTj: "Истаравшан",
+    nameRu: "Истаравшан",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Шаҳри қадим (Уротеппа)",
+    coordinates: "39.9142, 69.0036",
+    shortDesc: "Яке аз қадимтарин шаҳрҳои шимоли Тоҷикистон; собиқ Уротеппа.",
+    shortDescRu: "Один из древнейших городов севера Таджикистана; бывший Ура-Тюбе.",
+    shortDescEn: "One of the oldest cities of northern Tajikistan; formerly Uroteppa.",
+    description:
+      "Истаравшан (собиқ Уротеппа) аз шаҳрҳои қадимии шимоли Тоҷикистон аст. Мадрасаҳо, масҷидҳо ва бозорҳои анъанавӣ ҳофизаи таърихии шаҳрро нигоҳ медоранд.",
+    descriptionRu:
+      "Истаравшан (бывший Ура-Тюбе) — один из древних городов севера Таджикистана. Медресе, мечети и традиционные базары сохраняют историческую память города.",
+    descriptionEn:
+      "Istaravshan (formerly Uroteppa) is among the ancient cities of northern Tajikistan. Madrasas, mosques and traditional bazaars preserve the city’s historical memory.",
+    status: "published",
+  },
+  {
+    id: "11",
+    slug: "khorog",
+    name: "Khorog",
+    nameTj: "Хоруғ",
+    nameRu: "Хорог",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Маркази Бадахшон",
+    coordinates: "37.4910, 71.5530",
+    shortDesc: "Маркази Вилояти Мухтори Кӯҳистони Бадахшон; дар Помир.",
+    shortDescRu: "Центр Горно-Бадахшанской автономной области; на Памире.",
+    shortDescEn: "Centre of Gorno-Badakhshan Autonomous Region; in the Pamirs.",
+    description:
+      "Хоруғ маркази Вилояти Мухтори Кӯҳистони Бадахшон аст. Шаҳр дар водиҳои Помир ҷойгир буда, дарвоза ба кӯҳҳои Бадахшон ва Роҳи Помир ҳисоб мешавад. Фарҳанги помирӣ ва манзараҳои кӯҳӣ ӯро махсус мегардонанд.",
+    descriptionRu:
+      "Хорог — центр Горно-Бадахшанской автономной области. Город лежит в долинах Памира и служит воротами в горы Бадахшана и на Памирский тракт. Памирская культура и горные пейзажи делают его особенным.",
+    descriptionEn:
+      "Khorog is the centre of Gorno-Badakhshan Autonomous Region. Set in Pamir valleys, it is a gateway to the Badakhshan mountains and the Pamir Highway. Pamiri culture and mountain landscapes make it distinctive.",
+    status: "published",
+  },
 ]
 
 export function getPlaceBySlug(slug: string) {
