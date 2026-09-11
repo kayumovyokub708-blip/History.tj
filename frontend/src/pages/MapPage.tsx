@@ -10,47 +10,47 @@ declare global {
   }
 }
 
-/** Approximate outline of Tajikistan (lat, lng) — clockwise. */
+/** Approximate outline of Tajikistan (lat, lng), counter-clockwise. */
 const TAJIKISTAN_OUTLINE: [number, number][] = [
   [41.05, 70.0],
-  [41.0, 70.6],
-  [40.9, 71.3],
-  [40.6, 71.8],
-  [40.2, 71.6],
-  [39.8, 71.9],
-  [39.4, 73.5],
-  [38.9, 74.8],
-  [38.4, 74.9],
-  [37.9, 74.5],
-  [37.4, 74.8],
-  [37.0, 74.5],
-  [36.7, 72.5],
-  [36.7, 71.0],
-  [37.0, 69.5],
-  [37.2, 68.3],
-  [37.5, 67.8],
-  [38.0, 67.6],
-  [38.5, 67.5],
-  [39.0, 67.6],
-  [39.5, 68.0],
-  [39.9, 68.5],
-  [40.3, 69.0],
-  [40.7, 69.5],
   [41.0, 69.8],
+  [40.7, 69.5],
+  [40.3, 69.0],
+  [39.9, 68.5],
+  [39.5, 68.0],
+  [39.0, 67.6],
+  [38.5, 67.5],
+  [38.0, 67.6],
+  [37.5, 67.8],
+  [37.2, 68.3],
+  [37.0, 69.5],
+  [36.7, 71.0],
+  [36.7, 72.5],
+  [37.0, 74.5],
+  [37.4, 74.8],
+  [37.9, 74.5],
+  [38.4, 74.9],
+  [38.9, 74.8],
+  [39.4, 73.5],
+  [39.8, 71.9],
+  [40.2, 71.6],
+  [40.6, 71.8],
+  [40.9, 71.3],
+  [41.0, 70.6],
   [41.05, 70.0],
 ]
 
-/** Outer ring for mask (covers the whole view). */
+/** Outer ring covering the world (clockwise) so hole punches Tajikistan. */
 const WORLD_RING: [number, number][] = [
-  [90, -180],
-  [90, 180],
-  [-90, 180],
   [-90, -180],
+  [-90, 180],
+  [90, 180],
+  [90, -180],
 ]
 
 const TJ_BOUNDS: [[number, number], [number, number]] = [
-  [36.65, 67.35],
-  [41.15, 75.15],
+  [36.55, 67.25],
+  [41.25, 75.25],
 ]
 
 function parseCoords(raw?: string): [number, number] | null {
@@ -125,7 +125,10 @@ export default function MapPage() {
           scrollWheelZoom: true,
           minZoom: 6,
           maxZoom: 12,
-          maxBounds: TJ_BOUNDS,
+          maxBounds: [
+            [36.2, 66.8],
+            [41.6, 75.6],
+          ],
           maxBoundsViscosity: 1.0,
         })
 
@@ -135,27 +138,23 @@ export default function MapPage() {
           maxZoom: 18,
         }).addTo(map)
 
-        // Mask: hide everything outside Tajikistan (hole = country outline)
-        // Leaflet polygon with hole: [outerRing, holeRing]
-        // Outer ring must be opposite winding to hole for correct fill
-        const mask = L.polygon([WORLD_RING, TAJIKISTAN_OUTLINE], {
-          color: "#0b1220",
-          weight: 0,
+        // Mask outside Tajikistan: solid dark fill with country as hole
+        L.polygon([WORLD_RING, TAJIKISTAN_OUTLINE], {
+          stroke: false,
           fillColor: "#0b1220",
-          fillOpacity: 0.92,
+          fillOpacity: 1,
           interactive: false,
         }).addTo(map)
 
-        // Gold border of Tajikistan on top of mask
-        L.polygon(TAJIKISTAN_OUTLINE, {
+        // Gold border of the country
+        L.polyline([...TAJIKISTAN_OUTLINE, TAJIKISTAN_OUTLINE[0]], {
           color: "#d4a017",
           weight: 3,
           opacity: 1,
-          fillOpacity: 0,
           interactive: false,
         }).addTo(map)
 
-        map.fitBounds(TJ_BOUNDS, { padding: [16, 16], maxZoom: 8 })
+        map.fitBounds(TJ_BOUNDS, { padding: [12, 12], maxZoom: 8 })
 
         places.forEach((p) => {
           const coords = parseCoords(p.coordinates)
