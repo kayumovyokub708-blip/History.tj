@@ -105,6 +105,90 @@ export const places: Place[] = [
       "Ancient Panjakent was a Sogdian city known for wall paintings and urban culture. Before the Arab conquests it was a lively centre. The archaeological remains are a major source for Sogdian history.",
     status: "published",
   },
+  {
+    id: "5",
+    slug: "dushanbe",
+    name: "Dushanbe",
+    nameTj: "Душанбе",
+    nameRu: "Душанбе",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Пойтахти муосир",
+    coordinates: "38.5598, 68.7870",
+    shortDesc: "Пойтахти Ҷумҳурии Тоҷикистон; маркази сиёсӣ, фарҳангӣ ва иқтисодӣ.",
+    shortDescRu: "Столица Республики Таджикистан; политический, культурный и экономический центр.",
+    shortDescEn: "Capital of the Republic of Tajikistan; political, cultural and economic centre.",
+    description:
+      "Душанбе пойтахти Ҷумҳурии Тоҷикистон аст. Аз деҳаи хурд дар ибтидои асри XX ба шаҳри калон табдил ёфт ва аз соли 1929 (бо номи Сталинобод) то имрӯз маркази асосии давлатдорӣ, илм ва фарҳанги тоҷик боқӣ мондааст. Ёдгориҳои муосир, осорхонаҳо ва майдонҳои марказӣ рамзи истиқлол ва таърихи нав мебошанд.",
+    descriptionRu:
+      "Душанбе — столица Республики Таджикистан. Из небольшого поселения начала XX века вырос в крупный город и с 1929 года (под именем Сталинабад) остаётся главным центром государственности, науки и культуры таджиков. Современные памятники, музеи и центральные площади символизируют независимость и новую историю.",
+    descriptionEn:
+      "Dushanbe is the capital of the Republic of Tajikistan. From a small settlement in the early 20th century it grew into a major city and since 1929 (as Stalinabad) has been the main centre of Tajik statehood, learning and culture. Modern monuments, museums and central squares symbolise independence and recent history.",
+    status: "published",
+  },
+  {
+    id: "6",
+    slug: "kulob",
+    name: "Kulob",
+    nameTj: "Кӯлоб",
+    nameRu: "Куляб",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Аз асри миёна то имрӯз",
+    coordinates: "37.9146, 69.7845",
+    shortDesc: "Яке аз қадимтарин шаҳрҳои ҷануби Тоҷикистон; маркази таърихӣ ва фарҳангӣ.",
+    shortDescRu: "Один из древнейших городов юга Таджикистана; исторический и культурный центр.",
+    shortDescEn: "One of the oldest cities of southern Tajikistan; historical and cultural centre.",
+    description:
+      "Кӯлоб дар ҷануби Тоҷикистон ҷойгир аст ва аз қадим ҳамчун маркази тиҷорат ва фарҳанг маълум буд. Мақбараи Мир Сайид Алии Ҳамадонӣ ва дигар ёдгориҳо шаҳрро бо таърихи исломӣ ва минтақавӣ пайваст мекунанд. Кӯлоб нақши муҳим дар таърихи сиёсии ҷануби кишвар дошт.",
+    descriptionRu:
+      "Куляб расположен на юге Таджикистана и с древности известен как центр торговли и культуры. Мавзолей Мир Сайида Али Хамадани и другие памятники связывают город с исламской и региональной историей. Куляб сыграл важную роль в политической истории юга страны.",
+    descriptionEn:
+      "Kulob lies in southern Tajikistan and has long been known as a centre of trade and culture. The mausoleum of Mir Sayyid Ali Hamadani and other monuments link the city to Islamic and regional history. Kulob played an important role in the political history of the south.",
+    status: "published",
+  },
+  {
+    id: "7",
+    slug: "bokhtar",
+    name: "Bokhtar",
+    nameTj: "Бохтар",
+    nameRu: "Бохтар",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Маркази вилояти Хатлон",
+    coordinates: "37.8364, 68.7803",
+    shortDesc: "Маркази маъмурии вилояти Хатлон; шаҳри муҳими ҷануби Тоҷикистон.",
+    shortDescRu: "Административный центр Хатлонской области; важный город юга Таджикистана.",
+    shortDescEn: "Administrative centre of Khatlon Region; major city of southern Tajikistan.",
+    description:
+      "Бохтар (собиқ Қӯрғонтеппа) маркази вилояти Хатлон аст. Шаҳр дар водиҳои ҳосилхези ҷануб ҷойгир буда, дар таърихи муосири Тоҷикистон ҳамчун маркази кишоварзӣ, саноат ва маъмурӣ аҳамият дорад. Номи «Бохтар» ба таърихи қадими Бохтар (Бактрия) ишора мекунад.",
+    descriptionRu:
+      "Бохтар (бывший Курган-Тюбе) — центр Хатлонской области. Город расположен в плодородных долинах юга и в современной истории Таджикистана важен как сельскохозяйственный, промышленный и административный центр. Название «Бохтар» отсылает к древней Бактрии.",
+    descriptionEn:
+      "Bokhtar (formerly Qurghonteppa) is the centre of Khatlon Region. Situated in the fertile southern valleys, it is important in modern Tajik history as an agricultural, industrial and administrative hub. The name Bokhtar recalls ancient Bactria.",
+    status: "published",
+  },
+  {
+    id: "8",
+    slug: "danghara",
+    name: "Danghara",
+    nameTj: "Данғара",
+    nameRu: "Дангара",
+    location: "Тоҷикистон",
+    country: "Тоҷикистон",
+    period: "Ноҳияи Хатлон",
+    coordinates: "38.0950, 69.2270",
+    shortDesc: "Ноҳия ва шаҳраки муҳими вилояти Хатлон; зодгоҳи шахсиятҳои сиёсӣ.",
+    shortDescRu: "Важный район и посёлок Хатлонской области; родина политических деятелей.",
+    shortDescEn: "Important district and town of Khatlon Region; birthplace of political figures.",
+    description:
+      "Данғара дар вилояти Хатлон ҷойгир аст. Ноҳия барои кишоварзӣ ва нақши худ дар таърихи муосири Тоҷикистон маълум аст. Аз ин ҷо шахсиятҳои муҳими сиёсии кишвар баромадаанд; макон бо рӯйдодҳои асри XX ва давраи истиқлол пайваст аст.",
+    descriptionRu:
+      "Дангара находится в Хатлонской области. Район известен сельским хозяйством и ролью в современной истории Таджикистана. Отсюда вышли важные политические деятели страны; место связано с событиями XX века и периода независимости.",
+    descriptionEn:
+      "Danghara is in Khatlon Region. The district is known for agriculture and its role in modern Tajik history. Important political figures of the country come from here; the place is linked to 20th-century events and the independence period.",
+    status: "published",
+  },
 ]
 
 export function getPlaceBySlug(slug: string) {
