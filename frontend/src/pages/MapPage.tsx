@@ -10,8 +10,8 @@ declare global {
   }
 }
 
-/** Approximate outline of Tajikistan (lat, lng), counter-clockwise. */
-const TAJIKISTAN_OUTLINE: [number, number][] = [
+/** Tajikistan outline as [lat, lng] pairs */
+const TJ_LATLNG: [number, number][] = [
   [41.05, 70.0],
   [41.0, 69.8],
   [40.7, 69.5],
@@ -40,14 +40,6 @@ const TAJIKISTAN_OUTLINE: [number, number][] = [
   [41.05, 70.0],
 ]
 
-/** Outer ring covering the world (clockwise) so hole punches Tajikistan. */
-const WORLD_RING: [number, number][] = [
-  [-90, -180],
-  [-90, 180],
-  [90, 180],
-  [90, -180],
-]
-
 const TJ_BOUNDS: [[number, number], [number, number]] = [
   [36.55, 67.25],
   [41.25, 75.25],
@@ -70,6 +62,17 @@ function isInTajikistan(coords: [number, number]): boolean {
     lng >= TJ_BOUNDS[0][1] &&
     lng <= TJ_BOUNDS[1][1]
   )
+}
+
+/** Convert [lat,lng] ring to GeoJSON [lng,lat] and close it. */
+function toLngLatRing(ring: [number, number][]): number[][] {
+  const out = ring.map(([lat, lng]) => [lng, lat])
+  const first = out[0]
+  const last = out[out.length - 1]
+  if (first[0] !== last[0] || first[1] !== last[1]) {
+    out.push([first[0], first[1]])
+  }
+  return out
 }
 
 export default function MapPage() {
@@ -138,16 +141,39 @@ export default function MapPage() {
           maxZoom: 18,
         }).addTo(map)
 
-        // Mask outside Tajikistan: solid dark fill with country as hole
-        L.polygon([WORLD_RING, TAJIKISTAN_OUTLINE], {
-          stroke: false,
-          fillColor: "#0b1220",
-          fillOpacity: 1,
-          interactive: false,
-        }).addTo(map)
+        // GeoJSON mask: outer world ring + hole = Tajikistan
+        // Outer clockwise, hole opposite direction for even-odd / winding rules
+        const outer: number[][] = [
+          [-180, -90],
+          [180, -90],
+          [180, 90],
+          [-180, 90],
+          [-180, -90],
+        ]
+        const hole = toLngLatRing(TJ_LATLNG).reverse()
 
-        // Gold border of the country
-        L.polyline([...TAJIKISTAN_OUTLINE, TAJIKISTAN_OUTLINE[0]], {
+        L.geoJSON(
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "Polygon",
+              coordinates: [outer, hole],
+            },
+          },
+          {
+            style: {
+              stroke: false,
+              fillColor: "#0b1220",
+              fillOpacity: 1,
+              fillRule: "evenodd",
+            },
+            interactive: false,
+          }
+        ).addTo(map)
+
+        // Gold country border
+        L.polyline([...TJ_LATLNG, TJ_LATLNG[0]], {
           color: "#d4a017",
           weight: 3,
           opacity: 1,
