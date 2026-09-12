@@ -14,6 +14,9 @@ const ISMOILI_PORTRAIT =
 const RAHMON_PORTRAIT =
   "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Emomali_Rahmon_on_April_3%2C_2025_%28cropped%29.jpg/960px-Emomali_Rahmon_on_April_3%2C_2025_%28cropped%29.jpg"
 
+const RUDAKI_PORTRAIT =
+  "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/%D8%B1%D9%88%D8%AF%DA%A9%DB%8C_-_%D8%B1%D8%B3%D8%A7%D9%85_%D8%A7%D8%B1%DA%98%D9%86%DA%AF%DB%8C.jpg/960px-%D8%B1%D9%88%D8%AF%DA%A9%DB%8C_-_%D8%B1%D8%B3%D8%A7%D9%85_%D8%A7%D8%B1%DA%98%D9%86%DA%AF%DB%8C.jpg"
+
 const featuredPeople: {
   name: string
   period: string
@@ -44,6 +47,8 @@ const featuredPeople: {
     period: "858–941",
     role: "Шоири бузурги форсӣ",
     slug: "rudaki",
+    image: RUDAKI_PORTRAIT,
+    objectPos: "object-top",
   },
   {
     name: "Ибни Сино",
