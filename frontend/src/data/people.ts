@@ -120,6 +120,8 @@ export const people: Person[] = [
       "Бунёдгузори шеъри классикии форсӣ",
       "Шоири дарбори Сомониён",
     ],
+    image:
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/%D8%B1%D9%88%D8%AF%DA%A9%DB%8C_-_%D8%B1%D8%B3%D8%A7%D9%85_%D8%A7%D8%B1%DA%98%D9%86%DA%AF%DB%8C.jpg/960px-%D8%B1%D9%88%D8%AF%DA%A9%DB%8C_-_%D8%B1%D8%B3%D8%A7%D9%85_%D8%A7%D8%B1%DA%98%D9%86%DA%AF%DB%8C.jpg",
     status: "published",
   },
   {
