@@ -40,14 +40,13 @@ export default function VideosPage() {
       </div>
 
       {/* Featured: speech of Ҷаноби Олӣ */}
-      <Card className="overflow-hidden mb-8 border-primary/30">
-        <div className="bg-black">
+      <Card className="overflow-hidden mb-8 border-primary/30 shadow-lg">
+        <div className="bg-black aspect-video flex items-center justify-center">
           <video
-            className="w-full max-h-[70vh] mx-auto"
+            className="w-full h-full max-h-[70vh]"
             controls
             playsInline
             preload="metadata"
-            poster=""
           >
             <source src={SPEECH_VIDEO} type="video/mp4" />
             Браузери шумо видеоро дастгирӣ намекунад.
@@ -58,7 +57,7 @@ export default function VideosPage() {
           <p className="text-sm text-muted">{speechDesc}</p>
         </CardHeader>
         <CardContent>
-          <p className="text-base font-medium text-foreground border-l-4 border-primary pl-3 py-1">
+          <p className="text-base md:text-lg font-semibold text-foreground border-l-4 border-primary pl-4 py-2 bg-primary/5 rounded-r-lg">
             {caption}
           </p>
         </CardContent>
