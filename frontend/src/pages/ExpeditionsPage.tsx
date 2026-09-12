@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,11 +6,15 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { expeditions } from "@/data/expeditions"
-import { loadExpeditionProgress } from "@/lib/expeditionProgress"
+import { loadExpeditionProgress, type ExpeditionResult } from "@/lib/expeditionProgress"
 
 export default function ExpeditionsPage() {
   const { t } = useTranslation()
-  const history = useMemo(() => loadExpeditionProgress(), [])
+  const [history, setHistory] = useState<ExpeditionResult[]>([])
+
+  useEffect(() => {
+    setHistory(loadExpeditionProgress())
+  }, [])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
