@@ -1,14 +1,10 @@
+import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-
-const expeditions = [
-  { id: 1, titleKey: "manuscript", periodKey: "samanid", difficultyKey: "medium", missions: 5, xp: 500, time: "45 min", status: "available" as const },
-  { id: 2, titleKey: "capital", periodKey: "samanidYears", difficultyKey: "easy", missions: 4, xp: 300, time: "30 min", status: "available" as const },
-  { id: 3, titleKey: "silkRoad", periodKey: "medieval", difficultyKey: "hard", missions: 6, xp: 750, time: "60 min", status: "locked" as const },
-]
+import { expeditions } from "@/data/expeditions"
 
 export default function ExpeditionsPage() {
   const { t } = useTranslation()
@@ -38,14 +34,14 @@ export default function ExpeditionsPage() {
                 <Badge variant="secondary">{t(`expeditions.periods.${exp.periodKey}`)}</Badge>
                 <Badge
                   variant={
-                    exp.difficultyKey === "easy"
+                    exp.difficulty === "easy"
                       ? "success"
-                      : exp.difficultyKey === "hard"
+                      : exp.difficulty === "hard"
                         ? "destructive"
                         : "warning"
                   }
                 >
-                  {t(`expeditions.${exp.difficultyKey}`)}
+                  {t(`expeditions.${exp.difficulty}`)}
                 </Badge>
                 {exp.status === "locked" && (
                   <Badge variant="outline">{t("expeditions.locked")}</Badge>
@@ -61,14 +57,14 @@ export default function ExpeditionsPage() {
               </p>
               <div className="flex items-center justify-between text-sm text-muted">
                 <span>
-                  {exp.missions} {t("expeditions.missions")}
+                  {exp.missions.length || "—"} {t("expeditions.missions")}
                 </span>
                 <span>{exp.time}</span>
                 <span className="text-primary font-semibold">+{exp.xp} XP</span>
               </div>
               {exp.status === "available" ? (
-                <Button className="w-full" disabled>
-                  {t("expeditions.startSoon")}
+                <Button className="w-full" asChild>
+                  <Link to={`/expeditions/${exp.slug}`}>{t("expeditions.start")}</Link>
                 </Button>
               ) : (
                 <Button className="w-full" variant="secondary" disabled>
@@ -79,12 +75,6 @@ export default function ExpeditionsPage() {
           </Card>
         ))}
       </div>
-      <Card className="mt-10 border-dashed">
-        <CardContent className="py-8 text-center text-muted">
-          <p className="mb-2">🧭 {t("expeditions.comingV2")}</p>
-          <p className="text-sm">{t("expeditions.comingFeatures")}</p>
-        </CardContent>
-      </Card>
     </div>
   )
 }
