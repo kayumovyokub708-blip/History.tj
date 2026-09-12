@@ -7,11 +7,17 @@ import { StatCard } from "@/components/ui/stat-card"
 import { cn } from "@/lib/utils"
 import { getRanking } from "@/lib/ranking"
 
-/** Classic portrait-style image of Ismail Samani (public Wikimedia). */
+/** Direct Wikimedia thumbnail — no redirect (works on GitHub Pages). */
 const ISMOILI_PORTRAIT =
-  "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_(%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC).jpg?width=640"
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg/640px-%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg"
 
-const featuredPeople = [
+const featuredPeople: {
+  name: string
+  period: string
+  role: string
+  slug: string
+  image?: string
+}[] = [
   {
     name: "Исмоили Сомонӣ",
     period: "849–907",
@@ -93,7 +99,8 @@ export default function HomePage() {
                       src={person.image}
                       alt={person.name}
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
+                      loading="eager"
+                      referrerPolicy="no-referrer"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
