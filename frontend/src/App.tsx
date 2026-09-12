@@ -26,6 +26,7 @@ import CoursesPage from "./pages/CoursesPage"
 import QuizzesPage from "./pages/QuizzesPage"
 import QuizPlayPage from "./pages/QuizPlayPage"
 import ExpeditionsPage from "./pages/ExpeditionsPage"
+import ExpeditionPlayPage from "./pages/ExpeditionPlayPage"
 import LeaderboardPage from "./pages/LeaderboardPage"
 import ProfilePage from "./pages/ProfilePage"
 import LoginPage from "./pages/LoginPage"
@@ -74,6 +75,7 @@ function App() {
           <Route path="/quiz" element={<QuizzesPage />} />
           <Route path="/quiz/:slug" element={<QuizPlayPage />} />
           <Route path="/expeditions" element={<ExpeditionsPage />} />
+          <Route path="/expeditions/:slug" element={<ExpeditionPlayPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
