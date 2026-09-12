@@ -11,6 +11,9 @@ import { getRanking } from "@/lib/ranking"
 const ISMOILI_PORTRAIT =
   "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg/960px-%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg"
 
+const RAHMON_PORTRAIT =
+  "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Emomali_Rahmon_on_April_3%2C_2025_%28cropped%29.jpg/960px-Emomali_Rahmon_on_April_3%2C_2025_%28cropped%29.jpg"
+
 const featuredPeople: {
   name: string
   period: string
@@ -21,12 +24,19 @@ const featuredPeople: {
   objectPos?: string
 }[] = [
   {
+    name: "Эмомалӣ Раҳмон",
+    period: "Муосир",
+    role: "Президенти Ҷумҳурии Тоҷикистон",
+    slug: "emomali-rahmon",
+    image: RAHMON_PORTRAIT,
+    objectPos: "object-top",
+  },
+  {
     name: "Исмоили Сомонӣ",
     period: "849–907",
     role: "Асосгузори давлати Сомониён",
     slug: "ismoili-somoni",
     image: ISMOILI_PORTRAIT,
-    // Focus mid-upper body of the tall statue photo (not the sky)
     objectPos: "object-[center_28%]",
   },
   {
@@ -40,12 +50,6 @@ const featuredPeople: {
     period: "980–1037",
     role: "Донишманд ва табиб",
     slug: "ibn-sina",
-  },
-  {
-    name: "Фирдавсӣ",
-    period: "940–1020",
-    role: "Муаллифи Шоҳнома",
-    slug: "ferdowsi",
   },
 ]
 
