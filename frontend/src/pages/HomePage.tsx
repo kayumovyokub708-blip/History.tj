@@ -17,6 +17,9 @@ const RAHMON_PORTRAIT =
 const RUDAKI_PORTRAIT =
   "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/%D8%B1%D9%88%D8%AF%DA%A9%DB%8C_-_%D8%B1%D8%B3%D8%A7%D9%85_%D8%A7%D8%B1%DA%98%D9%86%DA%AF%DB%8C.jpg/960px-%D8%B1%D9%88%D8%AF%DA%A9%DB%8C_-_%D8%B1%D8%B3%D8%A7%D9%85_%D8%A7%D8%B1%DA%98%D9%86%DA%AF%DB%8C.jpg"
 
+const IBN_SINA_PORTRAIT =
+  "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Avicenna_Drawing.jpg/960px-Avicenna_Drawing.jpg"
+
 const featuredPeople: {
   name: string
   period: string
@@ -55,6 +58,8 @@ const featuredPeople: {
     period: "980–1037",
     role: "Донишманд ва табиб",
     slug: "ibn-sina",
+    image: IBN_SINA_PORTRAIT,
+    objectPos: "object-top",
   },
 ]
 
