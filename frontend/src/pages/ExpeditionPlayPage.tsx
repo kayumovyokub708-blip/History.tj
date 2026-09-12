@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { getExpeditionBySlug } from "@/data/expeditions"
 import { getLocalized } from "@/lib/getLocalized"
+import { saveExpeditionResult } from "@/lib/expeditionProgress"
 import type { Language } from "@/i18n/types"
 import { cn } from "@/lib/utils"
 
@@ -20,6 +21,7 @@ export default function ExpeditionPlayPage() {
   const [answered, setAnswered] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
   const [finished, setFinished] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   const missions = expedition?.missions ?? []
   const mission = missions[step]
@@ -30,6 +32,19 @@ export default function ExpeditionPlayPage() {
     if (total === 0) return 0
     return Math.round((correctCount / total) * expedition.xp)
   }, [correctCount, total, expedition])
+
+  useEffect(() => {
+    if (!finished || !expedition || saved) return
+    saveExpeditionResult({
+      slug: expedition.slug,
+      titleKey: expedition.titleKey,
+      correct: correctCount,
+      total,
+      xp: xpEarned,
+      at: new Date().toISOString(),
+    })
+    setSaved(true)
+  }, [finished, expedition, correctCount, total, xpEarned, saved])
 
   if (!expedition || expedition.status === "locked" || total === 0) {
     return (
@@ -82,6 +97,7 @@ export default function ExpeditionPlayPage() {
               </Badge>
               <Badge variant="success">+{xpEarned} XP</Badge>
             </div>
+            <p className="text-xs text-muted">{t("expeditions.savedHint")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Link
                 to="/expeditions"
@@ -97,6 +113,7 @@ export default function ExpeditionPlayPage() {
                   setAnswered(false)
                   setCorrectCount(0)
                   setFinished(false)
+                  setSaved(false)
                 }}
               >
                 {t("expeditions.playAgain")}
