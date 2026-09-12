@@ -7,7 +7,7 @@ import { StatCard } from "@/components/ui/stat-card"
 import { cn } from "@/lib/utils"
 import { getRanking } from "@/lib/ranking"
 
-/** Working direct Wikimedia thumb (960px). */
+/** Wikimedia: Ismail Samani statue (Konibodom). */
 const ISMOILI_PORTRAIT =
   "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg/960px-%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg"
 
@@ -17,6 +17,8 @@ const featuredPeople: {
   role: string
   slug: string
   image?: string
+  /** Tailwind object-position class for crop focus */
+  objectPos?: string
 }[] = [
   {
     name: "Исмоили Сомонӣ",
@@ -24,6 +26,8 @@ const featuredPeople: {
     role: "Асосгузори давлати Сомониён",
     slug: "ismoili-somoni",
     image: ISMOILI_PORTRAIT,
+    // Focus mid-upper body of the tall statue photo (not the sky)
+    objectPos: "object-[center_28%]",
   },
   {
     name: "Рӯдакӣ",
@@ -93,15 +97,17 @@ export default function HomePage() {
           {featuredPeople.map((person) => (
             <Link key={person.name} to={`/encyclopedia/people/${person.slug}`}>
               <Card className="h-full hover:border-primary/40 transition-colors cursor-pointer group overflow-hidden">
-                <div className="h-44 bg-surface rounded-t-xl overflow-hidden relative">
+                <div className="h-48 bg-surface rounded-t-xl overflow-hidden relative">
                   {person.image ? (
                     <img
                       src={person.image}
                       alt={person.name}
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      className={cn(
+                        "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300",
+                        person.objectPos ?? "object-center"
+                      )}
                       loading="eager"
                       referrerPolicy="no-referrer"
-                      crossOrigin="anonymous"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
