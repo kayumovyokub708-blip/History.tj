@@ -145,6 +145,8 @@ export const people: Person[] = [
     biographyEn:
       "Ibn Sina is one of the greatest scholars of the Middle Ages. He studied in Bukhara and wrote The Canon of Medicine, used for centuries as a medical handbook in Europe and the East.",
     achievements: ["Муаллифи Қонуни тиб", "Фалсафа ва мантиқ"],
+    image:
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Avicenna_Drawing.jpg/960px-Avicenna_Drawing.jpg",
     status: "published",
   },
   {
