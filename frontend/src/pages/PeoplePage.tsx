@@ -24,9 +24,19 @@ export default function PeoplePage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {list.map((p) => (
           <Link key={p.id} to={`/encyclopedia/people/${p.slug}`}>
-            <Card className="h-full hover:border-primary/40 transition cursor-pointer">
-              <div className="h-32 bg-surface flex items-center justify-center rounded-t-xl">
-                <span className="text-4xl opacity-40">👤</span>
+            <Card className="h-full hover:border-primary/40 transition cursor-pointer overflow-hidden">
+              <div className="h-36 bg-surface flex items-center justify-center rounded-t-xl overflow-hidden">
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={getLocalizedName(p, lang)}
+                    className="w-full h-full object-cover object-[center_28%]"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="text-4xl opacity-40">👤</span>
+                )}
               </div>
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap gap-2 mb-1">
