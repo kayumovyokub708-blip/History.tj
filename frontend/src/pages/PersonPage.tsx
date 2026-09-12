@@ -47,8 +47,19 @@ export default function PersonPage() {
       </Link>
 
       <div className="mt-6 flex flex-col sm:flex-row gap-8">
-        <div className="h-48 w-48 shrink-0 rounded-xl bg-surface border border-border flex items-center justify-center text-6xl opacity-50">
-          👤
+        <div className="h-52 w-52 shrink-0 rounded-xl bg-surface border border-border overflow-hidden">
+          {person.image ? (
+            <img
+              src={person.image}
+              alt={displayName}
+              className="w-full h-full object-cover object-[center_28%]"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-6xl opacity-50">
+              👤
+            </div>
+          )}
         </div>
         <div className="flex-1">
           <h1 className="text-3xl font-bold">{displayName}</h1>
