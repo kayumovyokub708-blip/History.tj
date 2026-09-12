@@ -53,6 +53,8 @@ export const people: Person[] = [
       "Сомонаи расмии Президенти Ҷумҳурии Тоҷикистон",
       "Таърихи муосири Тоҷикистон",
     ],
+    image:
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Emomali_Rahmon_on_April_3%2C_2025_%28cropped%29.jpg/960px-Emomali_Rahmon_on_April_3%2C_2025_%28cropped%29.jpg",
     status: "published",
   },
   {
