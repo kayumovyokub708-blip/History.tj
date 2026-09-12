@@ -7,9 +7,9 @@ import { StatCard } from "@/components/ui/stat-card"
 import { cn } from "@/lib/utils"
 import { getRanking } from "@/lib/ranking"
 
-/** Direct Wikimedia thumbnail — no redirect (works on GitHub Pages). */
+/** Working direct Wikimedia thumb (960px). */
 const ISMOILI_PORTRAIT =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg/640px-%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg"
+  "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg/960px-%D0%98%D1%81%D0%BC%D0%BE%D0%B8%D0%BB%D0%B8_%D0%A1%D0%BE%D0%BC%D0%BE%D0%BD%D0%B8_%28%D0%9A%D0%BE%D0%BD%D0%B8%D0%B1%D0%BE%D0%B4%D0%BE%D0%BC%29.jpg"
 
 const featuredPeople: {
   name: string
@@ -101,6 +101,7 @@ export default function HomePage() {
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                       loading="eager"
                       referrerPolicy="no-referrer"
+                      crossOrigin="anonymous"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
