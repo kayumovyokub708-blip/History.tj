@@ -83,9 +83,12 @@ export default function ExpeditionPlayPage() {
               <Badge variant="success">+{xpEarned} XP</Badge>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-              <Button asChild>
-                <Link to="/expeditions">{t("expeditions.backList")}</Link>
-              </Button>
+              <Link
+                to="/expeditions"
+                className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 shadow-sm"
+              >
+                {t("expeditions.backList")}
+              </Link>
               <Button
                 variant="secondary"
                 onClick={() => {
