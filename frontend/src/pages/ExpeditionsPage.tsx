@@ -63,9 +63,12 @@ export default function ExpeditionsPage() {
                 <span className="text-primary font-semibold">+{exp.xp} XP</span>
               </div>
               {exp.status === "available" ? (
-                <Button className="w-full" asChild>
-                  <Link to={`/expeditions/${exp.slug}`}>{t("expeditions.start")}</Link>
-                </Button>
+                <Link
+                  to={`/expeditions/${exp.slug}`}
+                  className="inline-flex w-full items-center justify-center gap-2 h-10 px-4 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 shadow-sm"
+                >
+                  {t("expeditions.start")}
+                </Link>
               ) : (
                 <Button className="w-full" variant="secondary" disabled>
                   {t("expeditions.locked")}
