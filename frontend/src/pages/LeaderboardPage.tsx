@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -20,7 +20,13 @@ function RankTable({
   currentUserId?: string
 }) {
   const { t } = useTranslation()
-  const list = useMemo(() => getRanking(period), [period])
+  const [list, setList] = useState(() => getRanking(period))
+  useEffect(() => {
+    setList(getRanking(period))
+    const onFocus = () => setList(getRanking(period))
+    window.addEventListener("focus", onFocus)
+    return () => window.removeEventListener("focus", onFocus)
+  }, [period])
 
   if (list.length === 0) {
     return (
