@@ -26,23 +26,23 @@ const BOOKS: Book[] = [
     subject: "Таърих",
     year: 2015,
     publisher: "Маориф",
-    coverUrl: "https://h.uguu.se/QpQMFsOP.jpg",
+    coverUrl: "https://h.uguu.se/rrmZzkTN.jpg",
     pageCount: 249,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789280897.ef38c844e8d900d5/wHwGPS3uHwOV/kitobkhon-net-5.-tarikhi-khalki-tojik-2015.pdf",
+      "https://tmpfiles.org/dl/1789294525.80930da672def992/w7woPquj5eqT/tarikh-khalqi-tojik-sinfi-5.pdf",
     pages: [
-      "https://h.uguu.se/QpQMFsOP.jpg",
-      "https://d.uguu.se/FASqWiZJ.jpg",
-      "https://h.uguu.se/wvGbeoST.jpg",
-      "https://n.uguu.se/eobxGHxO.jpg",
-      "https://d.uguu.se/gEYPYqlX.jpg",
-      "https://d.uguu.se/bTGKywmf.jpg",
-      "https://d.uguu.se/HCcQNBGs.jpg",
-      "https://h.uguu.se/CDVUcFgk.jpg",
-      "https://h.uguu.se/kuyeEKqW.jpg",
-      "https://n.uguu.se/lJlNQMOw.jpg",
-      "https://n.uguu.se/ixlthNlX.jpg",
-      "https://d.uguu.se/RzEHVBlR.jpg",
+      "https://h.uguu.se/rrmZzkTN.jpg",
+      "https://h.uguu.se/tYhQRGJc.jpg",
+      "https://h.uguu.se/rhgXgVDy.jpg",
+      "https://d.uguu.se/AiKKDJrP.jpg",
+      "https://n.uguu.se/PasHtnoJ.jpg",
+      "https://n.uguu.se/hOWeqqKH.jpg",
+      "https://d.uguu.se/DlRUpfjE.jpg",
+      "https://n.uguu.se/nPELDNDM.jpg",
+      "https://h.uguu.se/nukLfliy.jpg",
+      "https://d.uguu.se/OdYqzOaW.jpg",
+      "https://n.uguu.se/CsnkqlUJ.jpg",
+      "https://n.uguu.se/FYGPnHoM.jpg",
     ],
     description:
       "Китоби дарсӣ барои синфи 5 · 249 саҳифа · Замони ориёиҳо. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон ба чоп тавсия кардааст. Ҳамаи саҳифаҳо ва мундариҷа дар дохили китоб.",
@@ -167,7 +167,7 @@ function bookLabel(bookId: string): string {
   return b ? `${b.title} · ${b.grade}` : bookId
 }
 
-/** Китоби дарсӣ — PDF пурра (ҳамаи саҳифаҳо) ё варақи аксӣ */
+/** Китоби дарсӣ — аввал саҳифаҳои акс, PDF дар равзанаи нав */
 function BookReader({
   book,
   onClose,
@@ -175,10 +175,8 @@ function BookReader({
   book: Book
   onClose: () => void
 }) {
-  const hasPdf = Boolean(book.pdfUrl)
   const pages = book.pages?.length ? book.pages : book.coverUrl ? [book.coverUrl] : []
   const [page, setPage] = useState(0)
-  const [mode, setMode] = useState<"pdf" | "images">(hasPdf ? "pdf" : "images")
   const total = pages.length
 
   const go = useCallback(
@@ -191,21 +189,15 @@ function BookReader({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
-      if (mode === "images") {
-        if (e.key === "ArrowRight" || e.key === " ") {
-          e.preventDefault()
-          go(1)
-        }
-        if (e.key === "ArrowLeft") go(-1)
+      if (e.key === "ArrowRight" || e.key === " ") {
+        e.preventDefault()
+        go(1)
       }
+      if (e.key === "ArrowLeft") go(-1)
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [go, onClose, mode])
-
-  const pdfViewerSrc = book.pdfUrl
-    ? `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(book.pdfUrl)}`
-    : ""
+  }, [go, onClose])
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col bg-[#0c0c0e]">
@@ -226,109 +218,74 @@ function BookReader({
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          {hasPdf && (
-            <div className="flex rounded-lg bg-white/10 p-0.5 text-[11px]">
-              <button
-                type="button"
-                onClick={() => setMode("pdf")}
-                className={[
-                  "px-2 py-1 rounded-md transition",
-                  mode === "pdf" ? "bg-[#0a84ff] text-white" : "text-white/60 hover:text-white",
-                ].join(" ")}
-              >
-                PDF
-              </button>
-              {total > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setMode("images")}
-                  className={[
-                    "px-2 py-1 rounded-md transition",
-                    mode === "images" ? "bg-[#0a84ff] text-white" : "text-white/60 hover:text-white",
-                  ].join(" ")}
-                >
-                  Акс
-                </button>
-              )}
-            </div>
-          )}
           {book.pdfUrl && (
             <a
               href={book.pdfUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-[12px] text-[#64b5ff] hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 hidden sm:inline"
+              className="text-[12px] font-medium text-white bg-[#0a84ff] hover:bg-[#0066d6] px-3 py-1.5 rounded-lg"
             >
-              Зеркашӣ
+              PDF пурра
             </a>
           )}
         </div>
       </div>
 
-      {mode === "pdf" && book.pdfUrl ? (
-        <div className="flex-1 min-h-0 relative bg-[#525659]">
-          <iframe
-            title={book.title}
-            src={pdfViewerSrc}
-            className="absolute inset-0 w-full h-full border-0"
-            allow="fullscreen"
-          />
+      <div className="flex-1 relative flex items-center justify-center overflow-hidden min-h-0">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          disabled={page === 0}
+          className="absolute left-2 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 text-white text-xl flex items-center justify-center backdrop-blur"
+          aria-label="Саҳифаи қаблӣ"
+        >
+          ‹
+        </button>
+        <div className="h-full w-full max-w-3xl mx-auto px-12 sm:px-16 py-4 flex items-center justify-center">
+          {total > 0 ? (
+            <img
+              key={pages[page]}
+              src={pages[page]}
+              alt={`${book.title} — саҳифаи ${page + 1}`}
+              className="max-h-full max-w-full object-contain rounded-md shadow-[0_8px_40px_rgba(0,0,0,0.55)] bg-white"
+            />
+          ) : (
+            <p className="text-white/40">Саҳифа нест</p>
+          )}
         </div>
-      ) : (
-        <>
-          <div className="flex-1 relative flex items-center justify-center overflow-hidden min-h-0">
+        <button
+          type="button"
+          onClick={() => go(1)}
+          disabled={page >= total - 1}
+          className="absolute right-2 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 text-white text-xl flex items-center justify-center backdrop-blur"
+          aria-label="Саҳифаи навбатӣ"
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="shrink-0 px-4 py-3 border-t border-white/10 bg-black/40 flex flex-col items-center gap-2">
+        <div className="text-[13px] text-white/50 tabular-nums">
+          {page + 1} / {total}
+        </div>
+        <div className="flex gap-1.5 flex-wrap justify-center max-w-md">
+          {pages.map((_, i) => (
             <button
+              key={i}
               type="button"
-              onClick={() => go(-1)}
-              disabled={page === 0}
-              className="absolute left-2 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 text-white text-xl flex items-center justify-center backdrop-blur"
-              aria-label="Саҳифаи қаблӣ"
-            >
-              ‹
-            </button>
-            <div className="h-full w-full max-w-3xl mx-auto px-12 sm:px-16 py-4 flex items-center justify-center">
-              {total > 0 ? (
-                <img
-                  key={pages[page]}
-                  src={pages[page]}
-                  alt={`${book.title} — саҳифаи ${page + 1}`}
-                  className="max-h-full max-w-full object-contain rounded-md shadow-[0_8px_40px_rgba(0,0,0,0.55)] bg-white"
-                />
-              ) : (
-                <p className="text-white/40">Саҳифа нест</p>
-              )}
-            </div>
-            <button
-              type="button"
-              onClick={() => go(1)}
-              disabled={page >= total - 1}
-              className="absolute right-2 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 text-white text-xl flex items-center justify-center backdrop-blur"
-              aria-label="Саҳифаи навбатӣ"
-            >
-              ›
-            </button>
-          </div>
-          <div className="shrink-0 px-4 py-3 border-t border-white/10 bg-black/40 flex flex-col items-center gap-2">
-            <div className="text-[13px] text-white/50 tabular-nums">
-              {page + 1} / {total}
-            </div>
-            <div className="flex gap-1.5 flex-wrap justify-center max-w-md">
-              {pages.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setPage(i)}
-                  className={[
-                    "h-1.5 rounded-full transition-all",
-                    i === page ? "w-6 bg-[#0a84ff]" : "w-1.5 bg-white/25 hover:bg-white/40",
-                  ].join(" ")}
-                  aria-label={`Саҳифаи ${i + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+              onClick={() => setPage(i)}
+              className={[
+                "h-1.5 rounded-full transition-all",
+                i === page ? "w-6 bg-[#0a84ff]" : "w-1.5 bg-white/25 hover:bg-white/40",
+              ].join(" ")}
+              aria-label={`Саҳифаи ${i + 1}`}
+            />
+          ))}
+        </div>
+        <p className="text-[11px] text-white/30">
+          ← → варақ · «PDF пурра» барои ҳамаи 249 саҳифа
+        </p>
+      </div>
     </div>
   )
 }
