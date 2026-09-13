@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 /** Китобҳо — алоҳида. Барои илова кардан танҳо ин рӯйхатро васеъ кунед. */
@@ -8,9 +8,30 @@ type Book = {
   grade: string
   author?: string
   subject: string
+  year?: number
+  publisher?: string
+  coverUrl?: string
+  previews?: string[]
+  description?: string
 }
 
 const BOOKS: Book[] = [
+  {
+    id: "tj-people-5",
+    title: "Таърихи халқи тоҷик",
+    grade: "Синфи 5",
+    author: "Юсуфшоҳ Яъқубов",
+    subject: "Таърих",
+    year: 2015,
+    publisher: "Маориф",
+    coverUrl: "https://n.uguu.se/bOmMcpaD.jpg",
+    previews: [
+      "https://h.uguu.se/EpWorxTM.jpg",
+      "https://d.uguu.se/gicEaxAY.jpg",
+    ],
+    description:
+      "Китоби дарсӣ барои синфи 5. Замони ориёиҳо. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон ба чоп тавсия кардааст.",
+  },
   {
     id: "tj-7",
     title: "Таърихи Тоҷикистон",
@@ -68,7 +89,7 @@ const WEEK: DaySchedule[] = [
   {
     key: "mon",
     lessons: [
-      { period: 1, time: "08:00–08:45", className: "7-А", subject: "Таърих", bookId: "tj-7", room: "312" },
+      { period: 1, time: "08:00–08:45", className: "5-А", subject: "Таърих", bookId: "tj-people-5", room: "312" },
       { period: 3, time: "10:00–10:45", className: "9-Б", subject: "Таърих", bookId: "world-9", room: "312" },
       { period: 5, time: "12:00–12:45", className: "11-А", subject: "Таърих", bookId: "tj-11", room: "305" },
     ],
@@ -78,7 +99,7 @@ const WEEK: DaySchedule[] = [
     lessons: [
       { period: 2, time: "08:55–09:40", className: "8-А", subject: "Таърих", bookId: "tj-8", room: "312" },
       { period: 4, time: "10:55–11:40", className: "10-Б", subject: "Таърих", bookId: "world-10", room: "312" },
-      { period: 6, time: "12:55–13:40", className: "7-Б", subject: "Таърих", bookId: "tj-7", room: "308" },
+      { period: 6, time: "12:55–13:40", className: "5-Б", subject: "Таърих", bookId: "tj-people-5", room: "308" },
     ],
   },
   {
@@ -93,7 +114,7 @@ const WEEK: DaySchedule[] = [
     key: "thu",
     lessons: [
       { period: 2, time: "08:55–09:40", className: "10-А", subject: "Таърих", bookId: "world-10", room: "312" },
-      { period: 4, time: "10:55–11:40", className: "7-А", subject: "Таърих", bookId: "tj-7", room: "312" },
+      { period: 4, time: "10:55–11:40", className: "5-А", subject: "Таърих", bookId: "tj-people-5", room: "312" },
       { period: 6, time: "12:55–13:40", className: "9-Б", subject: "Таърих", bookId: "world-9", room: "308" },
     ],
   },
@@ -108,7 +129,7 @@ const WEEK: DaySchedule[] = [
   {
     key: "sat",
     lessons: [
-      { period: 2, time: "08:55–09:40", className: "7-Б", subject: "Таърих", bookId: "tj-7", room: "312" },
+      { period: 2, time: "08:55–09:40", className: "5-Б", subject: "Таърих", bookId: "tj-people-5", room: "312" },
       { period: 3, time: "10:00–10:45", className: "9-А", subject: "Таърих", bookId: "world-9", room: "308" },
     ],
   },
@@ -141,6 +162,10 @@ export default function TeachersPage() {
   const lang = (i18n.language || "tg").slice(0, 2) as "tg" | "ru" | "en"
   const todayKey = useMemo(() => dayKeyFromDate(new Date()), [])
   const today = WEEK.find((d) => d.key === todayKey) ?? WEEK[0]
+  const [lightbox, setLightbox] = useState<string | null>(null)
+
+  const featured = BOOKS.find((b) => b.coverUrl)
+  const otherBooks = BOOKS.filter((b) => !b.coverUrl)
 
   const labels = {
     title: { tg: "Омӯзгорон", ru: "Преподаватели", en: "Teachers" }[lang],
@@ -155,16 +180,20 @@ export default function TeachersPage() {
     book: { tg: "Китоб", ru: "Учебник", en: "Textbook" }[lang],
     books: { tg: "Китобҳо", ru: "Учебники", en: "Textbooks" }[lang],
     booksHint: {
-      tg: "Рӯйхати китобҳо — алоҳида. Барои илова кардани китоби нав гӯед.",
-      ru: "Список учебников — отдельно. Чтобы добавить книгу, напишите нам.",
-      en: "Textbooks list — separate. Tell us to add a new book.",
+      tg: "Рӯйхати китобҳо. Китоби нав илова кардан мумкин аст.",
+      ru: "Список учебников. Можно добавить новую книгу.",
+      en: "Textbook list. New books can be added.",
     }[lang],
     room: { tg: "Кабинет", ru: "Кабинет", en: "Room" }[lang],
     free: { tg: "Дарси нест", ru: "Нет уроков", en: "No lessons" }[lang],
     week: { tg: "Ҳафта", ru: "Неделя", en: "Week" }[lang],
     lessonsToday: { tg: "дарс имрӯз", ru: "уроков сегодня", en: "lessons today" }[lang],
-    grade: { tg: "Синф", ru: "Класс", en: "Grade" }[lang],
     author: { tg: "Муаллиф", ru: "Автор", en: "Author" }[lang],
+    publisher: { tg: "Нашриёт", ru: "Издательство", en: "Publisher" }[lang],
+    year: { tg: "Сол", ru: "Год", en: "Year" }[lang],
+    inside: { tg: "Саҳифаҳои дохилӣ", ru: "Страницы внутри", en: "Inside pages" }[lang],
+    recommended: { tg: "Тавсияшуда", ru: "Рекомендовано", en: "Recommended" }[lang],
+    otherBooks: { tg: "Дигар китобҳо", ru: "Другие учебники", en: "Other textbooks" }[lang],
   }
 
   return (
@@ -177,56 +206,135 @@ export default function TeachersPage() {
           <h1 className="text-[34px] sm:text-[40px] font-semibold tracking-tight text-white leading-tight">
             {labels.title}
           </h1>
-          <p className="mt-2 text-[17px] text-white/55 font-normal">
-            {labels.subtitle}
-          </p>
+          <p className="mt-2 text-[17px] text-white/55 font-normal">{labels.subtitle}</p>
         </header>
 
         <section className="mb-10">
-          <div className="flex items-end justify-between gap-3 mb-4 px-1">
+          <div className="flex items-end justify-between gap-3 mb-5 px-1">
             <div>
               <h2 className="text-[22px] sm:text-[24px] font-semibold tracking-tight text-white">
                 📖 {labels.books}
               </h2>
               <p className="mt-1 text-[13px] text-white/40">{labels.booksHint}</p>
             </div>
-            <span className="text-[13px] text-white/30 tabular-nums shrink-0">
-              {BOOKS.length}
-            </span>
+            <span className="text-[13px] text-white/30 tabular-nums shrink-0">{BOOKS.length}</span>
           </div>
-          <div className="rounded-3xl bg-[#161618] border border-white/[0.06] overflow-hidden">
-            <ul className="divide-y divide-white/[0.05]">
-              {BOOKS.map((b) => (
-                <li
-                  key={b.id}
-                  className="px-4 sm:px-5 py-4 flex items-start gap-4 hover:bg-white/[0.03] transition-colors"
+
+          {featured && (
+            <div className="mb-6 rounded-3xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_12px_48px_rgba(0,0,0,0.4)]">
+              <div className="p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6">
+                <button
+                  type="button"
+                  onClick={() => featured.coverUrl && setLightbox(featured.coverUrl)}
+                  className="shrink-0 mx-auto sm:mx-0 group relative"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-[#0a84ff]/12 flex items-center justify-center text-[20px] shrink-0">
-                    📘
+                  <div className="w-[140px] sm:w-[160px] rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]">
+                    <img
+                      src={featured.coverUrl}
+                      alt={featured.title}
+                      className="w-full h-auto block object-cover"
+                      loading="eager"
+                    />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[16px] font-semibold text-white leading-snug">
-                      {b.title}
-                    </div>
-                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px] text-white/45">
-                      <span className="inline-flex items-center rounded-full bg-white/[0.06] text-white/70 px-2 py-0.5 text-[12px] font-medium">
-                        {b.grade}
+                </button>
+
+                <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <span className="inline-flex self-start items-center rounded-full bg-[#30d158]/15 text-[#30d158] text-[11px] font-semibold px-2.5 py-0.5 mb-2 tracking-wide uppercase">
+                    {labels.recommended}
+                  </span>
+                  <h3 className="text-[22px] sm:text-[26px] font-semibold text-white tracking-tight leading-snug">
+                    {featured.title}
+                  </h3>
+                  <p className="mt-1.5 text-[15px] text-white/55">
+                    {featured.grade}
+                    {featured.author ? ` · ${featured.author}` : ""}
+                  </p>
+                  {featured.description && (
+                    <p className="mt-3 text-[13px] text-white/40 leading-relaxed line-clamp-3">
+                      {featured.description}
+                    </p>
+                  )}
+                  <div className="mt-3 flex flex-wrap gap-2 text-[12px] text-white/35">
+                    {featured.publisher && (
+                      <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
+                        {labels.publisher}: {featured.publisher}
                       </span>
-                      <span>{b.subject}</span>
-                      {b.author && (
-                        <>
-                          <span className="text-white/20">·</span>
-                          <span>
-                            {labels.author}: {b.author}
-                          </span>
-                        </>
-                      )}
-                    </div>
+                    )}
+                    {featured.year && (
+                      <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
+                        {labels.year}: {featured.year}
+                      </span>
+                    )}
+                    <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">{featured.subject}</span>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+                </div>
+              </div>
+
+              {featured.previews && featured.previews.length > 0 && (
+                <div className="px-5 sm:px-6 pb-5">
+                  <p className="text-[12px] font-semibold text-white/40 uppercase tracking-wide mb-3">
+                    {labels.inside}
+                  </p>
+                  <div className="flex gap-3 overflow-x-auto pb-1">
+                    {featured.previews.map((url, i) => (
+                      <button
+                        key={url}
+                        type="button"
+                        onClick={() => setLightbox(url)}
+                        className="shrink-0 w-[120px] sm:w-[140px] rounded-xl overflow-hidden ring-1 ring-white/10 hover:ring-[#0a84ff]/50 transition shadow-lg"
+                      >
+                        <img
+                          src={url}
+                          alt={`${featured.title} — ${i + 1}`}
+                          className="w-full h-auto block object-cover bg-[#0a0a0c]"
+                          loading="lazy"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {otherBooks.length > 0 && (
+            <>
+              <p className="text-[13px] font-semibold text-white/40 uppercase tracking-wide mb-3 px-1">
+                {labels.otherBooks}
+              </p>
+              <div className="rounded-3xl bg-[#161618] border border-white/[0.06] overflow-hidden">
+                <ul className="divide-y divide-white/[0.05]">
+                  {otherBooks.map((b) => (
+                    <li
+                      key={b.id}
+                      className="px-4 sm:px-5 py-4 flex items-start gap-4 hover:bg-white/[0.03] transition-colors"
+                    >
+                      <div className="w-11 h-11 rounded-xl bg-[#0a84ff]/12 flex items-center justify-center text-[20px] shrink-0">
+                        📘
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[16px] font-semibold text-white leading-snug">{b.title}</div>
+                        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px] text-white/45">
+                          <span className="inline-flex items-center rounded-full bg-white/[0.06] text-white/70 px-2 py-0.5 text-[12px] font-medium">
+                            {b.grade}
+                          </span>
+                          <span>{b.subject}</span>
+                          {b.author && (
+                            <>
+                              <span className="text-white/20">·</span>
+                              <span>
+                                {labels.author}: {b.author}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
         </section>
 
         <section className="mb-8">
@@ -242,9 +350,7 @@ export default function TeachersPage() {
                 </h2>
               </div>
               <div className="text-right">
-                <div className="text-[28px] font-semibold text-white tabular-nums">
-                  {today.lessons.length}
-                </div>
+                <div className="text-[28px] font-semibold text-white tabular-nums">{today.lessons.length}</div>
                 <div className="text-[13px] text-white/45">{labels.lessonsToday}</div>
               </div>
             </div>
@@ -267,9 +373,7 @@ export default function TeachersPage() {
                       <div className="text-[22px] font-semibold text-white tabular-nums leading-none mt-0.5">
                         {lesson.period}
                       </div>
-                      <div className="text-[11px] text-white/35 mt-1 leading-tight">
-                        {lesson.time}
-                      </div>
+                      <div className="text-[11px] text-white/35 mt-1 leading-tight">{lesson.time}</div>
                     </div>
                     <div className="w-px self-stretch bg-white/[0.08]" />
                     <div className="flex-1 min-w-0 pt-0.5">
@@ -283,9 +387,7 @@ export default function TeachersPage() {
                           </span>
                         )}
                       </div>
-                      <div className="mt-1.5 text-[16px] font-medium text-white">
-                        {lesson.subject}
-                      </div>
+                      <div className="mt-1.5 text-[16px] font-medium text-white">{lesson.subject}</div>
                       <div className="mt-1 flex items-start gap-1.5 text-[13px] text-white/50">
                         <span className="text-[14px] leading-none mt-0.5" aria-hidden>
                           📖
@@ -316,9 +418,7 @@ export default function TeachersPage() {
                   key={day.key}
                   className={[
                     "rounded-2xl border overflow-hidden transition-colors",
-                    isToday
-                      ? "bg-[#161618] border-[#30d158]/25"
-                      : "bg-[#121214] border-white/[0.05]",
+                    isToday ? "bg-[#161618] border-[#30d158]/25" : "bg-[#121214] border-white/[0.05]",
                   ].join(" ")}
                 >
                   <div className="px-4 sm:px-5 py-3 flex items-center justify-between border-b border-white/[0.05]">
@@ -386,6 +486,21 @@ export default function TeachersPage() {
           Histori.tj · {labels.title}
         </p>
       </div>
+
+      {lightbox && (
+        <button
+          type="button"
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
+          onClick={() => setLightbox(null)}
+          aria-label="Close"
+        >
+          <img
+            src={lightbox}
+            alt=""
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+          />
+        </button>
+      )}
     </div>
   )
 }
