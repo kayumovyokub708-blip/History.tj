@@ -29,7 +29,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://d.uguu.se/fOGGUBvJ.jpg",
     pageCount: 249,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789319199.6d4ca7a9d0f03607/wFwxPpIA84QD/tarikh-khalqi-tojik-sinfi-5.pdf",
+      "https://kitobkhon.net/storage/books/kitobkhon-net-5.-tarikhi-khalki-tojik-2015.pdf",
     pages: [
       "https://d.uguu.se/fOGGUBvJ.jpg",
       "https://n.uguu.se/KMmWlOUy.jpg",
@@ -49,7 +49,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://h.uguu.se/KNGGDNvC.jpg",
     pageCount: 232,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789319202.6ff318249629add2/w7wEPtI18NSZ/tarikh-khalqi-tojik-sinfi-6.pdf",
+      "https://kitobkhon.net/storage/books/kitobkhon-net-tarikhi-khalki-tojik-6.pdf",
     pages: [
       "https://h.uguu.se/KNGGDNvC.jpg",
       "https://d.uguu.se/RpQcKfne.jpg",
@@ -69,7 +69,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://n.uguu.se/ooMGfwUv.jpg",
     pageCount: 240,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789319206.2bae7ef302945b96/wlwFPMIc8fGx/tarikh-khalqi-tojik-sinfi-7.pdf",
+      "https://kitobkhon.net/storage/books/kitobkhon-net-7.-tarikhi-khalki-tojik-2017.pdf",
     pages: [
       "https://n.uguu.se/ooMGfwUv.jpg",
       "https://h.uguu.se/wxjdJKMv.jpg",
@@ -89,7 +89,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://h.uguu.se/wPWigHvQ.jpg",
     pageCount: 312,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789319209.66e3720da0273980/wnwuPKIX8i4h/tarikh-khalqi-tojik-sinfi-8.pdf",
+      "https://kitobkhon.net/storage/books/kitobkhon-net-tarikhi-khalki-tojik-8.pdf",
     pages: [
       "https://h.uguu.se/wPWigHvQ.jpg",
       "https://n.uguu.se/EtxSYeRt.jpg",
@@ -449,239 +449,115 @@ export default function TeachersPage() {
             <span className="text-[13px] text-white/30 tabular-nums shrink-0">{BOOKS.length}</span>
           </div>
 
-          {featuredBooks.map((book) => (
-            <button
-              key={book.id}
-              type="button"
-              onClick={() => setOpenBook(book)}
-              className="w-full text-left mb-4 rounded-3xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_12px_48px_rgba(0,0,0,0.4)] hover:border-white/15 transition group"
-            >
-              <div className="p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6 items-center sm:items-stretch">
-                <div className="shrink-0 relative">
-                  <div className="w-[140px] sm:w-[160px] rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/10 transition-transform group-hover:scale-[1.03]">
-                    <img
-                      src={book.coverUrl}
-                      alt={book.title}
-                      className="w-full h-auto block object-cover"
-                      loading="eager"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <span className="inline-flex self-start items-center rounded-full bg-[#30d158]/15 text-[#30d158] text-[11px] font-semibold px-2.5 py-0.5 mb-2 tracking-wide uppercase">
-                    {labels.recommended}
-                  </span>
-                  <h3 className="text-[22px] sm:text-[26px] font-semibold text-white tracking-tight leading-snug">
-                    {book.title}
-                  </h3>
-                  <p className="mt-1.5 text-[15px] text-white/55">
-                    {book.grade}
-                    {book.author ? ` · ${book.author}` : ""}
-                  </p>
-                  {book.description && (
-                    <p className="mt-3 text-[13px] text-white/40 leading-relaxed line-clamp-2">
-                      {book.description}
-                    </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {featuredBooks.map((book) => (
+              <button
+                key={book.id}
+                type="button"
+                onClick={() => setOpenBook(book)}
+                className="text-left rounded-2xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:border-white/15 transition group"
+              >
+                <div className="p-4 flex gap-4 items-start">
+                  {book.coverUrl && (
+                    <div className="w-[88px] shrink-0 rounded-lg overflow-hidden shadow ring-1 ring-white/10">
+                      <img src={book.coverUrl} alt={book.title} className="w-full h-auto block object-cover" loading="lazy" />
+                    </div>
                   )}
-                  <div className="mt-3 flex flex-wrap gap-2 text-[12px] text-white/35">
-                    {book.publisher && (
-                      <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
-                        {labels.publisher}: {book.publisher}
-                      </span>
-                    )}
-                    {book.year && (
-                      <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
-                        {labels.year}: {book.year}
-                      </span>
-                    )}
-                    {(book.pageCount || book.pages) && (
-                      <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
-                        {book.pageCount ?? book.pages!.length} {labels.pagesCount}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-4 inline-flex self-start items-center gap-2 text-[14px] font-medium text-[#64b5ff] group-hover:text-[#8cc8ff]">
-                    <span>{labels.openBook}</span>
-                    <span aria-hidden>→</span>
+                  <div className="min-w-0 flex-1">
+                    <span className="inline-flex items-center rounded-full bg-[#30d158]/15 text-[#30d158] text-[10px] font-semibold px-2 py-0.5 mb-1.5 tracking-wide uppercase">
+                      {book.grade}
+                    </span>
+                    <h3 className="text-[15px] font-semibold text-white leading-snug line-clamp-2">{book.title}</h3>
+                    {book.author && <p className="mt-1 text-[12px] text-white/45 line-clamp-1">{book.author}</p>}
+                    <div className="mt-2 flex flex-wrap gap-1.5 text-[11px] text-white/35">
+                      {book.year && <span className="rounded bg-white/[0.05] px-1.5 py-0.5">{book.year}</span>}
+                      {book.pageCount && <span className="rounded bg-white/[0.05] px-1.5 py-0.5">{book.pageCount} {labels.pagesCount}</span>}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
+          </div>
 
           {otherBooks.length > 0 && (
-            <>
-              <p className="text-[13px] font-semibold text-white/40 uppercase tracking-wide mb-3 px-1">
-                {labels.otherBooks}
-              </p>
-              <div className="rounded-3xl bg-[#161618] border border-white/[0.06] overflow-hidden">
-                <ul className="divide-y divide-white/[0.05]">
-                  {otherBooks.map((b) => (
-                    <li key={b.id} className="px-4 sm:px-5 py-4 flex items-start gap-4">
-                      <div className="w-11 h-11 rounded-xl bg-[#0a84ff]/12 flex items-center justify-center text-[20px] shrink-0">
-                        📘
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[16px] font-semibold text-white leading-snug">{b.title}</div>
-                        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px] text-white/45">
-                          <span className="inline-flex items-center rounded-full bg-white/[0.06] text-white/70 px-2 py-0.5 text-[12px] font-medium">
-                            {b.grade}
-                          </span>
-                          <span>{b.subject}</span>
-                          {b.author && (
-                            <>
-                              <span className="text-white/20">·</span>
-                              <span>
-                                {labels.author}: {b.author}
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+            <div className="mt-6">
+              <h3 className="text-[15px] font-medium text-white/50 mb-3 px-1">{labels.otherBooks}</h3>
+              <div className="flex flex-wrap gap-2">
+                {otherBooks.map((b) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setOpenBook(b)}
+                    className="rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2 text-[13px] text-white/70 hover:bg-white/[0.08] hover:text-white transition"
+                  >
+                    {b.title} · {b.grade}
+                  </button>
+                ))}
               </div>
-            </>
+            </div>
           )}
         </section>
 
         <section className="mb-8">
-          <div className="rounded-3xl bg-[#161618] border border-white/[0.06] shadow-[0_8px_40px_rgba(0,0,0,0.35)] overflow-hidden">
-            <div className="px-6 pt-6 pb-3 flex items-center justify-between">
-              <div>
-                <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#30d158] tracking-wide uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#30d158]" />
-                  {labels.today}
-                </span>
-                <h2 className="mt-1 text-[28px] font-semibold text-white tracking-tight">
-                  {DAY_LABELS[todayKey][lang]}
-                </h2>
-              </div>
-              <div className="text-right">
-                <div className="text-[28px] font-semibold text-white tabular-nums">{today.lessons.length}</div>
-                <div className="text-[13px] text-white/45">{labels.lessonsToday}</div>
-              </div>
-            </div>
-            <div className="px-3 pb-4 space-y-2">
-              {today.lessons.length === 0 ? (
-                <div className="mx-3 mb-2 rounded-2xl bg-white/[0.04] px-5 py-8 text-center text-white/40 text-[15px]">
-                  {labels.free}
-                </div>
-              ) : (
-                today.lessons.map((lesson) => (
-                  <div
-                    key={`${lesson.period}-${lesson.className}`}
-                    className="mx-1 rounded-2xl bg-white/[0.045] px-4 py-3.5 flex gap-4 items-start"
-                  >
-                    <div className="shrink-0 w-14 text-center">
-                      <div className="text-[11px] text-white/40 font-medium uppercase tracking-wide">
-                        {labels.period}
-                      </div>
-                      <div className="text-[22px] font-semibold text-white tabular-nums leading-none mt-0.5">
-                        {lesson.period}
-                      </div>
-                      <div className="text-[11px] text-white/35 mt-1 leading-tight">{lesson.time}</div>
-                    </div>
-                    <div className="w-px self-stretch bg-white/[0.08]" />
-                    <div className="flex-1 min-w-0 pt-0.5">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center rounded-full bg-[#0a84ff]/15 text-[#64b5ff] text-[13px] font-semibold px-2.5 py-0.5">
-                          {labels.classLabel} {lesson.className}
-                        </span>
-                        {lesson.room && (
-                          <span className="text-[12px] text-white/35">
-                            {labels.room} {lesson.room}
-                          </span>
-                        )}
-                      </div>
-                      <div className="mt-1.5 text-[16px] font-medium text-white">{lesson.subject}</div>
-                      <div className="mt-1 text-[13px] text-white/50">
-                        📖 {labels.book}: {bookLabel(lesson.bookId)}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
+          <div className="flex items-end justify-between gap-3 mb-4 px-1">
+            <h2 className="text-[22px] sm:text-[24px] font-semibold tracking-tight text-white">
+              {labels.week}
+            </h2>
+            <span className="text-[13px] text-white/40">
+              {today.lessons.length} {labels.lessonsToday}
+            </span>
           </div>
-        </section>
 
-        <section>
-          <h3 className="text-[13px] font-semibold text-white/40 uppercase tracking-wide mb-4 px-1">
-            {labels.week}
-          </h3>
-          <div className="space-y-3">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#121214] overflow-hidden">
             {WEEK.map((day) => {
               const isToday = day.key === todayKey
+              const dayLabel = DAY_LABELS[day.key]?.[lang] ?? day.key
               return (
                 <div
                   key={day.key}
                   className={[
-                    "rounded-2xl border overflow-hidden",
-                    isToday ? "bg-[#161618] border-[#30d158]/25" : "bg-[#121214] border-white/[0.05]",
+                    "border-b border-white/[0.06] last:border-0",
+                    isToday ? "bg-[#0a84ff]/10" : "",
                   ].join(" ")}
                 >
-                  <div className="px-4 sm:px-5 py-3 flex items-center justify-between border-b border-white/[0.05]">
-                    <div className="flex items-center gap-2.5">
-                      <span
-                        className={[
-                          "text-[17px] font-semibold tracking-tight",
-                          isToday ? "text-[#30d158]" : "text-white",
-                        ].join(" ")}
-                      >
-                        {DAY_LABELS[day.key][lang]}
-                      </span>
-                      {isToday && (
-                        <span className="text-[11px] font-semibold uppercase tracking-wide text-[#30d158]/90 bg-[#30d158]/12 px-2 py-0.5 rounded-full">
-                          {labels.today}
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[13px] text-white/35 tabular-nums">
-                      {day.lessons.length > 0
-                        ? `${day.lessons.length} · ${day.lessons.map((l) => l.className).join(", ")}`
-                        : labels.free}
+                  <div className="px-4 py-2.5 flex items-center gap-2">
+                    <span className={["text-[14px] font-semibold", isToday ? "text-[#64b5ff]" : "text-white/80"].join(" ")}>
+                      {dayLabel}
                     </span>
+                    {isToday && (
+                      <span className="text-[11px] font-medium text-[#0a84ff] bg-[#0a84ff]/15 rounded-full px-2 py-0.5">
+                        {labels.today}
+                      </span>
+                    )}
                   </div>
-                  {day.lessons.length > 0 && (
-                    <ul className="divide-y divide-white/[0.04]">
-                      {day.lessons.map((lesson) => (
-                        <li
-                          key={`${day.key}-${lesson.period}-${lesson.className}`}
-                          className="px-4 sm:px-5 py-3 flex gap-3 sm:gap-4 items-center"
+                  {day.lessons.length === 0 ? (
+                    <p className="px-4 pb-3 text-[13px] text-white/30">{labels.free}</p>
+                  ) : (
+                    <div className="px-3 pb-3 space-y-1.5">
+                      {day.lessons.map((les) => (
+                        <button
+                          key={`${day.key}-${les.period}`}
+                          type="button"
+                          onClick={() => {
+                            const b = bookById(les.bookId)
+                            if (b) setOpenBook(b)
+                          }}
+                          className="w-full text-left rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.04] px-3 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 transition"
                         >
-                          <div className="w-11 shrink-0 text-center">
-                            <div className="text-[18px] font-semibold text-white tabular-nums leading-none">
-                              {lesson.period}
-                            </div>
-                            <div className="text-[10px] text-white/30 mt-0.5">{lesson.time.split("–")[0]}</div>
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex flex-wrap items-center gap-x-2">
-                              <span className="text-[15px] font-medium text-white">
-                                {labels.classLabel} {lesson.className}
-                              </span>
-                              <span className="text-white/25">·</span>
-                              <span className="text-[14px] text-white/55">{lesson.subject}</span>
-                            </div>
-                            <div className="text-[12px] text-white/40 mt-0.5 truncate">
-                              📖 {bookLabel(lesson.bookId)}
-                              {lesson.room ? ` · ${labels.room} ${lesson.room}` : ""}
-                            </div>
-                          </div>
-                        </li>
+                          <span className="text-[12px] font-medium text-white/40 tabular-nums w-16 shrink-0">{les.time}</span>
+                          <span className="text-[13px] font-semibold text-white">{les.className}</span>
+                          <span className="text-[13px] text-white/55">{les.subject}</span>
+                          <span className="text-[12px] text-[#64b5ff] ml-auto">{bookLabel(les.bookId)}</span>
+                          {les.room && <span className="text-[11px] text-white/30">{labels.room} {les.room}</span>}
+                        </button>
                       ))}
-                    </ul>
+                    </div>
                   )}
                 </div>
               )
             })}
           </div>
         </section>
-
-        <p className="mt-10 text-center text-[12px] text-white/25">Histori.tj · {labels.title}</p>
       </div>
 
       {openBook && <BookReader book={openBook} onClose={() => setOpenBook(null)} />}
