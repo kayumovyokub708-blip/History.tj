@@ -70,8 +70,68 @@ export function levelFromXp(xp: number): number {
   return Math.max(1, Math.floor(xp / 100) + 1)
 }
 
+/** First-time demo leaders so the page is not empty before anyone plays. */
+function seedDemoIfEmpty(list: RankEntry[]): RankEntry[] {
+  if (list.length > 0) return list
+  const now = new Date().toISOString()
+  const demos: RankEntry[] = [
+    {
+      id: "demo_ismail",
+      name: "Исмоили Сомонӣ",
+      xp: 1840,
+      level: 19,
+      quizzes: 12,
+      lastActive: now,
+      weeklyXp: 220,
+      monthlyXp: 640,
+    },
+    {
+      id: "demo_rudaki",
+      name: "Абуабдуллоҳи Рӯдакӣ",
+      xp: 1520,
+      level: 16,
+      quizzes: 10,
+      lastActive: now,
+      weeklyXp: 180,
+      monthlyXp: 510,
+    },
+    {
+      id: "demo_sino",
+      name: "Абуалӣ ибни Сино",
+      xp: 1310,
+      level: 14,
+      quizzes: 9,
+      lastActive: now,
+      weeklyXp: 150,
+      monthlyXp: 420,
+    },
+    {
+      id: "demo_firdawsi",
+      name: "Абулқосим Фирдавсӣ",
+      xp: 980,
+      level: 10,
+      quizzes: 7,
+      lastActive: now,
+      weeklyXp: 90,
+      monthlyXp: 300,
+    },
+    {
+      id: "demo_temur",
+      name: "Амир Темур",
+      xp: 760,
+      level: 8,
+      quizzes: 5,
+      lastActive: now,
+      weeklyXp: 70,
+      monthlyXp: 210,
+    },
+  ]
+  saveRaw(demos)
+  return demos
+}
+
 export function getRanking(period: "global" | "weekly" | "monthly" = "global"): RankEntry[] {
-  let list = applyPeriodResets(loadRaw())
+  let list = seedDemoIfEmpty(applyPeriodResets(loadRaw()))
   list = [...list].sort((a, b) => {
     if (period === "weekly") return b.weeklyXp - a.weeklyXp || b.xp - a.xp
     if (period === "monthly") return b.monthlyXp - a.monthlyXp || b.xp - a.xp
