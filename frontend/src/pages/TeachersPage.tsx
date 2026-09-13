@@ -70,11 +70,26 @@ const BOOKS: Book[] = [
       "Китоби дарсӣ барои синфи 6 · 232 саҳифа · Ибтидои асрҳои миёна. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Нашри IV, 2023.",
   },
   {
-    id: "tj-7",
-    title: "Таърихи Тоҷикистон",
+    id: "tj-people-7",
+    title: "Таърихи халқи тоҷик",
     grade: "Синфи 7",
-    author: "Вазорати маориф",
+    author: "С. Хоҷаев, С. Муллоҷонов",
     subject: "Таърих",
+    year: 2017,
+    publisher: "Маориф",
+    coverUrl: "https://h.uguu.se/yBpWDyQJ.jpg",
+    pageCount: 240,
+    pdfUrl:
+      "https://tmpfiles.org/dl/1789300287.315c34e6fc52e111/wewJPf9JCSPg/kitobkhon-net-7.-tarikhi-khalki-tojik-2017.pdf",
+    pages: [
+      "https://h.uguu.se/yBpWDyQJ.jpg",
+      "https://h.uguu.se/FwLRnqqR.jpg",
+      "https://d.uguu.se/PuQoliwo.jpg",
+      "https://d.uguu.se/wGhwviCC.jpg",
+      "https://n.uguu.se/ulujffLQ.jpg",
+    ],
+    description:
+      "Китоби дарсӣ барои синфи 7 · 240 саҳифа. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Душанбе, Маориф, 2017.",
   },
   {
     id: "tj-8",
