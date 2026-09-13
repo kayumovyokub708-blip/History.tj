@@ -26,23 +26,14 @@ const BOOKS: Book[] = [
     subject: "Таърих",
     year: 2015,
     publisher: "Маориф",
-    coverUrl: "https://h.uguu.se/rrmZzkTN.jpg",
+    coverUrl: "https://d.uguu.se/fOGGUBvJ.jpg",
     pageCount: 249,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789295382.6d0501c11ba99360/w5wHPzuSYVTg/tarikh-khalqi-tojik-sinfi-5.pdf",
+      "https://tmpfiles.org/dl/1789318377.53280738087c4fc8/wQwbPXIxrJ8Q/tarikh-khalqi-tojik-sinfi-5.pdf",
     pages: [
-      "https://h.uguu.se/rrmZzkTN.jpg",
-      "https://h.uguu.se/tYhQRGJc.jpg",
-      "https://h.uguu.se/rhgXgVDy.jpg",
-      "https://d.uguu.se/AiKKDJrP.jpg",
-      "https://n.uguu.se/PasHtnoJ.jpg",
-      "https://n.uguu.se/hOWeqqKH.jpg",
-      "https://d.uguu.se/DlRUpfjE.jpg",
-      "https://n.uguu.se/nPELDNDM.jpg",
-      "https://h.uguu.se/nukLfliy.jpg",
-      "https://d.uguu.se/OdYqzOaW.jpg",
-      "https://n.uguu.se/CsnkqlUJ.jpg",
-      "https://n.uguu.se/FYGPnHoM.jpg",
+      "https://d.uguu.se/fOGGUBvJ.jpg",
+      "https://n.uguu.se/KMmWlOUy.jpg",
+      "https://n.uguu.se/TPUzzdfy.jpg",
     ],
     description:
       "Китоби дарсӣ барои синфи 5 · 249 саҳифа · Замони ориёиҳо. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон ба чоп тавсия кардааст. Ҳамаи саҳифаҳо ва мундариҷа дар дохили китоб.",
@@ -55,16 +46,14 @@ const BOOKS: Book[] = [
     subject: "Таърих",
     year: 2023,
     publisher: "Маориф",
-    coverUrl: "https://h.uguu.se/wDcqLCxm.jpg",
+    coverUrl: "https://h.uguu.se/KNGGDNvC.jpg",
     pageCount: 232,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789296716.59f2f4bfa02a0550/wWwXP7upsUXT/kitobkhon-net-tarikhi-khalki-tojik-6.pdf",
+      "https://tmpfiles.org/dl/1789318380.59f70a66c0d71c6a/wlwePsIyrhpa/tarikh-khalqi-tojik-sinfi-6.pdf",
     pages: [
-      "https://h.uguu.se/wDcqLCxm.jpg",
-      "https://h.uguu.se/CXHuxjjc.jpg",
-      "https://d.uguu.se/KlxsDLjY.jpg",
-      "https://h.uguu.se/tsXLhTsl.jpg",
-      "https://h.uguu.se/fvnLCiUS.jpg",
+      "https://h.uguu.se/KNGGDNvC.jpg",
+      "https://d.uguu.se/RpQcKfne.jpg",
+      "https://h.uguu.se/DQbhVVXY.jpg",
     ],
     description:
       "Китоби дарсӣ барои синфи 6 · 232 саҳифа · Ибтидои асрҳои миёна. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Нашри IV, 2023.",
@@ -77,16 +66,14 @@ const BOOKS: Book[] = [
     subject: "Таърих",
     year: 2017,
     publisher: "Маориф",
-    coverUrl: "https://h.uguu.se/yBpWDyQJ.jpg",
+    coverUrl: "https://n.uguu.se/ooMGfwUv.jpg",
     pageCount: 240,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789300287.315c34e6fc52e111/wewJPf9JCSPg/kitobkhon-net-7.-tarikhi-khalki-tojik-2017.pdf",
+      "https://tmpfiles.org/dl/1789318384.cbc04a5a9b8b3efb/wcwDPJIW2YeA/tarikh-khalqi-tojik-sinfi-7.pdf",
     pages: [
-      "https://h.uguu.se/yBpWDyQJ.jpg",
-      "https://h.uguu.se/FwLRnqqR.jpg",
-      "https://d.uguu.se/PuQoliwo.jpg",
-      "https://d.uguu.se/wGhwviCC.jpg",
-      "https://n.uguu.se/ulujffLQ.jpg",
+      "https://n.uguu.se/ooMGfwUv.jpg",
+      "https://h.uguu.se/wxjdJKMv.jpg",
+      "https://n.uguu.se/poHhlgQA.jpg",
     ],
     description:
       "Китоби дарсӣ барои синфи 7 · 240 саҳифа. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Душанбе, Маориф, 2017.",
@@ -99,16 +86,14 @@ const BOOKS: Book[] = [
     subject: "Таърих",
     year: 2022,
     publisher: "Маориф",
-    coverUrl: "https://n.uguu.se/RMYLWztE.jpg",
+    coverUrl: "https://h.uguu.se/wPWigHvQ.jpg",
     pageCount: 312,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789300658.45ac6e2f3439a370/wewkPQ90kmtR/kitobkhon-net-tarikhi-khalki-tojik-8.pdf",
+      "https://tmpfiles.org/dl/1789318387.fc95c53dbcbd5a6c/wKwMPMI52OgG/tarikh-khalqi-tojik-sinfi-8.pdf",
     pages: [
-      "https://n.uguu.se/RMYLWztE.jpg",
-      "https://d.uguu.se/OxjkRgbg.jpg",
-      "https://h.uguu.se/FZxEfQzB.jpg",
-      "https://n.uguu.se/xtcEFShW.jpg",
-      "https://h.uguu.se/FZBGThFH.jpg",
+      "https://h.uguu.se/wPWigHvQ.jpg",
+      "https://n.uguu.se/EtxSYeRt.jpg",
+      "https://n.uguu.se/NXJLonJh.jpg",
     ],
     description:
       "Китоби дарсӣ барои синфи 8 · 312 саҳифа. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Душанбе, Маориф, 2022.",
@@ -219,7 +204,7 @@ function bookLabel(bookId: string): string {
   return b ? `${b.title} · ${b.grade}` : bookId
 }
 
-/** Китоби дарсӣ — ҳамаи саҳифаҳо (Google Viewer) + аксҳои намуна */
+/** Китоби дарсӣ — намуна + PDF пурра (равзанаи нав) */
 function BookReader({
   book,
   onClose,
@@ -229,7 +214,7 @@ function BookReader({
 }) {
   const pages = book.pages?.length ? book.pages : book.coverUrl ? [book.coverUrl] : []
   const [page, setPage] = useState(0)
-  const [mode, setMode] = useState<"full" | "preview">(book.pdfUrl ? "full" : "preview")
+  const [mode, setMode] = useState<"full" | "preview">("preview")
   const total = pages.length
 
   const go = useCallback(
@@ -279,43 +264,42 @@ function BookReader({
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {book.pdfUrl && (
-            <div className="flex rounded-lg bg-white/10 p-0.5 text-[11px]">
-              <button
-                type="button"
-                onClick={() => setMode("full")}
-                className={[
-                  "px-2.5 py-1 rounded-md transition font-medium",
-                  mode === "full" ? "bg-[#0a84ff] text-white" : "text-white/60 hover:text-white",
-                ].join(" ")}
-              >
-                {book.pageCount ?? "PDF"} саҳифа
-              </button>
-              {total > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setMode("preview")}
-                  className={[
-                    "px-2.5 py-1 rounded-md transition",
-                    mode === "preview" ? "bg-[#0a84ff] text-white" : "text-white/60 hover:text-white",
-                  ].join(" ")}
-                >
-                  Намуна
-                </button>
-              )}
-            </div>
-          )}
-          {book.pdfUrl && (
             <a
               href={book.pdfUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-[12px] font-medium text-white bg-white/10 hover:bg-white/20 px-2.5 py-1.5 rounded-lg hidden sm:inline"
+              className="text-[12px] font-semibold text-white bg-[#0a84ff] hover:bg-[#0066d6] px-3 py-1.5 rounded-lg"
             >
-              Зеркашӣ
+              PDF пурра
             </a>
           )}
         </div>
       </div>
+
+      {book.pdfUrl && (
+        <div className="shrink-0 px-4 py-2.5 bg-[#0a84ff]/15 border-b border-[#0a84ff]/25 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+          <p className="text-[13px] text-white/80 text-center">
+            Китоби пурра ({book.pageCount ?? "?"} саҳифа) — тугмаи «PDF пурра»-ро пахш кунед
+          </p>
+          <div className="flex gap-2">
+            <a
+              href={book.pdfUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[13px] font-semibold text-white bg-[#0a84ff] hover:bg-[#0066d6] px-4 py-1.5 rounded-full"
+            >
+              Кушодан / зеркашӣ
+            </a>
+            <button
+              type="button"
+              onClick={() => setMode(mode === "full" ? "preview" : "full")}
+              className="text-[13px] text-white/80 bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-full"
+            >
+              {mode === "full" ? "Намуна" : "Дар дохил бинед"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {mode === "full" && gview ? (
         <div className="flex-1 min-h-0 relative bg-[#525659]">
@@ -378,9 +362,6 @@ function BookReader({
                 />
               ))}
             </div>
-            <p className="text-[11px] text-white/30">
-              Намуна · барои ҳамаи саҳифаҳо тугмаи пурраро пахш кунед
-            </p>
           </div>
         </>
       )}
