@@ -2,7 +2,10 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-const SPEECH_VIDEO = `${import.meta.env.BASE_URL}videos/emomali-rahmon-speech.mp4`
+// Hosted copy of the speech (works while CDN is up)
+const SPEECH_VIDEO_CDN = "https://h.uguu.se/LuyNNDnx.mp4"
+// Local path after manual upload to public/videos/
+const SPEECH_VIDEO_LOCAL = `${import.meta.env.BASE_URL}videos/emomali-rahmon-speech.mp4`
 
 export default function VideosPage() {
   const { t, i18n } = useTranslation()
@@ -47,8 +50,10 @@ export default function VideosPage() {
             controls
             playsInline
             preload="metadata"
+            poster=""
           >
-            <source src={SPEECH_VIDEO} type="video/mp4" />
+            <source src={SPEECH_VIDEO_CDN} type="video/mp4" />
+            <source src={SPEECH_VIDEO_LOCAL} type="video/mp4" />
             Браузери шумо видеоро дастгирӣ намекунад.
           </video>
         </div>
