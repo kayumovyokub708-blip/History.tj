@@ -29,7 +29,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://d.uguu.se/fOGGUBvJ.jpg",
     pageCount: 249,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789318377.53280738087c4fc8/wQwbPXIxrJ8Q/tarikh-khalqi-tojik-sinfi-5.pdf",
+      "https://tmpfiles.org/dl/1789319199.6d4ca7a9d0f03607/wFwxPpIA84QD/tarikh-khalqi-tojik-sinfi-5.pdf",
     pages: [
       "https://d.uguu.se/fOGGUBvJ.jpg",
       "https://n.uguu.se/KMmWlOUy.jpg",
@@ -49,7 +49,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://h.uguu.se/KNGGDNvC.jpg",
     pageCount: 232,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789318380.59f70a66c0d71c6a/wlwePsIyrhpa/tarikh-khalqi-tojik-sinfi-6.pdf",
+      "https://tmpfiles.org/dl/1789319202.6ff318249629add2/w7wEPtI18NSZ/tarikh-khalqi-tojik-sinfi-6.pdf",
     pages: [
       "https://h.uguu.se/KNGGDNvC.jpg",
       "https://d.uguu.se/RpQcKfne.jpg",
@@ -69,7 +69,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://n.uguu.se/ooMGfwUv.jpg",
     pageCount: 240,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789318384.cbc04a5a9b8b3efb/wcwDPJIW2YeA/tarikh-khalqi-tojik-sinfi-7.pdf",
+      "https://tmpfiles.org/dl/1789319206.2bae7ef302945b96/wlwFPMIc8fGx/tarikh-khalqi-tojik-sinfi-7.pdf",
     pages: [
       "https://n.uguu.se/ooMGfwUv.jpg",
       "https://h.uguu.se/wxjdJKMv.jpg",
@@ -89,7 +89,7 @@ const BOOKS: Book[] = [
     coverUrl: "https://h.uguu.se/wPWigHvQ.jpg",
     pageCount: 312,
     pdfUrl:
-      "https://tmpfiles.org/dl/1789318387.fc95c53dbcbd5a6c/wKwMPMI52OgG/tarikh-khalqi-tojik-sinfi-8.pdf",
+      "https://tmpfiles.org/dl/1789319209.66e3720da0273980/wnwuPKIX8i4h/tarikh-khalqi-tojik-sinfi-8.pdf",
     pages: [
       "https://h.uguu.se/wPWigHvQ.jpg",
       "https://n.uguu.se/EtxSYeRt.jpg",
@@ -204,7 +204,7 @@ function bookLabel(bookId: string): string {
   return b ? `${b.title} · ${b.grade}` : bookId
 }
 
-/** Китоби дарсӣ — намуна + PDF пурра (равзанаи нав) */
+/** Китоби дарсӣ — ҳамаи саҳифаҳо (Google Viewer + PDF) */
 function BookReader({
   book,
   onClose,
@@ -214,7 +214,7 @@ function BookReader({
 }) {
   const pages = book.pages?.length ? book.pages : book.coverUrl ? [book.coverUrl] : []
   const [page, setPage] = useState(0)
-  const [mode, setMode] = useState<"full" | "preview">("preview")
+  const [mode, setMode] = useState<"full" | "preview">(book.pdfUrl ? "full" : "preview")
   const total = pages.length
 
   const go = useCallback(
@@ -270,33 +270,48 @@ function BookReader({
               rel="noreferrer"
               className="text-[12px] font-semibold text-white bg-[#0a84ff] hover:bg-[#0066d6] px-3 py-1.5 rounded-lg"
             >
-              PDF пурра
+              PDF
             </a>
           )}
         </div>
       </div>
 
       {book.pdfUrl && (
-        <div className="shrink-0 px-4 py-2.5 bg-[#0a84ff]/15 border-b border-[#0a84ff]/25 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
-          <p className="text-[13px] text-white/80 text-center">
-            Китоби пурра ({book.pageCount ?? "?"} саҳифа) — тугмаи «PDF пурра»-ро пахш кунед
-          </p>
-          <div className="flex gap-2">
-            <a
-              href={book.pdfUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-[13px] font-semibold text-white bg-[#0a84ff] hover:bg-[#0066d6] px-4 py-1.5 rounded-full"
-            >
-              Кушодан / зеркашӣ
-            </a>
-            <button
-              type="button"
-              onClick={() => setMode(mode === "full" ? "preview" : "full")}
-              className="text-[13px] text-white/80 bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-full"
-            >
-              {mode === "full" ? "Намуна" : "Дар дохил бинед"}
-            </button>
+        <div className="shrink-0 px-3 sm:px-4 py-3 bg-gradient-to-r from-[#0a84ff]/20 to-[#30d158]/15 border-b border-white/10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+            <p className="text-[13px] text-white/85 text-center">
+              📖 Ҳамаи <span className="font-semibold text-white">{book.pageCount ?? "?"} саҳифа</span>
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <a
+                href={book.pdfUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[14px] font-semibold text-white bg-[#0a84ff] hover:bg-[#0066d6] px-5 py-2 rounded-full shadow-lg shadow-[#0a84ff]/30"
+              >
+                Кушодани ҳамаи саҳифаҳо
+              </a>
+              <button
+                type="button"
+                onClick={() => setMode("full")}
+                className={[
+                  "text-[13px] px-3 py-2 rounded-full",
+                  mode === "full" ? "bg-white/20 text-white" : "bg-white/10 text-white/70 hover:bg-white/15",
+                ].join(" ")}
+              >
+                Дар дохил
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("preview")}
+                className={[
+                  "text-[13px] px-3 py-2 rounded-full",
+                  mode === "preview" ? "bg-white/20 text-white" : "bg-white/10 text-white/70 hover:bg-white/15",
+                ].join(" ")}
+              >
+                Намуна
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -362,6 +377,9 @@ function BookReader({
                 />
               ))}
             </div>
+            <p className="text-[11px] text-white/35">
+              Ин танҳо намуна аст · «Кушодани ҳамаи саҳифаҳо»-ро пахш кунед
+            </p>
           </div>
         </>
       )}
