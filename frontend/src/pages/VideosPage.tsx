@@ -10,6 +10,10 @@ const WARRIORS_VIDEO_CDN = "https://d.uguu.se/VVjsSmpu.mp4"
 const WARRIORS_VIDEO_LOCAL = `${import.meta.env.BASE_URL}videos/5-great-warriors.mp4`
 const WARRIORS_POSTER = `${import.meta.env.BASE_URL}videos/5-great-warriors-poster.jpg`
 
+const WW2_VIDEO_CDN = "https://h.uguu.se/xkxCArkK.mp4"
+const WW2_VIDEO_LOCAL = `${import.meta.env.BASE_URL}videos/ww2-exhibition.mp4`
+const WW2_POSTER = `${import.meta.env.BASE_URL}videos/ww2-exhibition-poster.jpg`
+
 export default function VideosPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
@@ -49,6 +53,20 @@ export default function VideosPage() {
         ? "Cyrus the Great, Alexander the Great, Genghis Khan, Saladin, Amir Timur"
         : "Куруши Кабир, Искандари Мақдунӣ, Чингизхон, Салоҳиддин, Амир Темур"
 
+  const ww2Title =
+    lang === "ru"
+      ? "Выставка картин Великой Отечественной войны"
+      : lang === "en"
+        ? "Exhibition of Great Patriotic War paintings"
+        : "Намоишгоҳи мусаввараҳои Ҷанги Бузурги Ватанӣ"
+
+  const ww2Desc =
+    lang === "ru"
+      ? "Открытие выставки в Национальном музее Таджикистана (Радио Озоди)"
+      : lang === "en"
+        ? "Opening of the exhibition at the National Museum of Tajikistan (Radio Ozodi)"
+        : "Ифтитоҳи намоишгоҳ дар Осорхонаи миллӣ (Радиои Озодӣ)"
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
@@ -59,11 +77,11 @@ export default function VideosPage() {
         <p className="text-muted max-w-2xl">{t("video.subtitle")}</p>
       </div>
 
-      {/* 1. Featured: Presidential speech */}
+      {/* 1. Presidential speech */}
       <Card className="overflow-hidden mb-8 border-primary/30 shadow-lg">
-        <div className="bg-black flex items-center justify-center min-h-[280px] sm:min-h-[380px]">
+        <div className="bg-black flex items-center justify-center min-h-[240px] sm:min-h-[340px]">
           <video
-            className="w-full max-h-[70vh] object-contain"
+            className="w-full max-h-[65vh] object-contain"
             controls
             playsInline
             preload="metadata"
@@ -87,9 +105,9 @@ export default function VideosPage() {
 
       {/* 2. 5 Great Warriors */}
       <Card className="overflow-hidden mb-8 border-amber-500/30 shadow-lg">
-        <div className="bg-black flex items-center justify-center min-h-[280px] sm:min-h-[380px]">
+        <div className="bg-black flex items-center justify-center min-h-[240px] sm:min-h-[340px]">
           <video
-            className="w-full max-h-[70vh] object-contain"
+            className="w-full max-h-[65vh] object-contain"
             controls
             playsInline
             preload="metadata"
@@ -105,7 +123,7 @@ export default function VideosPage() {
             <Badge className="bg-amber-500/20 text-amber-300 border border-amber-500/40">
               ⚔️ 5
             </Badge>
-            <span className="text-xs text-muted">~5 дақ / min</span>
+            <span className="text-xs text-muted">~5 дақ</span>
           </div>
           <CardTitle className="text-lg">{warriorsTitle}</CardTitle>
           <p className="text-sm text-muted">{warriorsDesc}</p>
@@ -113,6 +131,38 @@ export default function VideosPage() {
         <CardContent>
           <p className="text-base md:text-lg font-semibold text-foreground border-l-4 border-amber-500 pl-4 py-2 bg-amber-500/5 rounded-r-lg">
             {warriorsTitle}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* 3. WW2 Exhibition */}
+      <Card className="overflow-hidden mb-8 border-red-500/30 shadow-lg">
+        <div className="bg-black flex items-center justify-center min-h-[240px] sm:min-h-[340px]">
+          <video
+            className="w-full max-h-[65vh] object-contain"
+            controls
+            playsInline
+            preload="metadata"
+            poster={WW2_POSTER}
+          >
+            <source src={WW2_VIDEO_CDN} type="video/mp4" />
+            <source src={WW2_VIDEO_LOCAL} type="video/mp4" />
+            Браузери шумо видеоро дастгирӣ намекунад.
+          </video>
+        </div>
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-2 mb-1">
+            <Badge className="bg-red-500/20 text-red-300 border border-red-500/40">
+              1941–1945
+            </Badge>
+            <span className="text-xs text-muted">~4.7 дақ · Радиои Озодӣ</span>
+          </div>
+          <CardTitle className="text-lg">{ww2Title}</CardTitle>
+          <p className="text-sm text-muted">{ww2Desc}</p>
+        </CardHeader>
+        <CardContent>
+          <p className="text-base md:text-lg font-semibold text-foreground border-l-4 border-red-500 pl-4 py-2 bg-red-500/5 rounded-r-lg">
+            {ww2Title}
           </p>
         </CardContent>
       </Card>
