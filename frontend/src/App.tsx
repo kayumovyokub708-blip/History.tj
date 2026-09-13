@@ -18,6 +18,7 @@ import BattlePage from "./pages/BattlePage"
 import ArticlesPage from "./pages/ArticlesPage"
 import ArticlePage from "./pages/ArticlePage"
 import SearchPage from "./pages/SearchPage"
+import TeachersPage from "./pages/TeachersPage"
 import ResourcesPage from "./pages/ResourcesPage"
 import VideosPage from "./pages/VideosPage"
 import TimelinePage from "./pages/TimelinePage"
@@ -68,6 +69,7 @@ function App() {
           <Route path="/articles/:slug" element={<ArticlePage />} />
           <Route path="/video" element={<VideosPage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/teachers" element={<TeachersPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/map" element={<MapPage />} />

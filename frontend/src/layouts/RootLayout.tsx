@@ -16,7 +16,7 @@ export default function RootLayout() {
     { path: "/encyclopedia", label: t("nav.encyclopedia") },
     { path: "/articles", label: t("nav.articles") },
     { path: "/video", label: t("nav.video") },
-    { path: "/search", label: t("nav.search") },
+    { path: "/teachers", label: t("nav.search") },
     { path: "/timeline", label: t("nav.timeline") },
     { path: "/map", label: t("nav.map") },
     { path: "/courses", label: t("nav.courses") },
@@ -56,7 +56,6 @@ export default function RootLayout() {
             </nav>
 
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Language switcher — before auth buttons */}
               <LanguageSwitcher />
 
               <Link
@@ -123,7 +122,7 @@ export default function RootLayout() {
           </div>
           <div className="flex gap-4">
             <Link to="/encyclopedia" className="hover:text-white">{t("nav.encyclopedia")}</Link>
-            <Link to="/search" className="hover:text-white">{t("nav.search")}</Link>
+            <Link to="/teachers" className="hover:text-white">{t("nav.search")}</Link>
             <Link to="/quiz" className="hover:text-white">{t("nav.quiz")}</Link>
             <Link to="/admin/login" className="hover:text-white">{t("nav.admin")}</Link>
           </div>
