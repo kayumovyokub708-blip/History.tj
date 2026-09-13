@@ -2,8 +2,10 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-// Full quality speech video (CDN)
-const SPEECH_VIDEO = "https://h.uguu.se/XtNoAVVa.mp4"
+// CDN (primary) + local public asset (fallback when deployed with file in repo)
+const SPEECH_VIDEO_CDN = "https://d.uguu.se/bLkWrMnv.mp4"
+const SPEECH_VIDEO_LOCAL = `${import.meta.env.BASE_URL}videos/emomali-rahmon-35th-independence.mp4`
+const SPEECH_POSTER = `${import.meta.env.BASE_URL}videos/emomali-rahmon-35th-poster.jpg`
 
 export default function VideosPage() {
   const { t, i18n } = useTranslation()
@@ -18,10 +20,10 @@ export default function VideosPage() {
 
   const speechTitle =
     lang === "ru"
-      ? "Выступление Президента"
+      ? "Выступление Президента — 35 лет Независимости"
       : lang === "en"
-        ? "Presidential address"
-        : "Суханронии Президент"
+        ? "Presidential address — 35 years of Independence"
+        : "Суханронии Президент — 35-солагии Истиқлолият"
 
   const speechDesc =
     lang === "ru"
@@ -40,17 +42,17 @@ export default function VideosPage() {
         <p className="text-muted max-w-2xl">{t("video.subtitle")}</p>
       </div>
 
-      {/* Featured: speech of Ҷаноби Олӣ */}
       <Card className="overflow-hidden mb-8 border-primary/30 shadow-lg">
-        <div className="bg-black aspect-video flex items-center justify-center">
+        <div className="bg-black flex items-center justify-center min-h-[320px] sm:min-h-[420px]">
           <video
-            className="w-full h-full max-h-[70vh]"
+            className="w-full max-h-[75vh] object-contain"
             controls
             playsInline
-            preload="auto"
-            crossOrigin="anonymous"
+            preload="metadata"
+            poster={SPEECH_POSTER}
           >
-            <source src={SPEECH_VIDEO} type="video/mp4" />
+            <source src={SPEECH_VIDEO_CDN} type="video/mp4" />
+            <source src={SPEECH_VIDEO_LOCAL} type="video/mp4" />
             Браузери шумо видеоро дастгирӣ намекунад.
           </video>
         </div>
