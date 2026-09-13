@@ -2,16 +2,19 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-// CDN (primary) + local public asset (fallback when deployed with file in repo)
 const SPEECH_VIDEO_CDN = "https://d.uguu.se/bLkWrMnv.mp4"
 const SPEECH_VIDEO_LOCAL = `${import.meta.env.BASE_URL}videos/emomali-rahmon-35th-independence.mp4`
 const SPEECH_POSTER = `${import.meta.env.BASE_URL}videos/emomali-rahmon-35th-poster.jpg`
+
+const WARRIORS_VIDEO_CDN = "https://d.uguu.se/VVjsSmpu.mp4"
+const WARRIORS_VIDEO_LOCAL = `${import.meta.env.BASE_URL}videos/5-great-warriors.mp4`
+const WARRIORS_POSTER = `${import.meta.env.BASE_URL}videos/5-great-warriors-poster.jpg`
 
 export default function VideosPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
 
-  const caption =
+  const speechCaption =
     lang === "ru"
       ? "Слова Его Превосходительства — Эмомали Рахмон"
       : lang === "en"
@@ -32,6 +35,20 @@ export default function VideosPage() {
         ? "On patriotism, schools, and loyalty to the homeland"
         : "Дар бораи ватандӯстӣ, мактабҳо ва садоқат ба Ватан"
 
+  const warriorsTitle =
+    lang === "ru"
+      ? "5 великих полководцев в истории мира"
+      : lang === "en"
+        ? "5 Great Warriors in World History"
+        : "5 Чанговарони бузург дар таърихи ҷаҳон"
+
+  const warriorsDesc =
+    lang === "ru"
+      ? "Кир Великий, Александр Македонский, Чингисхан, Салах ад-Дин, Амир Темур"
+      : lang === "en"
+        ? "Cyrus the Great, Alexander the Great, Genghis Khan, Saladin, Amir Timur"
+        : "Куруши Кабир, Искандари Мақдунӣ, Чингизхон, Салоҳиддин, Амир Темур"
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
@@ -42,10 +59,11 @@ export default function VideosPage() {
         <p className="text-muted max-w-2xl">{t("video.subtitle")}</p>
       </div>
 
+      {/* 1. Featured: Presidential speech */}
       <Card className="overflow-hidden mb-8 border-primary/30 shadow-lg">
-        <div className="bg-black flex items-center justify-center min-h-[320px] sm:min-h-[420px]">
+        <div className="bg-black flex items-center justify-center min-h-[280px] sm:min-h-[380px]">
           <video
-            className="w-full max-h-[75vh] object-contain"
+            className="w-full max-h-[70vh] object-contain"
             controls
             playsInline
             preload="metadata"
@@ -62,26 +80,42 @@ export default function VideosPage() {
         </CardHeader>
         <CardContent>
           <p className="text-base md:text-lg font-semibold text-foreground border-l-4 border-primary pl-4 py-2 bg-primary/5 rounded-r-lg">
-            {caption}
+            {speechCaption}
           </p>
         </CardContent>
       </Card>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {[1, 2].map((i) => (
-          <Card key={i} className="overflow-hidden">
-            <div className="aspect-video bg-card/80 flex items-center justify-center text-4xl text-muted-foreground">
-              ▶
-            </div>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t("video.comingTitle", { n: i + 1 })}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted">{t("video.comingDesc")}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* 2. 5 Great Warriors */}
+      <Card className="overflow-hidden mb-8 border-amber-500/30 shadow-lg">
+        <div className="bg-black flex items-center justify-center min-h-[280px] sm:min-h-[380px]">
+          <video
+            className="w-full max-h-[70vh] object-contain"
+            controls
+            playsInline
+            preload="metadata"
+            poster={WARRIORS_POSTER}
+          >
+            <source src={WARRIORS_VIDEO_CDN} type="video/mp4" />
+            <source src={WARRIORS_VIDEO_LOCAL} type="video/mp4" />
+            Браузери шумо видеоро дастгирӣ намекунад.
+          </video>
+        </div>
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-2 mb-1">
+            <Badge className="bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              ⚔️ 5
+            </Badge>
+            <span className="text-xs text-muted">~5 дақ / min</span>
+          </div>
+          <CardTitle className="text-lg">{warriorsTitle}</CardTitle>
+          <p className="text-sm text-muted">{warriorsDesc}</p>
+        </CardHeader>
+        <CardContent>
+          <p className="text-base md:text-lg font-semibold text-foreground border-l-4 border-amber-500 pl-4 py-2 bg-amber-500/5 rounded-r-lg">
+            {warriorsTitle}
+          </p>
+        </CardContent>
+      </Card>
 
       <div className="mt-10 p-5 rounded-xl border border-border bg-surface text-sm text-muted">
         {t("video.note")}
