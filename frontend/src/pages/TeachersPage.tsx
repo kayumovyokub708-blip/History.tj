@@ -1,7 +1,6 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 
-/** Китобҳо — алоҳида. Барои илова кардан танҳо ин рӯйхатро васеъ кунед. */
 type Book = {
   id: string
   title: string
@@ -11,7 +10,7 @@ type Book = {
   year?: number
   publisher?: string
   coverUrl?: string
-  previews?: string[]
+  pages?: string[]
   description?: string
 }
 
@@ -24,10 +23,20 @@ const BOOKS: Book[] = [
     subject: "Таърих",
     year: 2015,
     publisher: "Маориф",
-    coverUrl: "https://n.uguu.se/bOmMcpaD.jpg",
-    previews: [
-      "https://h.uguu.se/EpWorxTM.jpg",
-      "https://d.uguu.se/gicEaxAY.jpg",
+    coverUrl: "https://h.uguu.se/QpQMFsOP.jpg",
+    pages: [
+      "https://h.uguu.se/QpQMFsOP.jpg",
+      "https://d.uguu.se/FASqWiZJ.jpg",
+      "https://h.uguu.se/wvGbeoST.jpg",
+      "https://n.uguu.se/eobxGHxO.jpg",
+      "https://d.uguu.se/gEYPYqlX.jpg",
+      "https://d.uguu.se/bTGKywmf.jpg",
+      "https://d.uguu.se/HCcQNBGs.jpg",
+      "https://h.uguu.se/CDVUcFgk.jpg",
+      "https://h.uguu.se/kuyeEKqW.jpg",
+      "https://n.uguu.se/lJlNQMOw.jpg",
+      "https://n.uguu.se/ixlthNlX.jpg",
+      "https://d.uguu.se/RzEHVBlR.jpg",
     ],
     description:
       "Китоби дарсӣ барои синфи 5. Замони ориёиҳо. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон ба чоп тавсия кардааст.",
@@ -80,10 +89,7 @@ type Lesson = {
   room?: string
 }
 
-type DaySchedule = {
-  key: string
-  lessons: Lesson[]
-}
+type DaySchedule = { key: string; lessons: Lesson[] }
 
 const WEEK: DaySchedule[] = [
   {
@@ -147,14 +153,119 @@ const DAY_LABELS: Record<string, { tg: string; ru: string; en: string }> = {
 }
 
 function dayKeyFromDate(d: Date): string {
-  const map = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
-  return map[d.getDay()]
+  return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][d.getDay()]
 }
 
 function bookLabel(bookId: string): string {
   const b = bookById(bookId)
-  if (!b) return bookId
-  return `${b.title} · ${b.grade}`
+  return b ? `${b.title} · ${b.grade}` : bookId
+}
+
+function BookReader({
+  book,
+  onClose,
+}: {
+  book: Book
+  onClose: () => void
+}) {
+  const pages = book.pages?.length ? book.pages : book.coverUrl ? [book.coverUrl] : []
+  const [page, setPage] = useState(0)
+  const total = pages.length
+
+  const go = useCallback(
+    (dir: -1 | 1) => {
+      setPage((p) => Math.min(total - 1, Math.max(0, p + dir)))
+    },
+    [total]
+  )
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+      if (e.key === "ArrowRight" || e.key === " ") {
+        e.preventDefault()
+        go(1)
+      }
+      if (e.key === "ArrowLeft") go(-1)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [go, onClose])
+
+  if (!total) return null
+
+  return (
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[#0c0c0e]">
+      <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-black/40 backdrop-blur-md shrink-0">
+        <button
+          type="button"
+          onClick={onClose}
+          className="text-[15px] text-white/70 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10"
+        >
+          ← Пӯшидан
+        </button>
+        <div className="text-center min-w-0 flex-1">
+          <div className="text-[14px] font-semibold text-white truncate">{book.title}</div>
+          <div className="text-[12px] text-white/40">
+            {book.grade}
+            {book.author ? ` · ${book.author}` : ""}
+          </div>
+        </div>
+        <div className="text-[13px] text-white/50 tabular-nums shrink-0">
+          {page + 1} / {total}
+        </div>
+      </div>
+
+      <div className="flex-1 relative flex items-center justify-center overflow-hidden min-h-0">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          disabled={page === 0}
+          className="absolute left-2 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 text-white text-xl flex items-center justify-center backdrop-blur"
+          aria-label="Саҳифаи қаблӣ"
+        >
+          ‹
+        </button>
+
+        <div className="h-full w-full max-w-3xl mx-auto px-12 sm:px-16 py-4 flex items-center justify-center">
+          <img
+            key={pages[page]}
+            src={pages[page]}
+            alt={`${book.title} — саҳифаи ${page + 1}`}
+            className="max-h-full max-w-full object-contain rounded-md shadow-[0_8px_40px_rgba(0,0,0,0.55)] bg-white"
+          />
+        </div>
+
+        <button
+          type="button"
+          onClick={() => go(1)}
+          disabled={page >= total - 1}
+          className="absolute right-2 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-20 text-white text-xl flex items-center justify-center backdrop-blur"
+          aria-label="Саҳифаи навбатӣ"
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="shrink-0 px-4 py-3 border-t border-white/10 bg-black/40 flex flex-col items-center gap-2">
+        <div className="flex gap-1.5 flex-wrap justify-center max-w-md">
+          {pages.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setPage(i)}
+              className={[
+                "h-1.5 rounded-full transition-all",
+                i === page ? "w-6 bg-[#0a84ff]" : "w-1.5 bg-white/25 hover:bg-white/40",
+              ].join(" ")}
+              aria-label={`Саҳифаи ${i + 1}`}
+            />
+          ))}
+        </div>
+        <p className="text-[11px] text-white/30">← → ё пахш барои варақ задан</p>
+      </div>
+    </div>
+  )
 }
 
 export default function TeachersPage() {
@@ -162,7 +273,7 @@ export default function TeachersPage() {
   const lang = (i18n.language || "tg").slice(0, 2) as "tg" | "ru" | "en"
   const todayKey = useMemo(() => dayKeyFromDate(new Date()), [])
   const today = WEEK.find((d) => d.key === todayKey) ?? WEEK[0]
-  const [lightbox, setLightbox] = useState<string | null>(null)
+  const [openBook, setOpenBook] = useState<Book | null>(null)
 
   const featured = BOOKS.find((b) => b.coverUrl)
   const otherBooks = BOOKS.filter((b) => !b.coverUrl)
@@ -180,9 +291,9 @@ export default function TeachersPage() {
     book: { tg: "Китоб", ru: "Учебник", en: "Textbook" }[lang],
     books: { tg: "Китобҳо", ru: "Учебники", en: "Textbooks" }[lang],
     booksHint: {
-      tg: "Рӯйхати китобҳо. Китоби нав илова кардан мумкин аст.",
-      ru: "Список учебников. Можно добавить новую книгу.",
-      en: "Textbook list. New books can be added.",
+      tg: "Китобро пахш кунед — саҳифаҳо кушода мешаванд",
+      ru: "Нажмите на книгу — откроются страницы",
+      en: "Tap the book to open its pages",
     }[lang],
     room: { tg: "Кабинет", ru: "Кабинет", en: "Room" }[lang],
     free: { tg: "Дарси нест", ru: "Нет уроков", en: "No lessons" }[lang],
@@ -191,7 +302,8 @@ export default function TeachersPage() {
     author: { tg: "Муаллиф", ru: "Автор", en: "Author" }[lang],
     publisher: { tg: "Нашриёт", ru: "Издательство", en: "Publisher" }[lang],
     year: { tg: "Сол", ru: "Год", en: "Year" }[lang],
-    inside: { tg: "Саҳифаҳои дохилӣ", ru: "Страницы внутри", en: "Inside pages" }[lang],
+    openBook: { tg: "Китобро кушоед", ru: "Открыть книгу", en: "Open book" }[lang],
+    pagesCount: { tg: "саҳифа", ru: "стр.", en: "pages" }[lang],
     recommended: { tg: "Тавсияшуда", ru: "Рекомендовано", en: "Recommended" }[lang],
     otherBooks: { tg: "Дигар китобҳо", ru: "Другие учебники", en: "Other textbooks" }[lang],
   }
@@ -200,9 +312,7 @@ export default function TeachersPage() {
     <div className="min-h-[calc(100vh-8rem)] bg-[#0a0a0c]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
         <header className="mb-10">
-          <p className="text-[13px] font-medium tracking-wide text-white/40 uppercase mb-2">
-            Histori.tj
-          </p>
+          <p className="text-[13px] font-medium tracking-wide text-white/40 uppercase mb-2">Histori.tj</p>
           <h1 className="text-[34px] sm:text-[40px] font-semibold tracking-tight text-white leading-tight">
             {labels.title}
           </h1>
@@ -221,14 +331,14 @@ export default function TeachersPage() {
           </div>
 
           {featured && (
-            <div className="mb-6 rounded-3xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_12px_48px_rgba(0,0,0,0.4)]">
-              <div className="p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6">
-                <button
-                  type="button"
-                  onClick={() => featured.coverUrl && setLightbox(featured.coverUrl)}
-                  className="shrink-0 mx-auto sm:mx-0 group relative"
-                >
-                  <div className="w-[140px] sm:w-[160px] rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]">
+            <button
+              type="button"
+              onClick={() => setOpenBook(featured)}
+              className="w-full text-left mb-6 rounded-3xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_12px_48px_rgba(0,0,0,0.4)] hover:border-white/15 transition group"
+            >
+              <div className="p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6 items-center sm:items-stretch">
+                <div className="shrink-0 relative">
+                  <div className="w-[140px] sm:w-[160px] rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/10 transition-transform group-hover:scale-[1.03]">
                     <img
                       src={featured.coverUrl}
                       alt={featured.title}
@@ -236,7 +346,7 @@ export default function TeachersPage() {
                       loading="eager"
                     />
                   </div>
-                </button>
+                </div>
 
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
                   <span className="inline-flex self-start items-center rounded-full bg-[#30d158]/15 text-[#30d158] text-[11px] font-semibold px-2.5 py-0.5 mb-2 tracking-wide uppercase">
@@ -250,7 +360,7 @@ export default function TeachersPage() {
                     {featured.author ? ` · ${featured.author}` : ""}
                   </p>
                   {featured.description && (
-                    <p className="mt-3 text-[13px] text-white/40 leading-relaxed line-clamp-3">
+                    <p className="mt-3 text-[13px] text-white/40 leading-relaxed line-clamp-2">
                       {featured.description}
                     </p>
                   )}
@@ -265,36 +375,19 @@ export default function TeachersPage() {
                         {labels.year}: {featured.year}
                       </span>
                     )}
-                    <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">{featured.subject}</span>
+                    {featured.pages && (
+                      <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
+                        {featured.pages.length} {labels.pagesCount}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-4 inline-flex self-start items-center gap-2 text-[14px] font-medium text-[#64b5ff] group-hover:text-[#8cc8ff]">
+                    <span>{labels.openBook}</span>
+                    <span aria-hidden>→</span>
                   </div>
                 </div>
               </div>
-
-              {featured.previews && featured.previews.length > 0 && (
-                <div className="px-5 sm:px-6 pb-5">
-                  <p className="text-[12px] font-semibold text-white/40 uppercase tracking-wide mb-3">
-                    {labels.inside}
-                  </p>
-                  <div className="flex gap-3 overflow-x-auto pb-1">
-                    {featured.previews.map((url, i) => (
-                      <button
-                        key={url}
-                        type="button"
-                        onClick={() => setLightbox(url)}
-                        className="shrink-0 w-[120px] sm:w-[140px] rounded-xl overflow-hidden ring-1 ring-white/10 hover:ring-[#0a84ff]/50 transition shadow-lg"
-                      >
-                        <img
-                          src={url}
-                          alt={`${featured.title} — ${i + 1}`}
-                          className="w-full h-auto block object-cover bg-[#0a0a0c]"
-                          loading="lazy"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            </button>
           )}
 
           {otherBooks.length > 0 && (
@@ -305,10 +398,7 @@ export default function TeachersPage() {
               <div className="rounded-3xl bg-[#161618] border border-white/[0.06] overflow-hidden">
                 <ul className="divide-y divide-white/[0.05]">
                   {otherBooks.map((b) => (
-                    <li
-                      key={b.id}
-                      className="px-4 sm:px-5 py-4 flex items-start gap-4 hover:bg-white/[0.03] transition-colors"
-                    >
+                    <li key={b.id} className="px-4 sm:px-5 py-4 flex items-start gap-4">
                       <div className="w-11 h-11 rounded-xl bg-[#0a84ff]/12 flex items-center justify-center text-[20px] shrink-0">
                         📘
                       </div>
@@ -354,7 +444,6 @@ export default function TeachersPage() {
                 <div className="text-[13px] text-white/45">{labels.lessonsToday}</div>
               </div>
             </div>
-
             <div className="px-3 pb-4 space-y-2">
               {today.lessons.length === 0 ? (
                 <div className="mx-3 mb-2 rounded-2xl bg-white/[0.04] px-5 py-8 text-center text-white/40 text-[15px]">
@@ -364,7 +453,7 @@ export default function TeachersPage() {
                 today.lessons.map((lesson) => (
                   <div
                     key={`${lesson.period}-${lesson.className}`}
-                    className="mx-1 rounded-2xl bg-white/[0.045] hover:bg-white/[0.07] transition-colors px-4 py-3.5 flex gap-4 items-start"
+                    className="mx-1 rounded-2xl bg-white/[0.045] px-4 py-3.5 flex gap-4 items-start"
                   >
                     <div className="shrink-0 w-14 text-center">
                       <div className="text-[11px] text-white/40 font-medium uppercase tracking-wide">
@@ -388,14 +477,8 @@ export default function TeachersPage() {
                         )}
                       </div>
                       <div className="mt-1.5 text-[16px] font-medium text-white">{lesson.subject}</div>
-                      <div className="mt-1 flex items-start gap-1.5 text-[13px] text-white/50">
-                        <span className="text-[14px] leading-none mt-0.5" aria-hidden>
-                          📖
-                        </span>
-                        <span>
-                          <span className="text-white/35">{labels.book}: </span>
-                          {bookLabel(lesson.bookId)}
-                        </span>
+                      <div className="mt-1 text-[13px] text-white/50">
+                        📖 {labels.book}: {bookLabel(lesson.bookId)}
                       </div>
                     </div>
                   </div>
@@ -412,12 +495,11 @@ export default function TeachersPage() {
           <div className="space-y-3">
             {WEEK.map((day) => {
               const isToday = day.key === todayKey
-              const name = DAY_LABELS[day.key][lang]
               return (
                 <div
                   key={day.key}
                   className={[
-                    "rounded-2xl border overflow-hidden transition-colors",
+                    "rounded-2xl border overflow-hidden",
                     isToday ? "bg-[#161618] border-[#30d158]/25" : "bg-[#121214] border-white/[0.05]",
                   ].join(" ")}
                 >
@@ -429,7 +511,7 @@ export default function TeachersPage() {
                           isToday ? "text-[#30d158]" : "text-white",
                         ].join(" ")}
                       >
-                        {name}
+                        {DAY_LABELS[day.key][lang]}
                       </span>
                       {isToday && (
                         <span className="text-[11px] font-semibold uppercase tracking-wide text-[#30d158]/90 bg-[#30d158]/12 px-2 py-0.5 rounded-full">
@@ -443,7 +525,6 @@ export default function TeachersPage() {
                         : labels.free}
                     </span>
                   </div>
-
                   {day.lessons.length > 0 && (
                     <ul className="divide-y divide-white/[0.04]">
                       {day.lessons.map((lesson) => (
@@ -455,12 +536,10 @@ export default function TeachersPage() {
                             <div className="text-[18px] font-semibold text-white tabular-nums leading-none">
                               {lesson.period}
                             </div>
-                            <div className="text-[10px] text-white/30 mt-0.5 leading-tight">
-                              {lesson.time.split("–")[0]}
-                            </div>
+                            <div className="text-[10px] text-white/30 mt-0.5">{lesson.time.split("–")[0]}</div>
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                            <div className="flex flex-wrap items-center gap-x-2">
                               <span className="text-[15px] font-medium text-white">
                                 {labels.classLabel} {lesson.className}
                               </span>
@@ -482,25 +561,10 @@ export default function TeachersPage() {
           </div>
         </section>
 
-        <p className="mt-10 text-center text-[12px] text-white/25">
-          Histori.tj · {labels.title}
-        </p>
+        <p className="mt-10 text-center text-[12px] text-white/25">Histori.tj · {labels.title}</p>
       </div>
 
-      {lightbox && (
-        <button
-          type="button"
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
-          onClick={() => setLightbox(null)}
-          aria-label="Close"
-        >
-          <img
-            src={lightbox}
-            alt=""
-            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-          />
-        </button>
-      )}
+      {openBook && <BookReader book={openBook} onClose={() => setOpenBook(null)} />}
     </div>
   )
 }
