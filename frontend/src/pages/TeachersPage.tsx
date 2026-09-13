@@ -48,6 +48,28 @@ const BOOKS: Book[] = [
       "Китоби дарсӣ барои синфи 5 · 249 саҳифа · Замони ориёиҳо. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон ба чоп тавсия кардааст. Ҳамаи саҳифаҳо ва мундариҷа дар дохили китоб.",
   },
   {
+    id: "tj-people-6",
+    title: "Таърихи халқи тоҷик",
+    grade: "Синфи 6",
+    author: "Юсуфшоҳи Яъқубшоҳ",
+    subject: "Таърих",
+    year: 2023,
+    publisher: "Маориф",
+    coverUrl: "https://h.uguu.se/wDcqLCxm.jpg",
+    pageCount: 232,
+    pdfUrl:
+      "https://tmpfiles.org/dl/1789296716.59f2f4bfa02a0550/wWwXP7upsUXT/kitobkhon-net-tarikhi-khalki-tojik-6.pdf",
+    pages: [
+      "https://h.uguu.se/wDcqLCxm.jpg",
+      "https://h.uguu.se/CXHuxjjc.jpg",
+      "https://d.uguu.se/KlxsDLjY.jpg",
+      "https://h.uguu.se/tsXLhTsl.jpg",
+      "https://h.uguu.se/fvnLCiUS.jpg",
+    ],
+    description:
+      "Китоби дарсӣ барои синфи 6 · 232 саҳифа · Ибтидои асрҳои миёна. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Нашри IV, 2023.",
+  },
+  {
     id: "tj-7",
     title: "Таърихи Тоҷикистон",
     grade: "Синфи 7",
@@ -111,7 +133,7 @@ const WEEK: DaySchedule[] = [
     lessons: [
       { period: 2, time: "08:55–09:40", className: "8-А", subject: "Таърих", bookId: "tj-8", room: "312" },
       { period: 4, time: "10:55–11:40", className: "10-Б", subject: "Таърих", bookId: "world-10", room: "312" },
-      { period: 6, time: "12:55–13:40", className: "5-Б", subject: "Таърих", bookId: "tj-people-5", room: "308" },
+      { period: 6, time: "12:55–13:40", className: "6-А", subject: "Таърих", bookId: "tj-people-6", room: "308" },
     ],
   },
   {
@@ -141,7 +163,7 @@ const WEEK: DaySchedule[] = [
   {
     key: "sat",
     lessons: [
-      { period: 2, time: "08:55–09:40", className: "5-Б", subject: "Таърих", bookId: "tj-people-5", room: "312" },
+      { period: 2, time: "08:55–09:40", className: "6-Б", subject: "Таърих", bookId: "tj-people-6", room: "312" },
       { period: 3, time: "10:00–10:45", className: "9-А", subject: "Таърих", bookId: "world-9", room: "308" },
     ],
   },
@@ -167,7 +189,7 @@ function bookLabel(bookId: string): string {
   return b ? `${b.title} · ${b.grade}` : bookId
 }
 
-/** Китоби дарсӣ — ҳамаи 249 саҳифа (Google Viewer) + аксҳои намуна */
+/** Китоби дарсӣ — ҳамаи саҳифаҳо (Google Viewer) + аксҳои намуна */
 function BookReader({
   book,
   onClose,
@@ -236,7 +258,7 @@ function BookReader({
                   mode === "full" ? "bg-[#0a84ff] text-white" : "text-white/60 hover:text-white",
                 ].join(" ")}
               >
-                249 саҳифа
+                {book.pageCount ?? "PDF"} саҳифа
               </button>
               {total > 0 && (
                 <button
@@ -327,7 +349,7 @@ function BookReader({
               ))}
             </div>
             <p className="text-[11px] text-white/30">
-              Намуна · барои ҳамаи саҳифаҳо тугмаи «249 саҳифа»-ро пахш кунед
+              Намуна · барои ҳамаи саҳифаҳо тугмаи пурраро пахш кунед
             </p>
           </div>
         </>
@@ -343,7 +365,7 @@ export default function TeachersPage() {
   const today = WEEK.find((d) => d.key === todayKey) ?? WEEK[0]
   const [openBook, setOpenBook] = useState<Book | null>(null)
 
-  const featured = BOOKS.find((b) => b.coverUrl)
+  const featuredBooks = BOOKS.filter((b) => b.coverUrl)
   const otherBooks = BOOKS.filter((b) => !b.coverUrl)
 
   const labels = {
@@ -398,18 +420,19 @@ export default function TeachersPage() {
             <span className="text-[13px] text-white/30 tabular-nums shrink-0">{BOOKS.length}</span>
           </div>
 
-          {featured && (
+          {featuredBooks.map((book) => (
             <button
+              key={book.id}
               type="button"
-              onClick={() => setOpenBook(featured)}
-              className="w-full text-left mb-6 rounded-3xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_12px_48px_rgba(0,0,0,0.4)] hover:border-white/15 transition group"
+              onClick={() => setOpenBook(book)}
+              className="w-full text-left mb-4 rounded-3xl bg-gradient-to-b from-[#1c1c1e] to-[#121214] border border-white/[0.08] overflow-hidden shadow-[0_12px_48px_rgba(0,0,0,0.4)] hover:border-white/15 transition group"
             >
               <div className="p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6 items-center sm:items-stretch">
                 <div className="shrink-0 relative">
                   <div className="w-[140px] sm:w-[160px] rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/10 transition-transform group-hover:scale-[1.03]">
                     <img
-                      src={featured.coverUrl}
-                      alt={featured.title}
+                      src={book.coverUrl}
+                      alt={book.title}
                       className="w-full h-auto block object-cover"
                       loading="eager"
                     />
@@ -421,31 +444,31 @@ export default function TeachersPage() {
                     {labels.recommended}
                   </span>
                   <h3 className="text-[22px] sm:text-[26px] font-semibold text-white tracking-tight leading-snug">
-                    {featured.title}
+                    {book.title}
                   </h3>
                   <p className="mt-1.5 text-[15px] text-white/55">
-                    {featured.grade}
-                    {featured.author ? ` · ${featured.author}` : ""}
+                    {book.grade}
+                    {book.author ? ` · ${book.author}` : ""}
                   </p>
-                  {featured.description && (
+                  {book.description && (
                     <p className="mt-3 text-[13px] text-white/40 leading-relaxed line-clamp-2">
-                      {featured.description}
+                      {book.description}
                     </p>
                   )}
                   <div className="mt-3 flex flex-wrap gap-2 text-[12px] text-white/35">
-                    {featured.publisher && (
+                    {book.publisher && (
                       <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
-                        {labels.publisher}: {featured.publisher}
+                        {labels.publisher}: {book.publisher}
                       </span>
                     )}
-                    {featured.year && (
+                    {book.year && (
                       <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
-                        {labels.year}: {featured.year}
+                        {labels.year}: {book.year}
                       </span>
                     )}
-                    {(featured.pageCount || featured.pages) && (
+                    {(book.pageCount || book.pages) && (
                       <span className="rounded-lg bg-white/[0.05] px-2.5 py-1">
-                        {featured.pageCount ?? featured.pages!.length} {labels.pagesCount}
+                        {book.pageCount ?? book.pages!.length} {labels.pagesCount}
                       </span>
                     )}
                   </div>
@@ -456,7 +479,7 @@ export default function TeachersPage() {
                 </div>
               </div>
             </button>
-          )}
+          ))}
 
           {otherBooks.length > 0 && (
             <>
