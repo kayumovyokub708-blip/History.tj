@@ -92,11 +92,26 @@ const BOOKS: Book[] = [
       "Китоби дарсӣ барои синфи 7 · 240 саҳифа. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Душанбе, Маориф, 2017.",
   },
   {
-    id: "tj-8",
-    title: "Таърихи Тоҷикистон",
+    id: "tj-people-8",
+    title: "Таърихи халқи тоҷик",
     grade: "Синфи 8",
-    author: "Вазорати маориф",
+    author: "А. Мухторов, Ҳ. Камол, А. Саидов",
     subject: "Таърих",
+    year: 2022,
+    publisher: "Маориф",
+    coverUrl: "https://n.uguu.se/RMYLWztE.jpg",
+    pageCount: 312,
+    pdfUrl:
+      "https://tmpfiles.org/dl/1789300658.45ac6e2f3439a370/wewkPQ90kmtR/kitobkhon-net-tarikhi-khalki-tojik-8.pdf",
+    pages: [
+      "https://n.uguu.se/RMYLWztE.jpg",
+      "https://d.uguu.se/OxjkRgbg.jpg",
+      "https://h.uguu.se/FZxEfQzB.jpg",
+      "https://n.uguu.se/xtcEFShW.jpg",
+      "https://h.uguu.se/FZBGThFH.jpg",
+    ],
+    description:
+      "Китоби дарсӣ барои синфи 8 · 312 саҳифа. Вазорати маориф ва илми Ҷумҳурии Тоҷикистон тасдиқ кардааст. Душанбе, Маориф, 2022.",
   },
   {
     id: "tj-11",
@@ -146,7 +161,7 @@ const WEEK: DaySchedule[] = [
   {
     key: "tue",
     lessons: [
-      { period: 2, time: "08:55–09:40", className: "8-А", subject: "Таърих", bookId: "tj-8", room: "312" },
+      { period: 2, time: "08:55–09:40", className: "8-А", subject: "Таърих", bookId: "tj-people-8", room: "312" },
       { period: 4, time: "10:55–11:40", className: "10-Б", subject: "Таърих", bookId: "world-10", room: "312" },
       { period: 6, time: "12:55–13:40", className: "6-А", subject: "Таърих", bookId: "tj-people-6", room: "308" },
     ],
@@ -156,7 +171,7 @@ const WEEK: DaySchedule[] = [
     lessons: [
       { period: 1, time: "08:00–08:45", className: "9-А", subject: "Таърих", bookId: "world-9", room: "312" },
       { period: 3, time: "10:00–10:45", className: "11-Б", subject: "Таърих", bookId: "tj-11", room: "305" },
-      { period: 5, time: "12:00–12:45", className: "8-Б", subject: "Таърих", bookId: "tj-8", room: "312" },
+      { period: 5, time: "12:00–12:45", className: "8-Б", subject: "Таърих", bookId: "tj-people-8", room: "312" },
     ],
   },
   {
@@ -171,7 +186,7 @@ const WEEK: DaySchedule[] = [
     key: "fri",
     lessons: [
       { period: 1, time: "08:00–08:45", className: "11-А", subject: "Таърих", bookId: "tj-11", room: "305" },
-      { period: 3, time: "10:00–10:45", className: "8-А", subject: "Таърих", bookId: "tj-8", room: "312" },
+      { period: 3, time: "10:00–10:45", className: "8-А", subject: "Таърих", bookId: "tj-people-8", room: "312" },
       { period: 4, time: "10:55–11:40", className: "10-Б", subject: "Таърих", bookId: "world-10", room: "312" },
     ],
   },
