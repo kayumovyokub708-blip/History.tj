@@ -70,9 +70,6 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <section className="text-center space-y-6 mb-16">
-        <Badge variant="secondary" className="mb-2">
-          {t("home.badge")}
-        </Badge>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
           {t("home.line1")}
           <br />
