@@ -84,6 +84,7 @@ export const people: Person[] = [
     period: "Муосир",
     shortBio: "Шоири халқии Тоҷикистон.",
     biography: "Мирзо Турсунзода шоири халқии Тоҷикистон аст.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/2/27/Mirzo_Tursunzoda_portrait.jpg",
     status: "published"
   },
   {
@@ -97,6 +98,7 @@ export const people: Person[] = [
     period: "Муосир",
     shortBio: "Асосгузори давлатдории шӯравии тоҷик.",
     biography: "Нусратулло Махсум яке аз асосгузорони ҶШС Тоҷикистон аст.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/e/e9/TJS_200_2010_obverse_%28cropped%29.jpg",
     status: "published"
   },
   {
@@ -110,6 +112,7 @@ export const people: Person[] = [
     period: "Муосир",
     shortBio: "Арбоби давлатӣ; Қаҳрамони Тоҷикистон.",
     biography: "Шириншо Шотемур арбоби давлатӣ буд.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/9/99/Shirinsho_Shotemur_portrait_from_Javohiri_garonbaho.jpg",
     status: "published"
   },
   {
@@ -125,6 +128,7 @@ export const people: Person[] = [
     period: "Давраи Сомониён",
     shortBio: "Асосгузори давлати мустақили Сомониён.",
     biography: "Исмоили Сомонӣ асосгузори давлати Сомониён аст.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/42/Ismoili_Somoni_monument_Dushanbe_2026.jpg",
     status: "published"
   },
   {
@@ -139,6 +143,7 @@ export const people: Person[] = [
     title: "Шоир",
     shortBio: "Нахустин шоири бузурги адабиёти форсии дарӣ.",
     biography: "Рӯдакӣ бунёнгузори шеъри классикии форсӣ аст.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/8/87/Miniature_of_Rudaki_by_Hossein_Behzad.jpg",
     status: "published"
   },
   {
