@@ -116,9 +116,13 @@ export default function RootLayout() {
 
       <footer className="border-t border-border py-8 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted">
-          <div>
-            © 2026 <span className="text-primary font-medium">Histori.tj</span>
-            {" — "}{t("footer.rights")}
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+            <div>
+              © 2026 <span className="text-primary font-medium">Histori.tj</span>
+              {" — "}{t("footer.rights")}
+            </div>
+            <span className="hidden sm:inline text-border">·</span>
+            <span className="text-xs text-muted-foreground/80">{t("home.badge")}</span>
           </div>
           <div className="flex gap-4">
             <Link to="/encyclopedia" className="hover:text-white">{t("nav.encyclopedia")}</Link>
