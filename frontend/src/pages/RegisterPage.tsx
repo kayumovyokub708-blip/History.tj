@@ -1,88 +1,334 @@
-import { useState } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { useAuth } from "@/context/AuthContext"
 
+const REGISTRY_KEY = "histori_registered_users"
+
+export type RegisteredUser = {
+  id: string
+  firstName: string
+  lastName: string
+  name: string
+  code: string
+  createdAt: string
+  xp: number
+  level: number
+  status: "active" | "banned"
+}
+
+export function loadRegistry(): RegisteredUser[] {
+  try {
+    return JSON.parse(localStorage.getItem(REGISTRY_KEY) || "[]")
+  } catch {
+    return []
+  }
+}
+
+export function saveToRegistry(u: RegisteredUser) {
+  const list = loadRegistry().filter((x) => x.id !== u.id)
+  list.unshift(u)
+  localStorage.setItem(REGISTRY_KEY, JSON.stringify(list.slice(0, 200)))
+}
+
+function genCode() {
+  return String(Math.floor(1000 + Math.random() * 9000))
+}
+
 export default function RegisterPage() {
-  const { t } = useTranslation()
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirm, setConfirm] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const { t, i18n } = useTranslation()
+  const lang = (i18n.language || "tg").slice(0, 2)
   const { register, user } = useAuth()
   const navigate = useNavigate()
 
-  if (user) {
-    navigate("/profile")
+  const [step, setStep] = useState<"name" | "otp" | "done">("name")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [otp, setOtp] = useState(["", "", "", ""])
+  const [code, setCode] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [resendIn, setResendIn] = useState(0)
+  const [spinning, setSpinning] = useState(false)
+  const inputs = useRef<(HTMLInputElement | null)[]>([])
+
+  if (user) navigate("/profile")
+
+  useEffect(() => {
+    if (resendIn <= 0) return
+    const t = setTimeout(() => setResendIn((s) => s - 1), 1000)
+    return () => clearTimeout(t)
+  }, [resendIn])
+
+  const labels = {
+    title: { tg: "Тасдиқи ҳувияят", ru: "Проверка личности", en: "Identity verification" }[lang] || "Тасдиқи ҳувияят",
+    subtitle: {
+      tg: "Ном ва насабатонро нависед — код автоматикӣ меояд",
+      ru: "Введите имя и фамилию — код появится автоматически",
+      en: "Enter first and last name — a code will appear automatically",
+    }[lang],
+    first: { tg: "Ном", ru: "Имя", en: "First name" }[lang] || "Ном",
+    last: { tg: "Насаб", ru: "Фамилия", en: "Last name" }[lang] || "Насаб",
+    continue: { tg: "Давом", ru: "Далее", en: "Continue" }[lang] || "Давом",
+    verifyTitle: { tg: "Рақами худро тасдиқ кунед", ru: "Подтвердите номер", en: "Verify your number" }[lang],
+    verifyHint: {
+      tg: "Рамзи 4-рақамаро ворид кунед",
+      ru: "Введите 4-значный код",
+      en: "Enter the 4-digit code",
+    }[lang],
+    fill: { tg: "Пур кардан", ru: "Заполнить", en: "Fill" }[lang] || "Fill",
+    msg: { tg: "ПАЁМ · КОД", ru: "СООБЩЕНИЕ · КОД", en: "MESSAGE · OTP" }[lang],
+    resend: { tg: "Код нагирифтед?", ru: "Не получили код?", en: "Didn't receive the code?" }[lang],
+    resendBtn: { tg: "Боз фиристодан", ru: "Отправить снова", en: "Resend" }[lang],
+    success: { tg: "Хуш омадед!", ru: "Добро пожаловать!", en: "Welcome!" }[lang],
+    goProfile: { tg: "Ба профил", ru: "В профиль", en: "Go to profile" }[lang],
+    haveAccount: { tg: "Аллакай ҳисоб доред?", ru: "Уже есть аккаунт?", en: "Have an account?" }[lang],
+    login: { tg: "Даромад", ru: "Вход", en: "Sign in" }[lang],
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const startOtp = (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
-    if (password !== confirm) {
-      setError(t("auth.passwordMismatch"))
+    const f = firstName.trim()
+    const l = lastName.trim()
+    if (f.length < 2 || l.length < 2) {
+      setError(lang === "ru" ? "Имя и фамилия обязательны" : lang === "en" ? "First and last name required" : "Ном ва насаб ҳатмист")
       return
     }
-    setLoading(true)
-    const res = await register(name.trim(), email.trim(), password)
-    setLoading(false)
-    if (res.ok) navigate("/profile")
-    else setError(res.error || t("common.error"))
+    const c = genCode()
+    setCode(c)
+    setOtp(["", "", "", ""])
+    setStep("otp")
+    setResendIn(30)
+    setTimeout(() => inputs.current[0]?.focus(), 100)
+  }
+
+  const fillCode = () => {
+    const digits = code.split("")
+    setOtp(digits)
+    setTimeout(() => verify(digits.join("")), 200)
+  }
+
+  const onDigit = (i: number, v: string) => {
+    const d = v.replace(/\D/g, "").slice(-1)
+    const next = [...otp]
+    next[i] = d
+    setOtp(next)
+    if (d && i < 3) inputs.current[i + 1]?.focus()
+    if (next.every((x) => x) && next.join("").length === 4) {
+      verify(next.join(""))
+    }
+  }
+
+  const onKeyDown = (i: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !otp[i] && i > 0) {
+      inputs.current[i - 1]?.focus()
+    }
+  }
+
+  const onPaste = (e: React.ClipboardEvent) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 4)
+    if (!text) return
+    const next = ["", "", "", ""]
+    text.split("").forEach((ch, i) => { next[i] = ch })
+    setOtp(next)
+    if (text.length === 4) verify(text)
+  }
+
+  const verify = useCallback(
+    async (entered: string) => {
+      if (entered !== code) {
+        setError(lang === "ru" ? "Неверный код" : lang === "en" ? "Wrong code" : "Код нодуруст")
+        setOtp(["", "", "", ""])
+        setTimeout(() => inputs.current[0]?.focus(), 50)
+        return
+      }
+      setError("")
+      setSpinning(true)
+      setLoading(true)
+      const fullName = `${firstName.trim()} ${lastName.trim()}`
+      const email = `${firstName.trim().toLowerCase()}.${lastName.trim().toLowerCase()}@histori.local`.replace(/\s+/g, "")
+      const password = `otp-${code}`
+      const res = await register(fullName, email, password)
+      setLoading(false)
+
+      const id = email.toLowerCase()
+      saveToRegistry({
+        id,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        name: fullName,
+        code,
+        createdAt: new Date().toISOString(),
+        xp: 0,
+        level: 1,
+        status: "active",
+      })
+
+      setTimeout(() => {
+        setSpinning(false)
+        setStep("done")
+        setTimeout(() => navigate("/profile"), 1200)
+      }, 900)
+      void res
+    },
+    [code, firstName, lastName, lang, navigate, register]
+  )
+
+  const resend = () => {
+    if (resendIn > 0) return
+    const c = genCode()
+    setCode(c)
+    setOtp(["", "", "", ""])
+    setResendIn(30)
+    setError("")
+    inputs.current[0]?.focus()
   }
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="text-2xl font-bold mb-2">
-            <span className="text-primary">Histori</span>.tj
-          </div>
-          <CardTitle>{t("auth.register")}</CardTitle>
-          <CardDescription>{t("auth.createAccount")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1.5">{t("auth.name")}</label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                required minLength={2} />
+    <div className="min-h-[75vh] flex items-center justify-center p-4 bg-[#0a0a0c]">
+      <div className="w-full max-w-[400px]">
+        <div className="text-center mb-6">
+          <p className="text-[11px] tracking-[0.2em] text-white/30 uppercase mb-2">Histori.tj</p>
+          <h1 className="text-[28px] font-semibold text-white tracking-tight">{labels.title}</h1>
+        </div>
+
+        {step === "name" && (
+          <form
+            onSubmit={startOtp}
+            className="rounded-3xl border border-white/[0.08] bg-gradient-to-b from-[#1c1c1e] to-[#121214] p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+          >
+            <p className="text-[13px] text-white/45 text-center mb-6">{labels.subtitle}</p>
+            <div className="space-y-3 mb-5">
+              <div>
+                <label className="block text-[12px] text-white/40 mb-1.5">{labels.first}</label>
+                <input
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full h-12 px-4 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white text-[15px] outline-none focus:border-[#0a84ff]/60 focus:ring-1 focus:ring-[#0a84ff]/40"
+                  placeholder={labels.first}
+                  required
+                  minLength={2}
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-[12px] text-white/40 mb-1.5">{labels.last}</label>
+                <input
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full h-12 px-4 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white text-[15px] outline-none focus:border-[#0a84ff]/60 focus:ring-1 focus:ring-[#0a84ff]/40"
+                  placeholder={labels.last}
+                  required
+                  minLength={2}
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1.5">{t("auth.email")}</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                required />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1.5">{t("auth.password")}</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                required minLength={6} />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1.5">{t("auth.confirmPassword")}</label>
-              <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg bg-surface border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                required />
-            </div>
-            {error && (
-              <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</div>
-            )}
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? t("common.loading") : t("auth.signUp")}
+            {error && <p className="text-sm text-red-400 mb-3">{error}</p>}
+            <Button type="submit" className="w-full h-12 rounded-xl text-[15px] font-semibold">
+              {labels.continue}
             </Button>
+            <p className="text-center text-[13px] text-white/40 mt-5">
+              {labels.haveAccount}{" "}
+              <Link to="/login" className="text-[#64b5ff] hover:underline">{labels.login}</Link>
+            </p>
           </form>
-          <p className="text-center text-sm text-muted mt-6">
-            {t("auth.haveAccount")}{" "}
-            <Link to="/login" className="text-primary hover:underline">{t("auth.login")}</Link>
-          </p>
-        </CardContent>
-      </Card>
+        )}
+
+        {step === "otp" && (
+          <div className="rounded-3xl border border-white/[0.08] bg-gradient-to-b from-[#1c1c1e] to-[#121214] p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.45)] relative overflow-hidden">
+            <h2 className="text-xl font-semibold text-white text-center mb-1">{labels.verifyTitle}</h2>
+            <p className="text-[13px] text-white/45 text-center mb-8">
+              {labels.verifyHint}
+              <br />
+              <span className="text-white/60">{firstName} {lastName}</span>
+            </p>
+
+            {spinning ? (
+              <div className="flex justify-center py-10">
+                <div className="relative w-28 h-28 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl border-2 border-[#30d158]/60 bg-[#30d158]/10 animate-pulse flex items-center justify-center text-[#30d158] text-2xl">✓</div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-center gap-3 mb-6" onPaste={onPaste}>
+                  {otp.map((d, i) => (
+                    <input
+                      key={i}
+                      ref={(el) => { inputs.current[i] = el }}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={d}
+                      onChange={(e) => onDigit(i, e.target.value)}
+                      onKeyDown={(e) => onKeyDown(i, e)}
+                      className={[
+                        "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-semibold rounded-2xl",
+                        "bg-white/[0.06] border text-white outline-none transition",
+                        d ? "border-[#0a84ff]/70 ring-2 ring-[#0a84ff]/25" : "border-white/[0.12] focus:border-[#0a84ff]/50",
+                      ].join(" ")}
+                      autoComplete="one-time-code"
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between gap-2 rounded-2xl bg-white/[0.04] border border-white/[0.08] px-3 py-2.5 mb-4">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-[11px] font-medium text-white/35 shrink-0">{labels.msg}</span>
+                    <span className="text-[13px] text-white/80 truncate">
+                      <span className="font-semibold text-[#64b5ff]">{code}</span>
+                      {" "}
+                      {lang === "ru" ? "— ваш код" : lang === "en" ? "is your code" : "— коди шумо"}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={fillCode}
+                    className="shrink-0 text-[13px] font-semibold text-white bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-full"
+                  >
+                    {labels.fill}
+                  </button>
+                </div>
+
+                {error && <p className="text-sm text-red-400 text-center mb-3">{error}</p>}
+
+                <p className="text-center text-[13px] text-white/40">
+                  {labels.resend}{" "}
+                  {resendIn > 0 ? (
+                    <span className="text-white/55">
+                      {lang === "ru" ? `через ${resendIn}с` : lang === "en" ? `in ${resendIn}s` : `${resendIn}с`}
+                    </span>
+                  ) : (
+                    <button type="button" onClick={resend} className="text-[#64b5ff] hover:underline">
+                      {labels.resendBtn}
+                    </button>
+                  )}
+                </p>
+              </>
+            )}
+
+            {loading && !spinning && (
+              <p className="text-center text-sm text-white/40 mt-4">{t("common.loading")}</p>
+            )}
+          </div>
+        )}
+
+        {step === "done" && (
+          <div className="rounded-3xl border border-[#30d158]/30 bg-gradient-to-b from-[#1c1c1e] to-[#121214] p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+            <div className="text-5xl mb-3 text-[#30d158]">✓</div>
+            <h2 className="text-xl font-semibold text-white mb-2">{labels.success}</h2>
+            <p className="text-white/55 mb-6">
+              {firstName} {lastName}
+            </p>
+            <Button onClick={() => navigate("/profile")} className="w-full h-12 rounded-xl">
+              {labels.goProfile}
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
