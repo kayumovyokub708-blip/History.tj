@@ -5,20 +5,15 @@
 ## Vision
 Learn · Discover · Preserve
 
-## Live (версияи нав — React)
+## Live
 https://kayumovyokub708-blip.github.io/History.tj/
 
-> **Муҳим:** Сайти зинда аз папкаи `frontend/` сохта мешавад (React + TypeScript + Vite).
-> Файлҳои HTML дар решаи репозиторий (`index.html`, `heroes.html`, `events.html` ва ғ.) — **прототипи кӯҳна** ҳастанд ва дигар истифода намешаванд.
-> Агар дар GitHub кодҳои кӯҳна дида шаванд, шумо эҳтимолан HTML-ҳои решаро мебинед, на `frontend/src/`.
-
 ## Stack
-- Frontend: React + TypeScript + Vite + Tailwind → `frontend/`
-- Backend: FastAPI (in progress) → `backend/`
-- Database: PostgreSQL (planned)
+- **Frontend:** React + TypeScript + Vite + Tailwind → `frontend/`
+- **Backend:** FastAPI (in progress) → `backend/`
+- **Database:** PostgreSQL (planned)
 
-## MVP 1.0+
-- Branding & Design System
+## Features
 - Home, Encyclopedia, Timeline, Map
 - Quiz, Courses, Leaderboard, Expeditions
 - Teachers (Омӯзгорон) + китобҳо
@@ -43,14 +38,9 @@ npm run dev
 ## Структура
 ```
 History.tj/
-├── frontend/          ← КОДИ АСОСӢ (React) — ин ҷо тағйир диҳед
-│   └── src/
-│       ├── pages/     ← Саҳифаҳо (Home, Teachers, Quiz, ...)
-│       ├── data/      ← Маълумот (people, quizzes, ...)
-│       ├── layouts/
-│       └── i18n/
-├── backend/           ← FastAPI
-├── index.html         ← прототипи кӯҳна (истифода намешавад)
-├── heroes.html        ← прототипи кӯҳна
-└── ...
+├── frontend/     ← КОДИ АСОСӢ (React)
+├── backend/      ← FastAPI
+├── database/
+├── docs/
+└── китобхо/      ← захираҳои китоб (ихтиёрӣ)
 ```
