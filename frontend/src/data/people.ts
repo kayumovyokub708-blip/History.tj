@@ -37,7 +37,7 @@ export const people: Person[] = [
     period: "Муосир",
     shortBio: "Асосгузори адабиёти муосири тоҷик; Қаҳрамони Тоҷикистон (1997).",
     biography: "Садриддин Айнӣ асосгузори адабиёти муосири тоҷик аст.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/7/70/AyniSadriddin.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/70/",
     status: "published"
   },
   {
