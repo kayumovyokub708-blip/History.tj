@@ -26,7 +26,7 @@ export const people: Person[] = [
   {
     id: "10",
     slug: "sadriddin-aini",
-    name: "Sadriddin Aini",
+    name: "Bobojon Ghafurov",
     nameTj: "Садриддин Айнӣ",
     nameRu: "Садриддин Айни",
     birthYear: "1878",
