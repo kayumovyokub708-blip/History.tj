@@ -207,7 +207,7 @@ export default function TeachersPage() {
     free: { tg: "Дарси нест", ru: "Нет уроков", en: "No lessons" }[lang],
     week: { tg: "Ҳафта", ru: "Неделя", en: "Week" }[lang],
     otherBooks: { tg: "Дигар китобҳо", ru: "Другие учебники", en: "Other textbooks" }[lang],
-    askTitle: { tg: "Ба ман савол диҳед", ru: "Задайте вопрос", en: "Ask a question" }[lang],
+    askTitle: { tg: " метавонед Ба ман савол диҳед", ru: "Задайте вопрос", en: "Ask a question" }[lang],
     askHint: { tg: "Дар бораи ҷадвал, китобҳо ё таърих нависед — ҷавоб мегиред", ru: "Спросите про расписание или историю", en: "Ask about schedule or history" }[lang],
     askPlaceholder: { tg: "Масалан: Китоби синфи 5 куҷост?", ru: "Например: Где учебник 5 класса?", en: "e.g. Where is grade 5 textbook?" }[lang],
     askBtn: { tg: "Ҷустуҷӯ", ru: "Найти", en: "Search" }[lang],
